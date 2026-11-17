@@ -1,6 +1,10 @@
 # Facturador
 
-Facturación para autónomos y pymes en España. Código abierto (MIT), escrito desde cero y pensado para **instalarse en el servidor de tu empresa**: tus datos no salen de él.
+Facturación para autónomos y pymes en España. Código abierto (MIT), escrito desde cero y pensado para **instalarse en tu propio equipo**, ya sea el servidor de la empresa o tu ordenador con Windows: tus datos no salen de él.
+
+### ⬇️ [Descargar para Windows](https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe)
+
+¿Eres autónomo y solo usas un ordenador? Descarga el instalador, ábrelo y listo: no necesitas servidor, ni permisos de administrador, ni instalar nada más. [Guía de Windows](docs/windows.md).
 
 ![Inicio de Facturador](docs/manual/capturas/02-inicio.jpg)
 
@@ -18,7 +22,7 @@ Facturación para autónomos y pymes en España. Código abierto (MIT), escrito 
 
 ## Tus datos, en tu servidor
 
-Facturador se ejecuta en el servidor o el ordenador de la empresa y guarda toda la información en la carpeta `data/` de ese equipo. **No se sube nada a la nube.** No hay telemetría, ni cuentas en internet, ni servicios de terceros.
+Facturador se ejecuta en el servidor o el ordenador de la empresa y guarda toda la información en la carpeta `data/` de ese equipo (en Windows, en `%LOCALAPPDATA%\Facturador\data`). **No se sube nada a la nube.** No hay telemetría, ni cuentas en internet, ni servicios de terceros.
 
 Solo se conecta a internet para:
 
@@ -29,6 +33,12 @@ Solo se conecta a internet para:
 | Enviar un documento por correo, cuando tú lo pides | Tu proveedor de correo (Gmail, Microsoft 365 o tu SMTP) | El correo que envías |
 
 ## Instalación rápida
+
+### Windows, en un solo ordenador
+
+Descarga **[Facturador-Instalador-Windows.exe](https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe)** y ábrelo. Se instala para tu usuario, crea un acceso directo y se abre en su propia ventana. Tiene las mismas opciones que la versión de servidor y se actualiza igual, sola y con versiones firmadas. Más información en **[docs/windows.md](docs/windows.md)**.
+
+### Servidor (oficina, NAS, miniPC…), para usarlo desde varios equipos
 
 Necesitas **Node.js 22.13 o superior** (o Docker).
 
@@ -49,6 +59,7 @@ Guía completa (servidor de la oficina, NAS, Windows, HTTPS, acceso desde fuera,
 | | |
 |---|---|
 | [Manual de uso (PDF)](public/manual-facturador.pdf) | Todo lo que hace la aplicación, pantalla a pantalla |
+| [Windows en un solo ordenador](docs/windows.md) | Instalador para autónomos sin servidor: instalar, datos, actualizaciones |
 | [Instalación y puesta en marcha](docs/instalacion.md) | Requisitos, instalación, HTTPS, variables de entorno, copias |
 | [Actualizaciones](docs/actualizaciones.md) | Cómo se actualiza sola de forma segura y cómo publicar versiones |
 | [Correo](docs/correo.md) | Conectar Google, Microsoft 365 o SMTP |
@@ -69,6 +80,7 @@ npm test           # pruebas de extremo a extremo (API, plugins y actualizacione
 npm run typecheck
 npm run build      # compila la interfaz en dist/
 npm run manual     # regenera public/manual-facturador.pdf
+npm run instalador:windows  # instalador de Windows (tras npm run release; necesita go y makensis)
 ```
 
 Más detalles en [docs/arquitectura.md](docs/arquitectura.md) y [CONTRIBUTING.md](CONTRIBUTING.md).

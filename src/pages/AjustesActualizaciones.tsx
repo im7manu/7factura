@@ -62,7 +62,7 @@ export function PestanaActualizaciones() {
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <Button variant="primary" onClick={() => confirm(`¿Instalar la versión ${d.disponible!.version}? La aplicación se reiniciará (tarda menos de un minuto).`) && instalar.mutate()}
                 disabled={instalar.isPending || !d.supervisado}><Download size={16} /> Instalar ahora</Button>
-              {!d.supervisado ? <span className="text-xs text-warning">Arranca la aplicación con «npm start» o con Docker para poder actualizar.</span> : null}
+              {!d.supervisado ? <span className="text-xs text-warning">Arranca la aplicación con «npm start», con Docker o con el instalador de Windows para poder actualizar.</span> : null}
             </div>
           </div>
         ) : !d.desactivadas ? (

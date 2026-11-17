@@ -14,7 +14,7 @@ const PUERTO = 9191;
 const BASE = `http://127.0.0.1:${PUERTO}`;
 
 /** Crea el paquete de una versión a partir del código actual (sin node_modules: se reutilizan los de producción). */
-function crearPaquete(dir, version, { romper = false } = {}) {
+function crearPaquete(dir, version, { romper = false, colgar = false } = {}) {
   const trabajo = fs.mkdtempSync(path.join(dir, 'pkg-'));
   const app = path.join(trabajo, 'facturador');
   fs.mkdirSync(app);
@@ -25,6 +25,10 @@ function crearPaquete(dir, version, { romper = false } = {}) {
     // Versión rota: estropea datos y no llega a arrancar
     const idx = path.join(app, 'server', 'index.mjs');
     fs.writeFileSync(idx, `import { db } from './db.mjs';\ndb.exec('DELETE FROM clientes');\nthrow new Error('versión rota a propósito');\n${fs.readFileSync(idx, 'utf8')}`);
+  }
+  if (colgar) {
+    // Versión colgada: estropea datos, nunca responde y termina sola al cabo de un rato
+    fs.writeFileSync(path.join(app, 'server', 'index.mjs'), `import { db } from './db.mjs';\ndb.exec('DELETE FROM clientes');\nsetTimeout(() => process.exit(1), 15000);\n`);
   }
   const archivo = path.join(dir, `facturador-${version}.tar.gz`);
   execFileSync('tar', ['-czf', archivo, '-C', trabajo, 'facturador'], { env: { ...process.env, COPYFILE_DISABLE: '1' } });
@@ -60,15 +64,19 @@ test('actualizaciones: firma, instalación, vuelta atrás y datos intactos', { t
     };
   };
 
-  const sup = spawn(process.execPath, ['scripts/supervisor.mjs'], {
-    cwd: RAIZ,
-    env: { ...process.env, PORT: String(PUERTO), HOST: '127.0.0.1', DATA_DIR: datos, UPDATE_API: ghBase, UPDATE_REPO: 'prueba/facturador',
-      UPDATE_PUBKEY: publicKey.export({ type: 'spki', format: 'pem' }), UPDATE_HEALTH_SECONDS: '4' },
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
   let log = '';
-  sup.stdout.on('data', (d) => { log += d; });
-  sup.stderr.on('data', (d) => { log += d; });
+  const arrancarSupervisor = () => {
+    const s = spawn(process.execPath, ['scripts/supervisor.mjs'], {
+      cwd: RAIZ,
+      env: { ...process.env, PORT: String(PUERTO), HOST: '127.0.0.1', DATA_DIR: datos, UPDATE_API: ghBase, UPDATE_REPO: 'prueba/facturador',
+        UPDATE_PUBKEY: publicKey.export({ type: 'spki', format: 'pem' }), UPDATE_HEALTH_SECONDS: '4' },
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    s.stdout.on('data', (d) => { log += d; });
+    s.stderr.on('data', (d) => { log += d; });
+    return s;
+  };
+  let sup = arrancarSupervisor();
   let cookie = '';
   const api = async (m, r, b) => {
     const x = await fetch(BASE + r, { method: m, headers: { 'Content-Type': 'application/json', Cookie: cookie, Origin: BASE }, body: b ? JSON.stringify(b) : undefined });
@@ -135,6 +143,27 @@ test('actualizaciones: firma, instalación, vuelta atrás y datos intactos', { t
     r = await esperarResultado('revertida');
     assert.match(r.body.resultado.mensaje, /No se ha perdido ningún dato/);
     assert.equal(r.body.historial[0].evento, 'revertida');
+
+    // Periodo de prueba cortado de golpe (apagado, ventana de Windows cerrada): al volver se repite y, como la versión
+    // es mala, se vuelve atrás con la base de datos restaurada
+    const p4 = crearPaquete(dir, '99.2.0', { colgar: true });
+    publicar('99.2.0', p4, firmar(p4));
+    await api('POST', '/api/actualizaciones/comprobar');
+    r = await api('POST', '/api/actualizaciones/instalar');
+    assert.equal(r.status, 200, JSON.stringify(r.body));
+    const enPrueba = path.join(datos, 'actualizaciones', 'en-prueba.json');
+    for (let i = 0; i < 100 && !fs.existsSync(enPrueba); i++) await new Promise((ok) => setTimeout(ok, 100));
+    assert.ok(fs.existsSync(enPrueba), 'el supervisor marca el periodo de prueba');
+    await new Promise((ok) => setTimeout(ok, 1500)); // la versión colgada ya ha borrado los clientes
+    sup.kill('SIGKILL');
+    await new Promise((ok) => sup.once('exit', ok));
+    log = '';
+    sup = arrancarSupervisor();
+    await new Promise((ok) => setTimeout(ok, 6000));
+    await esperarVersion('99.0.0', 60_000);
+    assert.match(log, /periodo de prueba de la versión 99\.2\.0 se interrumpió/);
+    assert.deepEqual((await api('GET', '/api/clientes')).body.map((c) => c.nombre), ['Cliente que no se puede perder']);
+    assert.ok(!fs.existsSync(enPrueba));
 
     // Una versión anterior a la instalada no se ofrece
     publicar('1.0.0', p2, firmar(p2));

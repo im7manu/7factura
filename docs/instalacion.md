@@ -2,6 +2,8 @@
 
 Facturador se instala en un equipo de la empresa (un servidor, un NAS, un miniPC o el ordenador de la oficina) y se usa desde el navegador de cualquier equipo de la red. Todos los datos se guardan en ese equipo.
 
+> **¿Solo vas a usarlo en tu ordenador con Windows?** Usa el [instalador de Windows](windows.md): no necesitas nada de lo que sigue.
+
 ## Requisitos
 
 - **Node.js 22.13 o superior** ([nodejs.org](https://nodejs.org), versión LTS), o **Docker**.
@@ -59,7 +61,7 @@ WantedBy=multi-user.target
 
 y actívalo con `sudo systemctl enable --now facturador`.
 
-**Windows.** Lo más sencillo es Docker Desktop (opción B). Sin Docker, puedes crear una tarea en el *Programador de tareas* que ejecute `npm start` en la carpeta de Facturador «al iniciar el sistema», o registrarlo como servicio con una herramienta como NSSM.
+**Windows.** Si solo se usa en ese ordenador, usa el [instalador de Windows](windows.md). Para usarlo desde otros equipos de la red, lo más sencillo es Docker Desktop (opción B). Sin Docker, puedes crear una tarea en el *Programador de tareas* que ejecute `npm start` en la carpeta de Facturador «al iniciar el sistema», o registrarlo como servicio con una herramienta como NSSM.
 
 **macOS.** Usa Docker Desktop o un `launchd` agent que ejecute `npm start`.
 
@@ -153,5 +155,5 @@ Para recuperar el servidor: instala Facturador en otro equipo, instala el plugin
 | «Origen no permitido» al guardar | Accede por la misma dirección que usa el navegador; detrás de un proxy, pon `TRUST_PROXY=1` y `BASE_URL` |
 | Las fechas salen con un día de diferencia | Arranca con `TZ=Europe/Madrid` |
 | `node:sqlite` no existe | Actualiza Node.js a la 22.13 o superior |
-| No aparecen actualizaciones | Comprueba que arrancas con `npm start` o Docker y que el servidor tiene salida a internet; mira Ajustes → Actualizaciones |
+| No aparecen actualizaciones | Comprueba que arrancas con `npm start`, Docker o el instalador de Windows y que el servidor tiene salida a internet; mira Ajustes → Actualizaciones |
 | He olvidado la contraseña del administrador | Otro administrador puede cambiarla en Ajustes → Usuarios. Si no hay otro, abre una incidencia y te indicamos cómo restablecerla desde la base de datos |

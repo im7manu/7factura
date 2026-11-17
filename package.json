@@ -1,6 +1,6 @@
 {
   "name": "facturador",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Facturación sencilla para autónomos y pymes en España. Open source (MIT).",
   "license": "MIT",
@@ -16,6 +16,7 @@
     "start": "node scripts/supervisor.mjs",
     "start:directo": "node server/index.mjs",
     "release": "node scripts/crear-release.mjs",
+    "instalador:windows": "node scripts/crear-instalador-windows.mjs",
     "manual": "node scripts/generar-manual.mjs",
     "test": "node --test server/test/*.test.mjs",
     "typecheck": "tsc --noEmit"

@@ -18,3 +18,10 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
       - run: npm test
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: windows/lanzador/go.mod
+          cache-dependency-path: windows/lanzador/go.sum
+      - name: Lanzador de Windows
+        working-directory: windows/lanzador
+        run: GOOS=windows GOARCH=amd64 go vet . && GOOS=windows GOARCH=amd64 go build -o /dev/null .

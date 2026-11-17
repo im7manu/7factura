@@ -18,6 +18,7 @@ const ACTUAL = path.join(DIR, 'actual.json');
 const PENDIENTE = path.join(DIR, 'pendiente.json');
 const RESULTADO = path.join(DIR, 'resultado.json');
 const HISTORIAL = path.join(DIR, 'historial.json');
+const EN_PRUEBA = path.join(DIR, 'en-prueba.json'); // actualización arrancada que aún no ha superado el periodo de prueba
 const PRUEBA_S = Number(process.env.UPDATE_HEALTH_SECONDS || 60);
 const PUERTO = Number(process.env.PORT || 9100);
 fs.mkdirSync(DIR, { recursive: true });
@@ -79,10 +80,12 @@ async function aplicarActualizacion(pend) {
   const anterior = codigoActual();
   const desde = versionDe(anterior);
   log(`Aplicando la actualización ${desde} → ${pend.version}`);
+  escribir(EN_PRUEBA, { ...pend, anterior });
   escribir(ACTUAL, { version: pend.version, dir: pend.dir, anterior });
   fs.rmSync(PENDIENTE, { force: true });
   const p = arrancar(pend.dir);
   if (await superaPrueba(p)) {
+    fs.rmSync(EN_PRUEBA, { force: true });
     log(`Actualización a ${pend.version} correcta`);
     escribir(RESULTADO, { estado: 'ok', desde, hasta: pend.version, fecha: new Date().toISOString() });
     anotar({ evento: 'actualizada', desde, hasta: pend.version });
@@ -102,6 +105,7 @@ async function aplicarActualizacion(pend) {
     fs.copyFileSync(path.join(pend.copia, 'facturador.db'), path.join(DATA, 'facturador.db'));
     log('Base de datos restaurada desde la copia previa a la actualización');
   }
+  fs.rmSync(EN_PRUEBA, { force: true });
   escribir(RESULTADO, { estado: 'revertida', desde, hasta: pend.version, fecha: new Date().toISOString(),
     mensaje: `La versión ${pend.version} no arrancó bien y se ha vuelto automáticamente a la ${desde}. No se ha perdido ningún dato.` });
   anotar({ evento: 'revertida', desde, hasta: pend.version });
@@ -140,6 +144,16 @@ for (const s of ['SIGTERM', 'SIGINT']) {
   });
 }
 
+// Si se cortó el periodo de prueba (apagado, contenedor o ventana cerrados), se vuelve a la versión anterior y la
+// actualización se repite desde el principio, con su copia de la base de datos.
+const enPrueba = leer(EN_PRUEBA);
+if (enPrueba?.dir && enPrueba.anterior) {
+  log(`El periodo de prueba de la versión ${enPrueba.version} se interrumpió: se repite`);
+  escribir(ACTUAL, enPrueba.anterior === INCLUIDO ? {} : { version: versionDe(enPrueba.anterior), dir: enPrueba.anterior });
+  const { anterior: _a, ...pend } = enPrueba;
+  escribir(PENDIENTE, pend);
+  fs.rmSync(EN_PRUEBA, { force: true });
+}
 // Si quedó una actualización a medias (corte de luz, contenedor parado…), se aplica ahora
 const pendiente = leer(PENDIENTE);
 if (pendiente?.dir && fs.existsSync(path.join(pendiente.dir, 'server', 'index.mjs'))) aplicarActualizacion(pendiente);

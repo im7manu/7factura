@@ -13,6 +13,10 @@ import { db, DATA_DIR, getAjuste, setAjuste, auditar } from './db.mjs';
 import { requiereAdmin } from './auth.mjs';
 
 const exec = promisify(execFile);
+// En Windows se usa el tar.exe del sistema (el de Git u otros no entiende rutas como C:\...)
+const TAR = process.platform === 'win32' ? path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'tar.exe') : 'tar';
+// Rutas peligrosas dentro de un paquete: absolutas, con unidad (C:), con \ o que suben de carpeta
+const rutaPeligrosa = (e) => e.startsWith('/') || /^[a-z]:/i.test(e) || e.includes('\\') || e.split('/').includes('..');
 const CODIGO = path.resolve(process.env.FACTURADOR_CODIGO || '.');
 const DIR = path.join(DATA_DIR, 'actualizaciones');
 const VERSIONES = path.join(DIR, 'versiones');
@@ -117,11 +121,11 @@ async function preparar(paquete, firma, version) {
   try {
     const tgz = path.join(destino, '..', `${path.basename(destino)}.tar.gz`);
     fs.writeFileSync(tgz, paquete);
-    const { stdout } = await exec('tar', ['-tzf', tgz], { maxBuffer: 64 * 1024 * 1024 });
+    const { stdout } = await exec(TAR, ['-tzf', tgz], { maxBuffer: 64 * 1024 * 1024 });
     for (const e of stdout.split('\n').filter(Boolean)) {
-      if (e.startsWith('/') || e.split('/').includes('..')) throw new Error('El paquete contiene rutas no permitidas');
+      if (rutaPeligrosa(e)) throw new Error('El paquete contiene rutas no permitidas');
     }
-    await exec('tar', ['-xzf', tgz, '-C', destino, '--no-same-owner'], { maxBuffer: 64 * 1024 * 1024 });
+    await exec(TAR, ['-xzf', tgz, '-C', destino, '--no-same-owner'], { maxBuffer: 64 * 1024 * 1024 });
     fs.rmSync(tgz, { force: true });
     // Admite paquetes con carpeta raíz
     let raiz = destino;

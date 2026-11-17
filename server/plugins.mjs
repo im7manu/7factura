@@ -28,6 +28,10 @@ import { cifrar, descifrar } from './lib/cifrado.mjs';
 import { calcularTotales, baseLinea, OPERACIONES, r2, componerCodigo } from './lib/totales.mjs';
 
 const exec = promisify(execFile);
+// En Windows se usa el tar.exe del sistema (el de Git u otros no entiende rutas como C:\...)
+const TAR = process.platform === 'win32' ? path.join(process.env.SystemRoot || 'C:\\Windows', 'System32', 'tar.exe') : 'tar';
+// Rutas peligrosas dentro de un paquete: absolutas, con unidad (C:), con \ o que suben de carpeta
+const rutaPeligrosa = (e) => e.startsWith('/') || /^[a-z]:/i.test(e) || e.includes('\\') || e.split('/').includes('..');
 export const PLUGINS_DIR = process.env.PLUGINS_DIR || path.resolve('plugins');
 export const REGISTRO_DEFECTO = 'https://raw.githubusercontent.com/im7manu/facturador-plugins/main/registry.json';
 fs.mkdirSync(PLUGINS_DIR, { recursive: true });
@@ -154,11 +158,11 @@ async function instalarPaquete(buf, idEsperado = null) {
     const extraido = path.join(staging, 'x');
     fs.mkdirSync(extraido);
     // Lista el contenido antes de extraer para rechazar rutas peligrosas
-    const { stdout } = await exec('tar', ['-tzf', archivo]);
+    const { stdout } = await exec(TAR, ['-tzf', archivo]);
     for (const entrada of stdout.split('\n').filter(Boolean)) {
-      if (entrada.startsWith('/') || entrada.split('/').includes('..')) throw new Error('El paquete contiene rutas no permitidas');
+      if (rutaPeligrosa(entrada)) throw new Error('El paquete contiene rutas no permitidas');
     }
-    await exec('tar', ['-xzf', archivo, '-C', extraido, '--no-same-owner', '--no-same-permissions']);
+    await exec(TAR, ['-xzf', archivo, '-C', extraido, '--no-same-owner', '--no-same-permissions']);
     // Rechaza enlaces simbólicos
     const revisar = (d) => {
       for (const e of fs.readdirSync(d, { withFileTypes: true })) {

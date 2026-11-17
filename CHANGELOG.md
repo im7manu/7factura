@@ -1,5 +1,11 @@
 # Cambios
 
+## 1.1.0 — 2026-11-17
+
+- **Instalador para Windows** (`Facturador-Instalador-Windows.exe`) para autónomos que usan un solo ordenador: sin servidor ni permisos de administrador, con Node.js incluido, ventana propia y las mismas opciones y actualizaciones automáticas que la versión de servidor. Ver [docs/windows.md](docs/windows.md).
+- Actualizaciones: si el periodo de prueba de una versión nueva se corta (apagado, contenedor parado), al volver a arrancar se repite desde el principio con vuelta atrás si falla.
+- Actualizaciones y plugins: en Windows se usa el `tar.exe` del sistema y se rechazan rutas con unidad o `\` dentro de los paquetes.
+
 ## 1.0.0 — 2026-11-17
 
 Primera versión publicada.

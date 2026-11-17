@@ -9,7 +9,9 @@ Facturador busca versiones nuevas en las [Releases de este repositorio](https://
 - **Actualización automática**: si la activas, las versiones nuevas se instalan solas en la franja horaria que elijas (por defecto entre las 3:00 y las 5:00).
 - El historial muestra cada actualización y si hubo que volver atrás. También queda en Ajustes → Actividad.
 
-Requisito: arrancar Facturador con `npm start` o con Docker, que usan el supervisor. Sin supervisor la pantalla avisa de que no se puede instalar.
+Requisito: arrancar Facturador con `npm start`, con Docker o con el [instalador de Windows](windows.md), que usan el supervisor. Sin supervisor la pantalla avisa de que no se puede instalar.
+
+La versión de Windows usa exactamente el mismo paquete firmado y el mismo supervisor; sus datos están en `%LOCALAPPDATA%\Facturador\data`. Las actualizaciones solo se aplican mientras Facturador está abierto.
 
 ## Cómo se protege una actualización
 
@@ -35,7 +37,7 @@ Requisito: arrancar Facturador con `npm start` o con Docker, que usan el supervi
 4. **Copia de la base de datos** en `data/actualizaciones/copias/` justo antes de aplicar la versión.
 5. **Periodo de prueba.** El supervisor arranca la versión nueva y comprueba durante `UPDATE_HEALTH_SECONDS` (60 s) que sigue viva y que responde en `/api/estado`.
 6. **Vuelta atrás automática.** Si falla, el supervisor la para, vuelve a la versión anterior y restaura la base de datos desde la copia. La base de datos que dejó la versión fallida se guarda aparte (`facturador-version-fallida-X.Y.Z.db`) para poder estudiarla.
-7. **Corte de luz a mitad.** Si el equipo se apaga durante la actualización, al volver a arrancar el supervisor la retoma desde `pendiente.json`.
+7. **Corte de luz a mitad.** Si el equipo se apaga (o se cierra la ventana de Windows) durante la actualización, al volver a arrancar el supervisor la retoma desde `pendiente.json`. Si el corte llega durante el periodo de prueba (`en-prueba.json`), vuelve a la versión anterior y repite la actualización desde el principio, con su periodo de prueba y su copia de la base de datos.
 
 La carpeta `data/` **nunca se borra**. Se conservan las últimas `UPDATE_KEEP_BACKUPS` (3) copias y versiones.
 
@@ -47,6 +49,7 @@ Todo esto se prueba en `server/test/actualizaciones.test.mjs` con un supervisor 
 |---|---|
 | `actual.json` | Versión activa y su carpeta |
 | `pendiente.json` | Versión preparada que el supervisor debe aplicar |
+| `en-prueba.json` | Versión arrancada que aún está en su periodo de prueba |
 | `resultado.json` | Resultado de la última actualización (`ok` o `revertida`) |
 | `historial.json` | Últimos 50 eventos |
 | `versiones/` | Código de las versiones descargadas |
@@ -62,7 +65,7 @@ Si la instalación base (por ejemplo, una imagen de Docker reconstruida) es más
    git tag v1.0.1
    git push origin main v1.0.1
    ```
-3. El workflow [`publicar.yml`](../.github/workflows/publicar.yml) comprueba que la etiqueta coincide con `package.json`, ejecuta las pruebas, genera el paquete con `npm run release` (interfaz compilada + dependencias de producción), lo firma y crea la Release con `facturador-1.0.1.tar.gz` y `facturador-1.0.1.tar.gz.sig`.
+3. El workflow [`publicar.yml`](../.github/workflows/publicar.yml) comprueba que la etiqueta coincide con `package.json`, ejecuta las pruebas, genera el paquete con `npm run release` (interfaz compilada + dependencias de producción), lo firma, genera el instalador de Windows con `npm run instalador:windows` y crea la Release con `facturador-1.0.1.tar.gz`, `facturador-1.0.1.tar.gz.sig` y `Facturador-Instalador-Windows.exe` (+ su `.sha256`). El instalador lleva siempre el mismo nombre para que el enlace de descarga del README (`releases/latest/download/…`) apunte siempre a la última versión.
 
 Las instalaciones la verán en menos de una hora. Una Release marcada como *pre-release* o borrador no se ofrece.
 
@@ -70,6 +73,7 @@ Las instalaciones la verán en menos de una hora. Una Release marcada como *pre-
 
 ```bash
 FACTURADOR_CLAVE_FIRMA="$(cat ~/.facturador/clave-firma-actualizaciones.pem)" npm run release
+npm run instalador:windows   # necesita go y makensis
 gh release create v1.0.1 release/* --title "Facturador 1.0.1" --generate-notes
 ```
 

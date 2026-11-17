@@ -47,11 +47,16 @@ scripts/
   dev.mjs                servidor + Vite a la vez
   supervisor.mjs         arranque supervisado y aplicación segura de actualizaciones
   crear-release.mjs      paquete firmado de una versión
+  crear-instalador-windows.mjs  instalador de Windows (paquete firmado + Node.js + lanzador)
   generar-clave-firma.mjs  par de claves Ed25519 (una sola vez)
   generar-manual.mjs     manual en PDF (con las capturas de docs/manual/capturas)
   empaquetar-plugin.mjs  paquete .tar.gz de un plugin y su entrada del registro
   importar-facturascripts.mjs  migración desde FacturaScripts
 examples/plugin-hola/    plugin mínimo de ejemplo
+windows/
+  lanzador/              Facturador.exe (Go): arranca el supervisor sin consola y abre la ventana
+  instalador.nsi         instalador NSIS por usuario
+  facturador.ico         icono
 ```
 
 ## Base de datos
