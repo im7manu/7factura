@@ -1,7 +1,9 @@
-// Contenido del centro de ayuda (el mismo que el manual en PDF, en formato de preguntas).
+// Contenido del centro de ayuda (el mismo que el manual en PDF, en formato de preguntas). Lo usan la web y la aplicación.
+// Enlaces dentro de las respuestas: #id (otra pregunta), capturas/xx.jpg (capturas del manual), manual-facturador.pdf,
+// privacidad.html y direcciones https://. La web y la aplicación los adaptan al mostrarlos.
 // Cada pregunta: id (ancla), prioridad (opcional, >1 para las más consultadas), cat, q (pregunta), a (respuesta en HTML), ejemplos (cómo lo preguntaría alguien:
 // el buscador los usa para entender la intención), claves (palabras relacionadas), v ('win' | 'srv' si solo aplica a una versión).
-window.AYUDA = {
+export const AYUDA = {
   categorias: [
     { id: 'empezar', titulo: 'Empezar', color: '#0F6CBD', icono: 'M5 12h14M13 6l6 6-6 6', desc: 'Elegir versión, instalar y dar los primeros pasos.' },
     { id: 'facturas', titulo: 'Facturas', color: '#0F6CBD', icono: 'M6 2h9l5 5v15H6zM14 2v6h6M9 13h8M9 17h8', desc: 'Crear, emitir, corregir y numerar facturas.' },

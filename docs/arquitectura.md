@@ -37,6 +37,9 @@ server/
     cifrado.mjs          AES-256-GCM para secretos
   test/                  pruebas de extremo a extremo
 shared/fiscal.mjs        IVA, recargo, suplidos, IRPF, operaciones (S1, E1…), plantillas de numeración
+shared/ayuda/            centro de ayuda compartido por la aplicación y la web
+  preguntas.mjs          preguntas y respuestas (con frases de ejemplo para el buscador)
+  buscador.mjs           buscador: raíces, sinónimos, faltas de ortografía y BM25
 src/                     interfaz React
   pages/                 una página por pantalla
   components/            AppShell (barra, menú), diálogos (correo, firma, facturar mes…), ui/
@@ -55,8 +58,7 @@ scripts/
   importar-facturascripts.mjs  migración desde FacturaScripts
 examples/plugin-hola/    plugin mínimo de ejemplo
 web/                     web pública (GitHub Pages): portada, centro de ayuda con buscador, privacidad y aviso legal
-  datos-ayuda.js         preguntas de la ayuda (añade aquí las nuevas, con frases de ejemplo)
-  ayuda.js               buscador: raíces, sinónimos, faltas de ortografía y BM25, todo en el navegador
+  ayuda.js               centro de ayuda de la web (usa shared/ayuda)
 windows/
   lanzador/              Facturador.exe (Go): arranca el supervisor sin consola y abre la ventana
   instalador.nsi         instalador NSIS por usuario
@@ -129,5 +131,6 @@ Variables útiles en desarrollo y pruebas: `DATA_DIR` (otra carpeta de datos), `
 - `api.test.mjs`: recorrido completo (setup, seguridad, clientes, todos los documentos, IVA, numeración, cobros, compras, correo, informes…).
 - `plugins.test.mjs`: registro, verificación SHA-256, instalación y paquetes maliciosos.
 - `actualizaciones.test.mjs`: supervisor, firma, instalación y vuelta atrás.
+- `ayuda.test.mjs`: datos de la ayuda coherentes y calidad del buscador (cada duda de prueba debe encontrar su pregunta la primera).
 
 Las pruebas de los plugins oficiales están en el repositorio `facturador-plugins` y usan este repositorio como aplicación (`../facturador`).

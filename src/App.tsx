@@ -18,6 +18,7 @@ import Plugins from "@/pages/Plugins";
 import Cobros from "@/pages/Cobros";
 import Vehiculos from "@/pages/Vehiculos";
 import PluginFrame from "@/pages/PluginFrame";
+import Ayuda from "@/pages/Ayuda";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false, refetchOnWindowFocus: false } },
@@ -71,6 +72,7 @@ function Rutas() {
         <Route path="informes" element={<Informes />} />
         <Route path="ajustes" element={<Ajustes />} />
         <Route path="plugins" element={<Plugins />} />
+        <Route path="ayuda" element={<Ayuda />} />
         <Route path="p/:id" element={<PluginFrame />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

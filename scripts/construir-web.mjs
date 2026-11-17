@@ -1,4 +1,5 @@
-// Construye la web pública (GitHub Pages) en dist-web/: web/ + capturas del manual + icono + manual en PDF.
+// Construye la web pública (GitHub Pages) en dist-web/: web/ + preguntas y buscador de la ayuda (shared/ayuda) +
+// capturas del manual + icono + manual en PDF.
 // Sustituye {{VERSION}} por la versión de package.json. El workflow pages.yml la publica.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -9,6 +10,9 @@ const version = JSON.parse(fs.readFileSync(path.join(raiz, 'package.json'), 'utf
 
 fs.rmSync(salida, { recursive: true, force: true });
 fs.cpSync(path.join(raiz, 'web'), salida, { recursive: true });
+// Preguntas y buscador, compartidos con la aplicación. Se publican como .js (tipo MIME seguro en cualquier servidor)
+fs.mkdirSync(path.join(salida, 'ayuda'));
+for (const f of ['preguntas', 'buscador']) fs.copyFileSync(path.join(raiz, 'shared', 'ayuda', `${f}.mjs`), path.join(salida, 'ayuda', `${f}.js`));
 fs.cpSync(path.join(raiz, 'docs', 'manual', 'capturas'), path.join(salida, 'capturas'), { recursive: true });
 fs.copyFileSync(path.join(raiz, 'public', 'icon.svg'), path.join(salida, 'icon.svg'));
 fs.copyFileSync(path.join(raiz, 'public', 'manual-facturador.pdf'), path.join(salida, 'manual-facturador.pdf'));

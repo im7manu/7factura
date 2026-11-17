@@ -2,11 +2,12 @@ import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
-  BarChart3, Bell, BookOpen, Building2, Download, ChevronDown, ChevronLeft, ClipboardList, FileInput, HandCoins, PackageCheck, Receipt, ShoppingCart, Truck, FileClock, FileText, Grid3x3, Home, LogOut, Menu, Moon, Package, Plus, Puzzle, ScrollText, Settings, Sun, Users, Wallet,
+  BarChart3, Bell, BookOpen, Building2, Download, ChevronDown, ChevronLeft, ClipboardList, FileInput, HandCoins, PackageCheck, Receipt, ShoppingCart, Truck, FileClock, FileText, Grid3x3, HelpCircle, Home, LifeBuoy, LogOut, Menu, Moon, Package, Plus, Puzzle, ScrollText, Settings, Sun, Users, Wallet,
 } from "lucide-react";
 import { useSesion } from "@/hooks/sesion";
 import { api, type Ajustes, type Avisos } from "@/lib/api";
 import { ListaAvisos } from "@/components/Avisos";
+import { PanelAyuda } from "@/components/PanelAyuda";
 import { useApariencia } from "@/hooks/apariencia";
 import { cn } from "@/lib/utils";
 
@@ -38,6 +39,7 @@ export function AppShell() {
   const [menuUsuario, setMenuUsuario] = useState(false);
   const [oscuro, setOscuro] = useState(esOscuro);
   const [verAvisos, setVerAvisos] = useState(false);
+  const [verAyuda, setVerAyuda] = useState(false);
   const { tema } = useApariencia();
   const menuSuperior = tema?.menu === "superior";
   // El tema puede fijar el modo claro/oscuro (o no tener variante oscura): entonces no se muestra el botón
@@ -67,6 +69,12 @@ export function AppShell() {
 
   useEffect(() => { setMovilAbierto(false); setMenuUsuario(false); setVerAvisos(false); }, [location.pathname]);
   useEffect(() => { try { localStorage.setItem("nav-compacto", compacto ? "1" : "0"); } catch { /* */ } }, [compacto]);
+  // F1 abre o cierra la ayuda de la pantalla actual (como en los programas de escritorio)
+  useEffect(() => {
+    const tecla = (e: KeyboardEvent) => { if (e.key === "F1") { e.preventDefault(); setVerAyuda((v) => !v); } };
+    window.addEventListener("keydown", tecla);
+    return () => window.removeEventListener("keydown", tecla);
+  }, []);
 
   const v = ajustes.data?.ventas;
   const c = ajustes.data?.compras;
@@ -100,6 +108,7 @@ export function AppShell() {
       ...(plugins.data || []).flatMap((p) => p.menu.map((m) => ({ to: `/p/${p.id}`, label: m.titulo, icon: <Grid3x3 size={20} /> }))),
       ...(usuario?.rol === "admin" ? [{ to: "/plugins", label: "Plugins", icon: <Puzzle size={20} /> }] : []),
       { to: "/ajustes", label: "Ajustes", icon: <Settings size={20} /> },
+      { to: "/ayuda", label: "Ayuda", icon: <LifeBuoy size={20} /> },
     ] },
   ];
   const iniciales = (usuario?.nombre || "?").split(/\s+/).map((p) => p[0]).slice(0, 2).join("").toUpperCase();
@@ -176,6 +185,10 @@ export function AppShell() {
             ) : null}
           </div>
         ) : null}
+        <button className={cn("rounded p-2 hover:bg-suite-fg/10", verAyuda && "bg-suite-fg/15")} onClick={() => { setVerAyuda((v) => !v); setVerAvisos(false); setMenuUsuario(false); }}
+          aria-label="Ayuda de esta pantalla (F1)" title="Ayuda de esta pantalla (F1)" aria-expanded={verAyuda}>
+          <HelpCircle size={18} />
+        </button>
         {!modoFijo ? (
           <button
             className="rounded p-2 hover:bg-suite-fg/10"
@@ -197,7 +210,10 @@ export function AppShell() {
             <div className="card absolute right-0 top-10 z-30 w-60 p-3 text-fg shadow-flyout">
               <p className="font-semibold">{usuario?.nombre}</p>
               <p className="text-xs text-muted">{usuario?.usuario} · {usuario?.rol === "admin" ? "Administrador" : "Usuario"}</p>
-              <a href="/manual-facturador.pdf" target="_blank" rel="noreferrer" className="mt-3 flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle">
+              <button className="mt-3 flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle" onClick={() => navigate("/ayuda")}>
+                <LifeBuoy size={16} /> Centro de ayuda
+              </button>
+              <a href="/manual-facturador.pdf" target="_blank" rel="noreferrer" className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle">
                 <BookOpen size={16} /> Manual de uso
               </a>
               <button className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle" onClick={salir}>
@@ -253,6 +269,7 @@ export function AppShell() {
           </div>
         ) : null}
 
+        <PanelAyuda abierto={verAyuda} onCerrar={() => setVerAyuda(false)} />
         <main className="relative min-w-0 flex-1 overflow-y-auto">
           <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
             <Outlet />

@@ -3,7 +3,7 @@ name: Web
 on:
   push:
     branches: [main]
-    paths: ['web/**', 'docs/manual/capturas/**', 'public/manual-facturador.pdf', 'public/icon.svg', 'package.json', 'scripts/construir-web.mjs']
+    paths: ['web/**', 'shared/ayuda/**', 'docs/manual/capturas/**', 'public/manual-facturador.pdf', 'public/icon.svg', 'package.json', 'scripts/construir-web.mjs']
   workflow_dispatch:
 permissions:
   contents: read

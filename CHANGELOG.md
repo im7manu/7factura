@@ -1,5 +1,11 @@
 # Cambios
 
+## 1.1.1 — 2026-11-17
+
+- **Ayuda integrada**: nueva página **Ayuda** (menú General y menú de usuario) con las 66 preguntas del centro de ayuda de la web y el mismo buscador, que entiende la duda aunque no se usen las mismas palabras. Funciona sin conexión.
+- **Ayuda contextual**: el botón **?** de la barra superior (o la tecla **F1**) abre un panel con las preguntas de la pantalla en la que estás, con buscador, sin salir de ella.
+- Las preguntas y el buscador están en `shared/ayuda/` y los comparten la aplicación y la web: una pregunta nueva aparece en los dos sitios.
+
 ## 1.1.0 — 2026-11-17
 
 - **Instalador para Windows** (`Facturador-Instalador-Windows.exe`) para autónomos que usan un solo ordenador: sin servidor ni permisos de administrador, con Node.js incluido, ventana propia y las mismas opciones y actualizaciones automáticas que la versión de servidor. Ver [docs/windows.md](docs/windows.md).

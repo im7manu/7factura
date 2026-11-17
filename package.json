@@ -1,6 +1,6 @@
 {
   "name": "facturador",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Facturación sencilla para autónomos y pymes en España. Open source (MIT).",
   "license": "MIT",

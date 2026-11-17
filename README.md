@@ -18,6 +18,7 @@ Facturación para autónomos y pymes en España. Código abierto (MIT), escrito 
 - **Informes**: modelo 303 (repercutido, soportado y resultado), 347 de clientes y proveedores, gasto por vehículo.
 - **Plugins** desde GitHub: copias de seguridad, temas y diseño de PDF con firma digital.
 - **Actualizaciones automáticas firmadas**, con vuelta atrás automática si algo falla.
+- **Ayuda integrada**: preguntas frecuentes con un buscador que entiende tu duda, y ayuda de cada pantalla con el botón **?** o **F1**.
 - Interfaz al estilo Microsoft 365 / Metro, modo claro y oscuro, y adaptada al móvil.
 
 📘 **[Manual de uso (PDF)](public/manual-facturador.pdf)**: también se puede descargar desde la pantalla de primera configuración y desde el menú de usuario de la aplicación.

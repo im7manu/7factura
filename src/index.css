@@ -114,3 +114,21 @@ svg.lucide { stroke-width: var(--trazo-iconos); }
 
 /* Bordes visibles en tarjetas (temas de alto contraste) */
 :root[data-bordes="si"] .card { border: 1px solid rgb(var(--stroke)); }
+
+/* Respuestas del centro de ayuda (HTML compartido con la web) */
+.ayuda-respuesta p { margin: 0 0 .7em; }
+.ayuda-respuesta ol { list-style: decimal; padding-left: 1.4em; margin: 0 0 .7em; }
+.ayuda-respuesta ul { list-style: disc; padding-left: 1.4em; margin: 0 0 .7em; }
+.ayuda-respuesta li { margin-bottom: 3px; }
+.ayuda-respuesta a { color: rgb(var(--brand-fg)); text-decoration: underline; text-underline-offset: 2px; }
+.ayuda-respuesta strong { font-weight: 600; }
+.ayuda-respuesta figure { margin: 10px 0; max-width: 720px; overflow: hidden; border: 1px solid rgb(var(--stroke)); border-radius: 6px; }
+.ayuda-respuesta figure.movil { max-width: 220px; }
+.ayuda-respuesta figure img { display: block; width: 100%; height: auto; }
+.ayuda-respuesta figcaption { padding: 6px 10px; font-size: 12px; color: rgb(var(--muted)); background: rgb(var(--subtle)); }
+.ayuda-respuesta .consejo, .ayuda-respuesta .aviso { padding: 8px 12px; border-radius: 0 6px 6px 0; border-left: 3px solid; }
+.ayuda-respuesta .consejo { border-color: rgb(var(--success)); background: rgb(var(--success) / .08); }
+.ayuda-respuesta .aviso { border-color: rgb(var(--warning)); background: rgb(var(--warning) / .08); }
+.ayuda-respuesta code { font-family: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace; font-size: .9em; padding: 1px 4px; border-radius: 4px; background: rgb(var(--subtle)); }
+.ayuda-respuesta .ruta { font-weight: 600; }
+mark { background: rgb(255 211 53 / .5); color: inherit; border-radius: 2px; padding: 0 1px; }
