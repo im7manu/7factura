@@ -1,0 +1,32 @@
+/* Estilos base para las páginas de los plugins: usan los mismos tokens que la app. */
+:root {
+  --canvas: 250 249 248; --surface: 255 255 255; --subtle: 243 242 241; --stroke: 224 224 224; --fg: 36 36 36; --muted: 97 97 97;
+  --brand: 15 108 189; --brand-hover: 17 94 163; --brand-fg: 15 108 189; --brand-soft: 235 243 252;
+  --danger: 197 15 31; --success: 16 124 16; --warning: 188 75 9;
+  --fuente: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif; --radio: 4px;
+  --sombra-card: 0 1px 2px rgb(0 0 0 / .08), 0 0 2px rgb(0 0 0 / .06);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font: 14px/20px var(--fuente); background: rgb(var(--canvas)); color: rgb(var(--fg)); padding: 20px 24px; }
+h1 { font-size: 24px; font-weight: 600; margin: 0 0 4px; } h2 { font-size: 16px; font-weight: 600; margin: 0 0 8px; }
+.fx-sub { color: rgb(var(--muted)); margin: 0 0 16px; }
+.fx-card { background: rgb(var(--surface)); border-radius: calc(var(--radio) * 1.5); box-shadow: var(--sombra-card); padding: 16px 20px; margin-bottom: 16px; }
+.fx-fila { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
+.fx-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.fx-campo { display: block; } .fx-campo > span { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.fx-input, .fx-select, .fx-textarea { width: 100%; font: inherit; color: inherit; background: rgb(var(--surface)); border: 1px solid rgb(var(--stroke));
+  border-bottom-color: rgb(var(--muted) / .6); border-radius: var(--radio); padding: 5px 10px; min-height: 32px; }
+.fx-input:focus, .fx-select:focus, .fx-textarea:focus { outline: none; border-bottom: 2px solid rgb(var(--brand-fg)); }
+.fx-btn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; font: inherit; font-weight: 600; color: rgb(var(--fg));
+  background: rgb(var(--surface)); border: 1px solid rgb(var(--stroke)); border-radius: var(--radio); cursor: pointer; }
+.fx-btn:hover { background: rgb(var(--subtle)); } .fx-btn:disabled { opacity: .5; cursor: default; }
+.fx-btn-primario { background: rgb(var(--brand)); border-color: transparent; color: rgb(var(--brand-on, 255 255 255)); } .fx-btn-primario:hover { background: rgb(var(--brand-hover)); }
+.fx-btn-peligro { color: rgb(var(--danger)); }
+.fx-tabla { width: 100%; border-collapse: collapse; } .fx-tabla th { text-align: left; font-size: 12px; color: rgb(var(--muted)); font-weight: 600; padding: 8px 12px; border-bottom: 1px solid rgb(var(--stroke)); }
+.fx-tabla td { padding: 8px 12px; border-bottom: 1px solid rgb(var(--stroke) / .7); }
+.fx-nota { font-size: 12px; color: rgb(var(--muted)); }
+.fx-etiqueta { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 12px; font-weight: 600; background: rgb(var(--brand-soft)); color: rgb(var(--brand-fg)); }
+.fx-aviso { position: fixed; right: 16px; bottom: 16px; padding: 10px 14px; border-radius: var(--radio); color: #fff; box-shadow: 0 8px 16px rgb(0 0 0 / .2); z-index: 99; }
+.fx-aviso-ok { background: rgb(var(--success)); } .fx-aviso-error { background: rgb(var(--danger)); }
+:root.dark { --canvas: 31 31 31; --surface: 41 41 41; --subtle: 51 51 51; --stroke: 66 66 66; --fg: 255 255 255; --muted: 173 173 173; color-scheme: dark; }

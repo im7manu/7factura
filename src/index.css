@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens de color (RGB sin alfa para poder usar opacidad en Tailwind).
+   Inspirados en el lenguaje de diseño Fluent / Metro: superficies planas, un color de marca y tipografía Segoe. */
+:root {
+  --canvas: 250 249 248;
+  --surface: 255 255 255;
+  --subtle: 243 242 241;
+  --stroke: 224 224 224;
+  --fg: 36 36 36;
+  --muted: 97 97 97;
+  --brand: 15 108 189;
+  --brand-hover: 17 94 163;
+  --brand-fg: 15 108 189;
+  --brand-soft: 235 243 252;
+  --suite: 15 108 189;
+  --danger: 197 15 31;
+  --success: 16 124 16;
+  --warning: 188 75 9;
+  --suite-fg: 255 255 255;
+  --brand-on: 255 255 255;
+  --radio-mosaico: 0px;
+  /* Forma, tipografía y efectos (los cambia el tema activo) */
+  --fuente: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+  --radio: 4px;
+  --sombra-card: 0 1px 2px rgb(0 0 0 / 0.08), 0 0 2px rgb(0 0 0 / 0.06);
+  --sombra-flyout: 0 8px 16px rgb(0 0 0 / 0.14), 0 0 2px rgb(0 0 0 / 0.12);
+  --trazo-iconos: 2;
+  --fondo-app: none;
+  --tile-blue: #0078D4; --tile-teal: #038387; --tile-purple: #8764B8; --tile-orange: #CA5010;
+  --tile-green: #107C10; --tile-magenta: #C239B3; --tile-slate: #4A5459;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --canvas: 31 31 31;
+    --surface: 41 41 41;
+    --subtle: 51 51 51;
+    --stroke: 66 66 66;
+    --fg: 255 255 255;
+    --muted: 173 173 173;
+    --brand: 17 94 163;
+    --brand-hover: 15 108 189;
+    --brand-fg: 98 171 245;
+    --brand-soft: 9 47 80;
+    --suite: 10 46 74;
+    --danger: 220 98 109;
+    --success: 84 176 84;
+    --warning: 250 160 107;
+    color-scheme: dark;
+  }
+}
+:root.dark {
+  --canvas: 31 31 31;
+  --surface: 41 41 41;
+  --subtle: 51 51 51;
+  --stroke: 66 66 66;
+  --fg: 255 255 255;
+  --muted: 173 173 173;
+  --brand: 17 94 163;
+  --brand-hover: 15 108 189;
+  --brand-fg: 98 171 245;
+  --brand-soft: 9 47 80;
+  --suite: 10 46 74;
+  --danger: 220 98 109;
+  --success: 84 176 84;
+  --warning: 250 160 107;
+  color-scheme: dark;
+}
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    @apply bg-canvas text-fg font-sans antialiased;
+    background-image: var(--fondo-app);
+    background-attachment: fixed;
+    background-size: cover;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  :focus-visible { outline: 2px solid rgb(var(--brand-fg)); outline-offset: 1px; }
+  input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
+}
+
+@layer components {
+  .card { @apply bg-surface rounded-md shadow-card; }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .field-label { @apply block text-[13px] font-semibold text-fg mb-1; }
+}
+
+/* Grosor de los iconos según el tema */
+svg.lucide { stroke-width: var(--trazo-iconos); }
+
+/* Efecto cristal (transparencias con desenfoque) */
+:root[data-cristal="si"] .card,
+:root[data-cristal="si"] aside,
+:root[data-cristal="si"] header.barra-suite {
+  background-color: rgb(var(--surface) / 0.62);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid rgb(255 255 255 / 0.35);
+}
+:root[data-cristal="si"] header.barra-suite { background-color: rgb(var(--suite) / 0.72); }
+
+/* Relieve clásico (botones y paneles en 3D, estilo escritorio antiguo) */
+:root[data-relieve="si"] .card { border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff; box-shadow: 1px 1px 0 #000; }
+:root[data-relieve="si"] button { box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff; }
+
+/* Densidad compacta */
+:root[data-densidad="compacta"] body { font-size: 13px; line-height: 18px; }
+
+/* Bordes visibles en tarjetas (temas de alto contraste) */
+:root[data-bordes="si"] .card { border: 1px solid rgb(var(--stroke)); }

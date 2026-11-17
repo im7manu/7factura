@@ -1,0 +1,10 @@
+node_modules/
+dist/
+data/
+plugins/*
+!plugins/.gitkeep
+*.tar.gz
+.DS_Store
+.env
+*.log
+release/

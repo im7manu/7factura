@@ -1,0 +1,12 @@
+services:
+  facturador:
+    build: .
+    container_name: facturador
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9100:9100"   # publícalo detrás de un proxy HTTPS
+    environment:
+      TZ: Europe/Madrid
+      TRUST_PROXY: "1"
+    volumes:
+      - ./data:/data
