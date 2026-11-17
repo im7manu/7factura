@@ -4,6 +4,8 @@ Facturación para autónomos y pymes en España. Código abierto (MIT), escrito 
 
 ### ⬇️ [Descargar para Windows](https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe)
 
+🌐 **Web del proyecto y centro de ayuda: [im7manu.github.io/facturador](https://im7manu.github.io/facturador/)**
+
 ¿Eres autónomo y solo usas un ordenador? Descarga el instalador, ábrelo y listo: no necesitas servidor, ni permisos de administrador, ni instalar nada más. [Guía de Windows](docs/windows.md).
 
 ![Inicio de Facturador](docs/manual/capturas/02-inicio.jpg)
@@ -59,6 +61,7 @@ Guía completa (servidor de la oficina, NAS, Windows, HTTPS, acceso desde fuera,
 | | |
 |---|---|
 | [Manual de uso (PDF)](public/manual-facturador.pdf) | Todo lo que hace la aplicación, pantalla a pantalla |
+| [Centro de ayuda (web)](https://im7manu.github.io/facturador/ayuda.html) | Preguntas frecuentes con buscador: escribe tu duda con tus palabras |
 | [Windows en un solo ordenador](docs/windows.md) | Instalador para autónomos sin servidor: instalar, datos, actualizaciones |
 | [Instalación y puesta en marcha](docs/instalacion.md) | Requisitos, instalación, HTTPS, variables de entorno, copias |
 | [Actualizaciones](docs/actualizaciones.md) | Cómo se actualiza sola de forma segura y cómo publicar versiones |
@@ -80,6 +83,7 @@ npm test           # pruebas de extremo a extremo (API, plugins y actualizacione
 npm run typecheck
 npm run build      # compila la interfaz en dist/
 npm run manual     # regenera public/manual-facturador.pdf
+npm run web        # construye la web pública (carpeta web/) en dist-web/
 npm run instalador:windows  # instalador de Windows (tras npm run release; necesita go y makensis)
 ```
 

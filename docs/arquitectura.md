@@ -47,12 +47,16 @@ scripts/
   dev.mjs                servidor + Vite a la vez
   supervisor.mjs         arranque supervisado y aplicación segura de actualizaciones
   crear-release.mjs      paquete firmado de una versión
+  construir-web.mjs      web pública en dist-web/ (la publica .github/workflows/pages.yml)
   crear-instalador-windows.mjs  instalador de Windows (paquete firmado + Node.js + lanzador)
   generar-clave-firma.mjs  par de claves Ed25519 (una sola vez)
   generar-manual.mjs     manual en PDF (con las capturas de docs/manual/capturas)
   empaquetar-plugin.mjs  paquete .tar.gz de un plugin y su entrada del registro
   importar-facturascripts.mjs  migración desde FacturaScripts
 examples/plugin-hola/    plugin mínimo de ejemplo
+web/                     web pública (GitHub Pages): portada, centro de ayuda con buscador, privacidad y aviso legal
+  datos-ayuda.js         preguntas de la ayuda (añade aquí las nuevas, con frases de ejemplo)
+  ayuda.js               buscador: raíces, sinónimos, faltas de ortografía y BM25, todo en el navegador
 windows/
   lanzador/              Facturador.exe (Go): arranca el supervisor sin consola y abre la ventana
   instalador.nsi         instalador NSIS por usuario

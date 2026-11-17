@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facturador · Facturación para autónomos y pymes</title>
+<meta name="description" content="Programa de facturación gratuito y de código abierto para autónomos y pymes en España. Para Windows o para el servidor de tu empresa. Tus datos se quedan en tu equipo.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'self'">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<header class="cabecera">
+  <div class="contenedor">
+    <a class="marca" href="./"><img src="icon.svg" alt="" width="30" height="30">Facturador</a>
+    <nav class="menu" aria-label="Principal">
+      <a href="#versiones">Descargar</a>
+      <a href="#funciones">Qué hace</a>
+      <a href="ayuda.html">Ayuda</a>
+      <a href="#codigo-abierto">Código abierto</a>
+      <a class="gh" href="https://github.com/im7manu/facturador">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+<section class="portada">
+  <div class="contenedor">
+    <div>
+      <h1>Tus facturas, en tu ordenador.<br>Gratis y sin letra pequeña.</h1>
+      <p class="entradilla">Facturador es un programa de facturación para <strong>autónomos y pymes de España</strong>. Haz facturas, presupuestos y albaranes, controla los cobros y prepara el IVA. Se instala en tu equipo: <strong>tus datos no se suben a ninguna nube</strong>.</p>
+      <div class="acciones">
+        <a class="boton primario" href="#versiones">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+          Descargar gratis
+        </a>
+        <a class="boton secundario" href="ayuda.html">Ver cómo se usa</a>
+      </div>
+      <ul class="sellos">
+        <li>100 % gratis</li>
+        <li>Código abierto (MIT)</li>
+        <li>Sin cuentas ni suscripciones</li>
+        <li>Se actualiza solo</li>
+      </ul>
+    </div>
+    <img class="captura-portada" src="capturas/02-inicio.jpg" width="1920" height="1200" alt="Pantalla de inicio de Facturador con lo facturado en el año, el trimestre, lo pendiente de cobro y los avisos de cobro">
+  </div>
+</section>
+
+<section class="seccion" id="versiones" aria-labelledby="t-versiones">
+  <div class="contenedor">
+    <p class="antetitulo">Elige tu versión</p>
+    <h2 id="t-versiones">El mismo programa, dos formas de instalarlo</h2>
+    <p class="intro">Las dos versiones tienen <strong>exactamente las mismas funciones</strong> y se actualizan igual. Solo cambia dónde se instala y desde dónde puedes usarlo.</p>
+
+    <div class="versiones">
+      <article class="version windows" aria-labelledby="t-win">
+        <div class="franja">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="5" y="8" width="38" height="25" rx="2"/><path d="M17 40h14M24 33v7"/></svg>
+          <div>
+            <h3 id="t-win">Para Windows</h3>
+            <p>Un ordenador, una persona. Instalar y listo.</p>
+          </div>
+        </div>
+        <div class="cuerpo">
+          <div class="para-quien"><strong>Pensado para ti si…</strong>eres autónomo, trabajas desde tu ordenador y no tienes (ni quieres) un servidor.</div>
+          <ul>
+            <li>Se instala como cualquier programa, con un asistente. <strong>No pide permisos de administrador.</strong></li>
+            <li>Se abre en su propia ventana desde el escritorio o el menú Inicio.</li>
+            <li>Todo lo necesario va incluido: no hay que instalar nada más.</li>
+            <li>Tus datos se quedan en tu ordenador, en tu carpeta de usuario.</li>
+            <li>Se actualiza solo, con versiones firmadas.</li>
+          </ul>
+          <div class="pie-version">
+            <a class="boton primario" href="https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+              <span>Descargar para Windows<small>Versión {{VERSION}} · Windows 10 y 11 (64 bits) · 30 MB</small></span>
+            </a>
+            <p class="nota">Windows puede avisar de que el programa «no es habitual»: pulsa <em>Más información → Ejecutar de todas formas</em>. <a href="ayuda.html#windows-protegio">¿Por qué?</a></p>
+          </div>
+        </div>
+      </article>
+
+      <article class="version servidor" aria-labelledby="t-srv">
+        <div class="franja">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="8" y="6" width="32" height="14" rx="2"/><rect x="8" y="26" width="32" height="14" rx="2"/><path d="M14 13h2M14 33h2M24 13h10M24 33h10"/></svg>
+          <div>
+            <h3 id="t-srv">Para servidor</h3>
+            <p>Para toda la empresa, desde cualquier equipo.</p>
+          </div>
+        </div>
+        <div class="cuerpo">
+          <div class="para-quien"><strong>Pensado para ti si…</strong>sois varias personas, o quieres usarlo también desde el móvil, la tableta o fuera de la oficina.</div>
+          <ul>
+            <li>Se instala una vez en un equipo siempre encendido: un servidor, un NAS, un miniPC o el ordenador de la oficina.</li>
+            <li>Se usa desde el navegador de cualquier ordenador, móvil o tableta de la empresa.</li>
+            <li>Varios usuarios, cada uno con su cuenta, su correo y sus permisos.</li>
+            <li>Con Docker o Node.js, en Linux, Windows o macOS.</li>
+            <li>Los datos se quedan en el servidor de tu empresa. Se actualiza solo.</li>
+          </ul>
+          <div class="pie-version">
+            <a class="boton primario turquesa" href="https://github.com/im7manu/facturador/blob/main/docs/instalacion.md">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+              <span>Guía de instalación<small>Versión {{VERSION}} · Docker o Node.js 22</small></span>
+            </a>
+            <p class="nota">Necesita algo de conocimientos técnicos o la ayuda de tu informático. <a href="https://github.com/im7manu/facturador/releases/latest">Descargar el paquete</a></p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="tabla-envoltorio">
+      <table class="comparativa">
+        <caption class="saltar">Diferencias entre la versión para Windows y la versión para servidor</caption>
+        <thead><tr><th scope="col"></th><th scope="col">Windows</th><th scope="col">Servidor</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Para quién</th><td>Autónomos con un solo ordenador</td><td>Autónomos y pymes con varios equipos o usuarios</td></tr>
+          <tr><th scope="row">Funciones</th><td colspan="2" class="centro"><strong>Las mismas</strong>: facturas, presupuestos, albaranes, cobros, compras, IVA, correo, plugins…</td></tr>
+          <tr><th scope="row">Dónde se instala</th><td>En tu PC con Windows 10 u 11</td><td>En un servidor, NAS, miniPC u ordenador de la oficina</td></tr>
+          <tr><th scope="row">Desde dónde se usa</th><td>Solo desde ese ordenador</td><td>Desde cualquier equipo de la red, también móvil y tableta; desde fuera, con HTTPS o VPN</td></tr>
+          <tr><th scope="row">Instalación</th><td>Asistente de Windows, 1 minuto</td><td>Docker o Node.js (requiere algo de experiencia)</td></tr>
+          <tr><th scope="row">Cuándo funciona</th><td>Mientras tienes Facturador abierto</td><td>Siempre que el servidor esté encendido</td></tr>
+          <tr><th scope="row">Actualizaciones</th><td colspan="2" class="centro">Automáticas y firmadas, con vuelta atrás si algo falla</td></tr>
+          <tr><th scope="row">Dónde están tus datos</th><td>En tu ordenador</td><td>En el servidor de tu empresa</td></tr>
+          <tr><th scope="row">Precio</th><td colspan="2" class="centro"><strong>Gratis</strong>, siempre</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <form class="asistente" id="asistente" aria-labelledby="t-asistente">
+      <h3 id="t-asistente">¿No sabes cuál elegir? Responde a dos preguntas</h3>
+      <fieldset>
+        <legend>¿Quién va a usar Facturador?</legend>
+        <div class="opciones">
+          <label><input type="radio" name="quien" value="solo"><span>Solo yo, en mi ordenador</span></label>
+          <label><input type="radio" name="quien" value="varios"><span>Varias personas o varios equipos</span></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>¿Quieres usarlo desde el móvil, la tableta o fuera de la oficina?</legend>
+        <div class="opciones">
+          <label><input type="radio" name="movil" value="no"><span>No, con el ordenador me basta</span></label>
+          <label><input type="radio" name="movil" value="si"><span>Sí</span></label>
+        </div>
+      </fieldset>
+      <div class="veredicto" id="veredicto" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section class="seccion alterna" id="funciones" aria-labelledby="t-funciones">
+  <div class="contenedor">
+    <p class="antetitulo">Qué hace</p>
+    <h2 id="t-funciones">Todo lo que necesitas para facturar, en un solo sitio</h2>
+    <p class="intro">Hecho para la normativa española: numeración correlativa, rectificativas, IVA, recargo de equivalencia, IRPF y las leyendas legales en cada PDF.</p>
+    <div class="mosaicos">
+      <div class="mosaico m1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h8"/></svg><h3>Facturas</h3><p>Ordinarias, rectificativas y simplificadas, con numeración tipo 31/2026 y PDF listo para enviar.</p></div>
+      <div class="mosaico m2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h12v16H4zM16 8h4v12h-4M8 9h4M8 13h4"/></svg><h3>Presupuestos y albaranes</h3><p>Presupuestos, proformas, pedidos y albaranes firmados en el móvil. Conviértelos en factura con un clic.</p></div>
+      <div class="mosaico m3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><h3>Cobros y avisos</h3><p>Vencimientos según las condiciones de cada cliente, cobros parciales y avisos de impagos.</p></div>
+      <div class="mosaico m4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>IVA e informes</h3><p>Resumen para el modelo 303 por trimestre y el 347 de clientes y proveedores.</p></div>
+      <div class="mosaico m5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg><h3>Correo integrado</h3><p>Envía cada documento desde tu Gmail, Outlook o cualquier correo, con plantillas.</p></div>
+      <div class="mosaico m6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7h12v10H3zM15 10h4l2 3v4h-6"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg><h3>Compras y gastos</h3><p>Facturas de proveedor, tickets e IVA deducible. Gasto por vehículo para transportistas.</p></div>
+      <div class="mosaico m7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg><h3>Copias de seguridad</h3><p>Copia automática semanal y bajo demanda, en un ZIP que guardas donde quieras.</p></div>
+      <div class="mosaico m8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg><h3>Plugins y temas</h3><p>Diseña tus PDF con tu logo, fírmalos con tu certificado digital y cambia el aspecto del programa.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion" aria-labelledby="t-capturas">
+  <div class="contenedor">
+    <p class="antetitulo">Así es por dentro</p>
+    <h2 id="t-capturas">Claro, rápido y en español</h2>
+    <p class="intro">Una interfaz limpia al estilo Microsoft 365, con modo claro y oscuro. Si sabes usar el correo, sabes usar Facturador.</p>
+    <div class="galeria">
+      <figure><img src="capturas/06-nueva-factura.jpg" loading="lazy" width="1920" height="1200" alt="Formulario de nueva factura con cliente, serie, fechas y líneas"><figcaption>Crear una factura: elige el cliente, añade las líneas y emítela.</figcaption></figure>
+      <figure><img src="capturas/10-cobros.jpg" loading="lazy" width="1920" height="1200" alt="Listado de cobros pendientes, vencidos y cobrados"><figcaption>Cobros: qué te deben, qué ha vencido y qué está cobrado.</figcaption></figure>
+      <figure><img src="capturas/13-informes.jpg" loading="lazy" width="1920" height="1200" alt="Informes del IVA trimestral y del modelo 347"><figcaption>Informes: el IVA de cada trimestre preparado para tu gestoría.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="seccion alterna" id="codigo-abierto" aria-labelledby="t-abierto">
+  <div class="contenedor">
+    <p class="antetitulo">Transparente de verdad</p>
+    <h2 id="t-abierto">Código abierto y tus datos, solo tuyos</h2>
+    <div class="dos-col">
+      <div class="tarjeta">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg>Software libre, con licencia MIT</h3>
+        <p>Todo el código de Facturador es público y está en GitHub. Cualquiera puede revisarlo, comprobar qué hace con los datos, mejorarlo o adaptarlo a su negocio.</p>
+        <ul class="lista-check">
+          <li>Gratis para siempre, también para uso comercial.</li>
+          <li>Sin versiones «premium» ni funciones de pago.</li>
+          <li>Escrito desde cero, sin código de otros programas.</li>
+          <li>Puedes proponer mejoras o avisar de errores en GitHub.</li>
+        </ul>
+        <div class="enlaces-gh">
+          <a href="https://github.com/im7manu/facturador"><strong>im7manu/facturador</strong><span>El programa →</span></a>
+          <a href="https://github.com/im7manu/facturador-plugins"><strong>im7manu/facturador-plugins</strong><span>Plugins oficiales →</span></a>
+          <a href="https://github.com/im7manu/facturador/releases"><strong>Releases</strong><span>Todas las versiones →</span></a>
+          <a href="https://github.com/im7manu/facturador/issues"><strong>Incidencias</strong><span>Dudas y errores →</span></a>
+        </div>
+      </div>
+      <div class="tarjeta">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>Tus datos no salen de tu equipo</h3>
+        <p>Facturador no es un servicio en la nube. Tus facturas, clientes y cobros se guardan solo en el ordenador o servidor donde lo instalas. Nadie más, tampoco el autor del programa, tiene acceso a ellos.</p>
+        <ul class="lista-check">
+          <li>Sin cuentas en internet, sin publicidad y sin estadísticas de uso.</li>
+          <li>Solo se conecta para buscar actualizaciones, instalar plugins y enviar los correos que tú mandas.</li>
+          <li>Contraseñas protegidas y credenciales cifradas.</li>
+          <li>Facilita que cumplas el RGPD con los datos de tus clientes: tú eres el único responsable de ellos y no hay ningún encargado del tratamiento externo.</li>
+        </ul>
+        <p><a href="privacidad.html">Política de privacidad de esta web y del programa →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="contenedor">
+    <div class="llamada">
+      <h2>Empieza a facturar hoy</h2>
+      <p>Descárgalo, instálalo y crea tu primera factura en cinco minutos.</p>
+      <div class="acciones">
+        <a class="boton primario" href="https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe">Descargar para Windows</a>
+        <a class="boton secundario" href="https://github.com/im7manu/facturador/blob/main/docs/instalacion.md">Instalar en un servidor</a>
+        <a class="boton secundario" href="ayuda.html">Centro de ayuda</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="columnas">
+      <div>
+        <h2>Facturador</h2>
+        <p>Facturación gratuita y de código abierto para autónomos y pymes de España. Proyecto sin ánimo de lucro.</p>
+      </div>
+      <div>
+        <h2>Ayuda</h2>
+        <ul>
+          <li><a href="ayuda.html">Centro de ayuda</a></li>
+          <li><a href="manual-facturador.pdf">Manual en PDF</a></li>
+          <li><a href="https://github.com/im7manu/facturador/issues">Contacto (incidencias)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Legal</h2>
+        <ul>
+          <li><a href="privacidad.html">Privacidad</a></li>
+          <li><a href="aviso-legal.html">Aviso legal</a></li>
+          <li><a href="https://github.com/im7manu/facturador/blob/main/LICENSE">Licencia MIT</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="legal">Esta web no usa cookies ni recoge datos personales. Facturador no está afiliado a Microsoft, a la Agencia Tributaria ni a ningún otro programa de facturación.</p>
+  </div>
+</footer>
+<script src="portada.js"></script>
+</body>
+</html>

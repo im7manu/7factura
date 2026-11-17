@@ -1,0 +1,32 @@
+# Publica la web (carpeta web/) en GitHub Pages al cambiar la web, las capturas, el manual o la versión.
+name: Web
+on:
+  push:
+    branches: [main]
+    paths: ['web/**', 'docs/manual/capturas/**', 'public/manual-facturador.pdf', 'public/icon.svg', 'package.json', 'scripts/construir-web.mjs']
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/construir-web.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-web
+      - id: despliegue
+        uses: actions/deploy-pages@v4

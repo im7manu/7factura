@@ -18,6 +18,7 @@
     "release": "node scripts/crear-release.mjs",
     "instalador:windows": "node scripts/crear-instalador-windows.mjs",
     "manual": "node scripts/generar-manual.mjs",
+    "web": "node scripts/construir-web.mjs",
     "test": "node --test server/test/*.test.mjs",
     "typecheck": "tsc --noEmit"
   },
