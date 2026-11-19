@@ -35,6 +35,7 @@ function necesitaRehash(stored) {
   return !saltHex || saltHex.length < SAL_BYTES * 2;
 }
 
+const MSG_BLOQUEO = 'Cuenta bloqueada temporalmente por intentos fallidos. Inténtalo en 15 minutos, entra con tu passkey o restablece la contraseña.';
 const HASH_FICTICIO = hashPassword(crypto.randomBytes(16).toString('hex'));
 
 /** Política de contraseñas: devuelve el motivo del rechazo o null si es válida. */
@@ -109,7 +110,7 @@ export function login(usuario, password, ip) {
   }
   if (u.bloqueado_hasta > Date.now()) {
     verifyPassword(pw, HASH_FICTICIO);
-    return { error: 'Cuenta bloqueada temporalmente por intentos fallidos. Inténtalo en 15 minutos.', evento: 'login.cuenta_bloqueada', severidad: 'aviso' };
+    return { error: MSG_BLOQUEO, evento: 'login.cuenta_bloqueada', severidad: 'aviso', bloqueada: true };
   }
   if (!verifyPassword(pw, u.hash)) {
     const intentos = u.intentos + 1;
@@ -117,7 +118,7 @@ export function login(usuario, password, ip) {
     db.prepare('UPDATE usuarios SET intentos = ?, bloqueado_hasta = ? WHERE id = ?').run(bloqueo ? 0 : intentos, bloqueo, u.id);
     registrarFalloIp(ip);
     return bloqueo
-      ? { error: 'Cuenta bloqueada temporalmente por intentos fallidos. Inténtalo en 15 minutos.', evento: 'login.cuenta_bloqueada', severidad: 'alerta' }
+      ? { error: MSG_BLOQUEO, evento: 'login.cuenta_bloqueada', severidad: 'alerta', bloqueada: true }
       : { error: 'Usuario o contraseña incorrectos', evento: 'login.fallido', severidad: 'aviso' };
   }
   if (!u.activo) return { error: 'Usuario desactivado', evento: 'login.desactivado', severidad: 'aviso' };
@@ -130,12 +131,14 @@ export function login(usuario, password, ip) {
 export function cargarUsuario(req, _res, next) {
   const token = leerCookie(req, COOKIE);
   if (token) {
-    const r = db.prepare(`SELECT u.id, u.usuario, u.nombre, u.email, u.rol, s.expira
+    const r = db.prepare(`SELECT u.id, u.usuario, u.nombre, u.email, u.rol, u.telefono_verificado, s.expira
       FROM sesiones s JOIN usuarios u ON u.id = s.usuario_id
       WHERE s.token_hash = ? AND u.activo = 1`).get(sha(token));
     if (r && r.expira > Date.now()) {
-      const { expira, ...usuario } = r;
+      const { expira, telefono_verificado, ...usuario } = r;
       req.usuario = usuario;
+      req.telefonoVerificado = !!telefono_verificado;
+      req.sesionHash = sha(token);
     }
   }
   next();

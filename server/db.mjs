@@ -382,6 +382,37 @@ const MIGRACIONES = [
       );
       CREATE INDEX IF NOT EXISTS idx_correos_doc ON correos_enviados(documento_id);`);
   },
+
+  // Teléfono verificado por WhatsApp, códigos de un solo uso y passkeys
+  () => {
+    anadirColumna('usuarios', "telefono TEXT NOT NULL DEFAULT ''");
+    anadirColumna('usuarios', 'telefono_verificado INTEGER NOT NULL DEFAULT 0');
+    db.exec(`CREATE TABLE IF NOT EXISTS codigos(
+        id INTEGER PRIMARY KEY,
+        usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+        tipo TEXT NOT NULL CHECK (tipo IN ('verificar', 'recuperar')),
+        destino TEXT NOT NULL,
+        sal TEXT NOT NULL,
+        hash TEXT NOT NULL,
+        expira INTEGER NOT NULL,
+        intentos INTEGER NOT NULL DEFAULT 0,
+        usado INTEGER NOT NULL DEFAULT 0,
+        creado INTEGER NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_codigos_usuario ON codigos(usuario_id, tipo);
+      CREATE TABLE IF NOT EXISTS passkeys(
+        id TEXT PRIMARY KEY,
+        usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+        clave_publica BLOB NOT NULL,
+        contador INTEGER NOT NULL DEFAULT 0,
+        transportes TEXT NOT NULL DEFAULT '[]',
+        nombre TEXT NOT NULL DEFAULT '',
+        sincronizada INTEGER NOT NULL DEFAULT 0,
+        creada TEXT NOT NULL DEFAULT (datetime('now')),
+        ultimo_uso TEXT
+      );
+      CREATE INDEX IF NOT EXISTS idx_passkeys_usuario ON passkeys(usuario_id);`);
+  },
 ];
 
 {

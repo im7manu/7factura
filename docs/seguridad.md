@@ -12,6 +12,13 @@ Facturador se ejecuta en tu equipo y guarda los datos en `data/`. No envía tele
 - **Sesiones**: token aleatorio de 256 bits en una cookie `HttpOnly`, `SameSite=Strict` (y `Secure` con HTTPS). En la base de datos solo se guarda su hash. Caducan a las 12 horas.
 - **Roles**: administrador (ajustes, usuarios, plugins, actualizaciones) y usuario.
 
+## Passkeys y recuperación por WhatsApp
+
+- **Passkeys (WebAuthn)**: cada usuario puede crear passkeys en **Mi cuenta** y entrar con «Entrar con passkey», sin usuario ni contraseña. La clave privada nunca sale del dispositivo; Facturador solo guarda la pública. Una cuenta bloqueada por intentos fallidos puede seguir entrando con passkey. El administrador puede quitar las passkeys de un usuario (Ajustes › Usuarios) si pierde el dispositivo. Solo funcionan desde un dominio con HTTPS (o `localhost`): en la versión de escritorio, que usa `127.0.0.1`, no están disponibles.
+- **Recuperar la contraseña por WhatsApp**: «¿Has olvidado tu contraseña?» envía un código de 6 cifras al teléfono verificado del usuario. Caduca en 10 minutos, admite 5 intentos, solo se guarda su hash y se limita a un envío por minuto y cinco por hora. La respuesta es la misma exista o no el usuario. Al usarlo se desbloquea la cuenta, se cierran las demás sesiones y se avisa por WhatsApp del cambio.
+- **Teléfono verificado**: con WhatsApp configurado, cada usuario verifica su móvil con un código la próxima vez que entra (se puede desactivar en Ajustes › Seguridad).
+- **Configuración**: Ajustes › Seguridad, con la dirección de un puente compatible con [whatsapp-mcp](https://github.com/lharries/whatsapp-mcp) (`POST /api/send`). La variable de entorno `WHATSAPP_API` tiene prioridad; `WHATSAPP_EXIGIR=0` no obliga a verificar el teléfono; `RP_ID` y `RP_ORIGIN` fijan el dominio de las passkeys detrás de un proxy.
+
 ## Peticiones
 
 - **CSRF**: toda petición que modifica datos debe venir del mismo origen (cabeceras `Origin`/`Referer`), además de la cookie `SameSite=Strict`.

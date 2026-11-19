@@ -1,5 +1,14 @@
 # Cambios
 
+## 1.2.0 — 2026-11-19
+
+- **Passkeys**: «Entrar con passkey» sin usuario ni contraseña; tras entrar con contraseña, Facturador propone crear una. Se gestionan en la nueva página **Mi cuenta** (menú de usuario).
+- **Recuperar la contraseña por WhatsApp**: código al teléfono verificado; desbloquea la cuenta, cierra las demás sesiones y avisa del cambio.
+- **Teléfono verificado obligatorio** al entrar cuando WhatsApp está configurado.
+- **Mi cuenta**: passkeys, teléfono y cambio de la propia contraseña.
+- **Ajustes › Seguridad**: dirección del puente de WhatsApp, obligar o no a verificar el teléfono y mensaje de prueba.
+- **Ajustes › Usuarios**: teléfono y verificación, passkeys, cuentas bloqueadas y desbloqueo al guardar. Cambiar la contraseña desde aquí también desbloquea la cuenta.
+
 ## 1.1.1 — 2026-11-17
 
 - **Ayuda integrada**: nueva página **Ayuda** (menú General y menú de usuario) con las 66 preguntas del centro de ayuda de la web y el mismo buscador, que entiende la duda aunque no se usen las mismas palabras. Funciona sin conexión.

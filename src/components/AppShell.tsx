@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
-  BarChart3, Bell, BookOpen, Building2, Download, ChevronDown, ChevronLeft, ClipboardList, FileInput, HandCoins, PackageCheck, Receipt, ShoppingCart, Truck, FileClock, FileText, Grid3x3, HelpCircle, Home, LifeBuoy, LogOut, Menu, Moon, Package, Plus, Puzzle, ScrollText, Settings, Sun, Users, Wallet,
+  BarChart3, Bell, BookOpen, Building2, Download, ChevronDown, ChevronLeft, ClipboardList, FileInput, HandCoins, PackageCheck, Receipt, ShoppingCart, Truck, FileClock, FileText, Grid3x3, HelpCircle, Home, LifeBuoy, LogOut, Menu, Moon, Package, Plus, Puzzle, ScrollText, Settings, Sun, UserCog, Users, Wallet,
 } from "lucide-react";
 import { useSesion } from "@/hooks/sesion";
 import { api, type Ajustes, type Avisos } from "@/lib/api";
@@ -210,7 +210,10 @@ export function AppShell() {
             <div className="card absolute right-0 top-10 z-30 w-60 p-3 text-fg shadow-flyout">
               <p className="font-semibold">{usuario?.nombre}</p>
               <p className="text-xs text-muted">{usuario?.usuario} · {usuario?.rol === "admin" ? "Administrador" : "Usuario"}</p>
-              <button className="mt-3 flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle" onClick={() => navigate("/ayuda")}>
+              <button className="mt-3 flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle" onClick={() => navigate("/cuenta")}>
+                <UserCog size={16} /> Mi cuenta
+              </button>
+              <button className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle" onClick={() => navigate("/ayuda")}>
                 <LifeBuoy size={16} /> Centro de ayuda
               </button>
               <a href="/manual-facturador.pdf" target="_blank" rel="noreferrer" className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-subtle">

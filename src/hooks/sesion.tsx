@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, type ReactNode } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, type Empresa, type Usuario } from "@/lib/api";
 
-interface Estado { instalado: boolean; usuario: Usuario | null; empresa: Empresa | null }
+interface Estado { instalado: boolean; usuario: Usuario | null; empresa: Empresa | null; seguridad?: { recuperacion: boolean; passkeys: boolean } }
 interface Ctx extends Estado { recargar: () => Promise<unknown>; salir: () => Promise<void> }
 
 const SesionCtx = createContext<Ctx | null>(null);

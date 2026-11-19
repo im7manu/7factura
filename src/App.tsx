@@ -19,6 +19,7 @@ import Cobros from "@/pages/Cobros";
 import Vehiculos from "@/pages/Vehiculos";
 import PluginFrame from "@/pages/PluginFrame";
 import Ayuda from "@/pages/Ayuda";
+import MiCuenta, { OfertaPasskey, VerificarTelefono } from "@/pages/MiCuenta";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false, refetchOnWindowFocus: false } },
@@ -29,7 +30,10 @@ function Rutas() {
   useApariencia();
   if (!instalado) return <Setup />;
   if (!usuario) return <Login />;
+  if (usuario.verificar_telefono) return <VerificarTelefono />;
   return (
+    <>
+    <OfertaPasskey />
     <Routes>
       <Route element={<AppShell />}>
         <Route index element={<Inicio />} />
@@ -73,10 +77,12 @@ function Rutas() {
         <Route path="ajustes" element={<Ajustes />} />
         <Route path="plugins" element={<Plugins />} />
         <Route path="ayuda" element={<Ayuda />} />
+        <Route path="cuenta" element={<MiCuenta />} />
         <Route path="p/:id" element={<PluginFrame />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
+    </>
   );
 }
 

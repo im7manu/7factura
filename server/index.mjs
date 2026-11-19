@@ -13,6 +13,7 @@ import { router as actualizaciones, programar as programarActualizaciones } from
 import { apiPlugins, montarRutasPlugins, cargarPlugins } from './plugins.mjs';
 import { requiereSesion } from './auth.mjs';
 import { auditar } from './db.mjs';
+import { seguridadPublica, seguridadPrivada, exigirTelefonoVerificado } from './seguridad.mjs';
 
 const PORT = Number(process.env.PORT || 9100);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -61,6 +62,10 @@ app.use('/api', (req, res, next) => {
 
 app.use(cargarUsuario);
 app.use('/api', publico);
+app.use('/api', seguridadPublica);
+// Mientras el teléfono no esté verificado (y WhatsApp esté configurado) solo se permite verificarlo
+app.use('/api', exigirTelefonoVerificado);
+app.use('/api', seguridadPrivada);
 app.use('/api/plugins', apiPlugins);
 app.use('/api/documentos', requiereSesion, documentos);
 app.use('/api/adjuntos', requiereSesion, adjuntos);

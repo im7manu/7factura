@@ -17,6 +17,8 @@ async function peticion<T>(metodo: string, ruta: string, cuerpo?: unknown): Prom
   const datos = r.headers.get("content-type")?.includes("json") ? await r.json() : null;
   if (!r.ok) {
     if (r.status === 401 && !ruta.startsWith("/login")) window.dispatchEvent(new Event("sesion-caducada"));
+    // Falta verificar el teléfono: se recarga el estado para mostrar la pantalla de verificación
+    if (r.status === 403 && datos?.verificarTelefono) window.dispatchEvent(new Event("sesion-caducada"));
     throw new ApiError(datos?.error || `Error ${r.status}`, r.status);
   }
   return datos as T;
@@ -34,7 +36,7 @@ export interface Empresa {
   razon_social: string; nif: string; direccion: string; cp: string; ciudad: string; provincia: string;
   telefono: string; email: string; iban: string; pie_factura: string;
 }
-export interface Usuario { id: number; usuario: string; nombre: string; email: string; rol: "admin" | "usuario" }
+export interface Usuario { id: number; usuario: string; nombre: string; email: string; rol: "admin" | "usuario"; verificar_telefono?: boolean; passkeys?: number }
 export interface Cliente {
   id: number; nombre: string; nif: string; direccion: string; cp: string; ciudad: string; provincia: string; pais: string;
   email: string; telefono: string; forma_pago: string | null; notas: string; operacion: CodigoOperacion; recargo: number;

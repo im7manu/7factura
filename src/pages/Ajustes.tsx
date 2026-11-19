@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Plus, Trash2 } from "lucide-react";
+import { KeyRound, Plus, Trash2 } from "lucide-react";
 import { api, type Ajustes as TAjustes, type AjustesCobros, type AjustesCompras, type AjustesVentas, type Empresa, type Plazo, type Usuario } from "@/lib/api";
 import { useSesion } from "@/hooks/sesion";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ import { PestanaActualizaciones } from "./AjustesActualizaciones";
 import { useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
-type Pestana = "empresa" | "series" | "ventas" | "compras" | "cobros" | "correo" | "usuarios" | "actualizaciones" | "actividad";
+type Pestana = "empresa" | "series" | "ventas" | "compras" | "cobros" | "correo" | "usuarios" | "seguridad" | "actualizaciones" | "actividad";
 
 export default function Ajustes() {
   const { usuario } = useSesion();
@@ -40,6 +40,7 @@ export default function Ajustes() {
     { k: "cobros", t: "Cobros" },
     { k: "correo", t: "Correo" },
     { k: "usuarios", t: "Usuarios", admin: true },
+    { k: "seguridad", t: "Seguridad", admin: true },
     { k: "actualizaciones", t: "Actualizaciones", admin: true },
     { k: "actividad", t: "Actividad", admin: true },
   ];
@@ -62,6 +63,7 @@ export default function Ajustes() {
       {pestana === "cobros" ? <PestanaCobros admin={admin} /> : null}
       {pestana === "correo" ? <PestanaCorreo admin={admin} /> : null}
       {pestana === "usuarios" && admin ? <PestanaUsuarios /> : null}
+      {pestana === "seguridad" && admin ? <PestanaSeguridad /> : null}
       {pestana === "actualizaciones" && admin ? <PestanaActualizaciones /> : null}
       {pestana === "actividad" && admin ? <PestanaActividad /> : null}
     </div>
@@ -197,17 +199,22 @@ function PestanaSeries({ admin }: { admin: boolean }) {
   );
 }
 
-type UsuarioFila = Usuario & { activo: number; ultimo_login: string | null };
+type UsuarioFila = Usuario & { activo: number; ultimo_login: string | null; telefono: string; telefono_verificado: number; passkeys: number; bloqueado: boolean };
 
 function PestanaUsuarios() {
   const qc = useQueryClient();
   const q = useQuery({ queryKey: ["usuarios"], queryFn: () => api.get<UsuarioFila[]>("/usuarios") });
   const [dlg, setDlg] = useState<null | UsuarioFila | "nuevo">(null);
-  const [f, setF] = useState({ usuario: "", nombre: "", email: "", password: "", rol: "usuario", activo: true });
+  const [f, setF] = useState({ usuario: "", nombre: "", email: "", telefono: "", password: "", rol: "usuario", activo: true, desbloquear: false });
   useEffect(() => {
-    if (dlg === "nuevo") setF({ usuario: "", nombre: "", email: "", password: "", rol: "usuario", activo: true });
-    else if (dlg) setF({ usuario: dlg.usuario, nombre: dlg.nombre, email: dlg.email, password: "", rol: dlg.rol, activo: !!dlg.activo });
+    if (dlg === "nuevo") setF({ usuario: "", nombre: "", email: "", telefono: "", password: "", rol: "usuario", activo: true, desbloquear: false });
+    else if (dlg) setF({ usuario: dlg.usuario, nombre: dlg.nombre, email: dlg.email, telefono: dlg.telefono, password: "", rol: dlg.rol, activo: !!dlg.activo, desbloquear: dlg.bloqueado });
   }, [dlg]);
+  async function quitarPasskeys(u: UsuarioFila) {
+    if (!confirm(`¿Quitar todas las passkeys de ${u.nombre}?\n\nÚsalo si ha perdido el dispositivo. Tendrá que entrar con su contraseña y crearlas de nuevo.`)) return;
+    try { await api.del(`/usuarios/${u.id}/passkeys`); qc.invalidateQueries({ queryKey: ["usuarios"] }); setDlg(null); toast.success("Passkeys eliminadas"); }
+    catch (e) { toast.error((e as Error).message); }
+  }
   const guardar = useMutation({
     mutationFn: () => (dlg === "nuevo" ? api.post("/usuarios", f) : api.put(`/usuarios/${(dlg as UsuarioFila).id}`, { ...f, password: f.password || undefined })),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["usuarios"] }); setDlg(null); toast.success("Usuario guardado"); },
@@ -218,13 +225,14 @@ function PestanaUsuarios() {
     <div>
       <div className="mb-2 flex justify-end"><Button variant="primary" onClick={() => setDlg("nuevo")}><Plus size={16} /> Nuevo usuario</Button></div>
       <Table>
-        <thead><tr><th className={th}>Usuario</th><th className={th}>Nombre</th><th className={th}>Rol</th><th className={th}>Estado</th><th className={cn(th, "hidden md:table-cell")}>Último acceso</th></tr></thead>
+        <thead><tr><th className={th}>Usuario</th><th className={th}>Nombre</th><th className={th}>Rol</th><th className={th}>Estado</th><th className={cn(th, "hidden md:table-cell")}>Teléfono</th><th className={cn(th, "hidden md:table-cell")}>Último acceso</th></tr></thead>
         <tbody>
           {q.data.map((u) => (
             <tr key={u.id} className="cursor-pointer hover:bg-subtle" onClick={() => setDlg(u)}>
               <td className={cn(td, "font-semibold")}>{u.usuario}</td><td className={td}>{u.nombre}</td>
               <td className={td}>{u.rol === "admin" ? "Administrador" : "Usuario"}</td>
-              <td className={td}>{u.activo ? "Activo" : <span className="text-muted">Desactivado</span>}</td>
+              <td className={td}>{u.activo ? "Activo" : <span className="text-muted">Desactivado</span>}{u.bloqueado ? <span className="ml-1 rounded bg-danger/10 px-1.5 py-0.5 text-xs font-semibold text-danger">Bloqueada</span> : null}{u.passkeys ? <span className="ml-1 inline-flex items-center gap-0.5 rounded bg-brand/10 px-1.5 py-0.5 text-xs" title="Passkeys"><KeyRound size={11} /> {u.passkeys}</span> : null}</td>
+              <td className={cn(td, "hidden md:table-cell")}>{u.telefono ? <span className="font-mono text-xs">{u.telefono} {u.telefono_verificado ? <span className="text-success" title="Verificado">✓</span> : <span className="text-muted">(sin verificar)</span>}</span> : <span className="text-muted">—</span>}</td>
               <td className={cn(td, "hidden text-muted md:table-cell")}>{u.ultimo_login ? new Date(`${u.ultimo_login}Z`).toLocaleString("es-ES") : "Nunca"}</td>
             </tr>
           ))}
@@ -235,13 +243,22 @@ function PestanaUsuarios() {
         <form id="form-usuario" className="grid gap-3 sm:grid-cols-2" onSubmit={(e) => { e.preventDefault(); guardar.mutate(); }}>
           <Field label="Usuario"><Input value={f.usuario} onChange={(e) => setF({ ...f, usuario: e.target.value })} disabled={dlg !== "nuevo"} required /></Field>
           <Field label="Nombre"><Input value={f.nombre} onChange={(e) => setF({ ...f, nombre: e.target.value })} required /></Field>
-          <Field label="Email" className="sm:col-span-2"><Input type="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></Field>
+          <Field label="Email"><Input type="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></Field>
+          <Field label="Móvil con WhatsApp" hint={dlg !== "nuevo" && (dlg as UsuarioFila)?.telefono_verificado ? "Verificado. Si lo cambias, tendrá que verificarlo de nuevo." : "Tendrá que verificarlo al entrar."}>
+            <Input type="tel" value={f.telefono} onChange={(e) => setF({ ...f, telefono: e.target.value })} placeholder="600 000 000" />
+          </Field>
           <Field label={dlg === "nuevo" ? "Contraseña" : "Nueva contraseña (opcional)"} hint="Mínimo 10 caracteres, con mayúsculas, minúsculas, números y un símbolo" className="sm:col-span-2">
             <Input type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} required={dlg === "nuevo"} autoComplete="new-password" />
           </Field>
           <Field label="Rol"><Select value={f.rol} onChange={(e) => setF({ ...f, rol: e.target.value })}><option value="usuario">Usuario</option><option value="admin">Administrador</option></Select></Field>
           {dlg !== "nuevo" ? (
             <Field label="Estado"><Select value={f.activo ? "1" : "0"} onChange={(e) => setF({ ...f, activo: e.target.value === "1" })}><option value="1">Activo</option><option value="0">Desactivado</option></Select></Field>
+          ) : null}
+          {dlg !== "nuevo" && (dlg as UsuarioFila)?.bloqueado ? (
+            <label className="flex items-center gap-2 rounded bg-danger/10 px-3 py-2 text-sm sm:col-span-2"><input type="checkbox" checked={f.desbloquear} onChange={(e) => setF({ ...f, desbloquear: e.target.checked })} /> Cuenta bloqueada por intentos fallidos: desbloquear al guardar</label>
+          ) : null}
+          {dlg !== "nuevo" && (dlg as UsuarioFila)?.passkeys ? (
+            <div className="flex items-center justify-between gap-2 text-sm sm:col-span-2"><span><KeyRound size={14} className="inline" /> {(dlg as UsuarioFila).passkeys} passkey(s) registrada(s)</span><Button size="sm" variant="subtle" className="text-danger" onClick={() => quitarPasskeys(dlg as UsuarioFila)}>Quitar todas</Button></div>
           ) : null}
         </form>
       </Dialog>
@@ -399,5 +416,48 @@ function PestanaCompras({ admin }: { admin: boolean }) {
         {admin ? <Button type="submit" variant="primary" disabled={guardar.isPending}>Guardar</Button> : <span className="text-xs text-muted">Solo un administrador puede cambiarlas.</span>}
       </div>
     </form>
+  );
+}
+
+function PestanaSeguridad() {
+  const q = useQuery({ queryKey: ["ajustes-whatsapp"], queryFn: () => api.get<{ url: string; exigir: boolean; desde_entorno: boolean }>("/ajustes/whatsapp") });
+  const [f, setF] = useState({ url: "", exigir: true });
+  const [prueba, setPrueba] = useState("");
+  useEffect(() => { if (q.data) setF({ url: q.data.url, exigir: q.data.exigir }); }, [q.data]);
+  if (!q.data) return <Loading />;
+  async function guardar() {
+    try { await api.put("/ajustes/whatsapp", f); await q.refetch(); toast.success(f.url ? "WhatsApp configurado" : "Recuperación por WhatsApp desactivada"); }
+    catch (e) { toast.error((e as Error).message); }
+  }
+  async function probar() {
+    try { await api.post("/ajustes/whatsapp/prueba", { telefono: prueba, url: f.url }); toast.success("Mensaje de prueba enviado"); }
+    catch (e) { toast.error((e as Error).message); }
+  }
+  return (
+    <div className="max-w-2xl space-y-4">
+      <section className="card space-y-3 p-5">
+        <h2 className="text-lg font-semibold">Recuperación de contraseña por WhatsApp</h2>
+        <p className="text-sm text-muted">Facturador envía los códigos de verificación y de recuperación a través de un puente de WhatsApp compatible con
+          {" "}<a className="text-brand-fg underline" href="https://github.com/lharries/whatsapp-mcp" target="_blank" rel="noreferrer">whatsapp-mcp</a>, desde el número vinculado a ese puente.</p>
+        {q.data.desde_entorno ? <p className="rounded bg-brand/10 px-3 py-2 text-sm">La dirección del puente viene de la variable de entorno <code>WHATSAPP_API</code> del servidor y tiene prioridad sobre este ajuste.</p> : null}
+        <Field label="Dirección del puente" hint="Por ejemplo http://127.0.0.1:8765. Déjala vacía para desactivar la recuperación por WhatsApp.">
+          <Input value={f.url} onChange={(e) => setF({ ...f, url: e.target.value })} placeholder="http://127.0.0.1:8765" />
+        </Field>
+        <label className="flex items-start gap-2 text-sm"><input type="checkbox" className="mt-1" checked={f.exigir} onChange={(e) => setF({ ...f, exigir: e.target.checked })} />
+          <span><strong>Obligar a verificar el teléfono</strong><br /><span className="text-muted">Cada usuario tendrá que verificar su móvil con un código la próxima vez que entre. Sin teléfono verificado no se puede recuperar la contraseña.</span></span></label>
+        <Button variant="primary" onClick={guardar}>Guardar</Button>
+      </section>
+      <section className="card space-y-3 p-5">
+        <h2 className="text-lg font-semibold">Enviar un mensaje de prueba</h2>
+        <div className="flex flex-wrap items-end gap-2">
+          <Field label="Teléfono" className="min-w-[200px] flex-1"><Input type="tel" value={prueba} onChange={(e) => setPrueba(e.target.value)} placeholder="600 000 000" /></Field>
+          <Button onClick={probar} disabled={!prueba}>Enviar prueba</Button>
+        </div>
+      </section>
+      <section className="card p-5 text-sm">
+        <h2 className="mb-1 text-lg font-semibold">Passkeys</h2>
+        <p className="text-muted">Cada usuario puede crear sus passkeys en <strong>Mi cuenta</strong> (menú de usuario, arriba a la derecha) y entrar con «Entrar con passkey». Solo funcionan cuando Facturador se abre desde un dominio con HTTPS; en la versión de escritorio (127.0.0.1) no están disponibles.</p>
+      </section>
+    </div>
   );
 }
