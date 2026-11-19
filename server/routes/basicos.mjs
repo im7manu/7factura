@@ -8,6 +8,7 @@ import { limpiarPlazos, ajustesCobros } from './cobros.mjs';
 import { ajustesVentas, ajustesCompras } from './documentos.mjs';
 import { extensionesDe } from '../plugins.mjs';
 import { VERSION } from '../actualizaciones.mjs';
+import { debeVerificar, whatsappActivo, passkeysDisponibles, numPasskeys, normalizarTelefono } from '../seguridad.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -52,9 +53,10 @@ function datosEmpresa(body) {
 publico.get('/estado', (req, res) => {
   res.json({
     instalado: hayUsuarios(),
-    usuario: req.usuario || null,
+    usuario: req.usuario ? { ...req.usuario, verificar_telefono: debeVerificar({ telefono_verificado: req.telefonoVerificado }), passkeys: numPasskeys(req.usuario.id) } : null,
     empresa: req.usuario ? getAjuste('empresa', null) : null,
     version: req.usuario ? VERSION : undefined,
+    seguridad: { recuperacion: whatsappActivo(), passkeys: passkeysDisponibles(req) },
   });
 });
 
@@ -112,11 +114,11 @@ publico.post('/login', limitar, (req, res) => {
   const r = login(req.body.usuario, req.body.password, req.ip);
   if (r.error) {
     auditar({ ip: req.ip, usuario: { usuario: String(req.body.usuario || '').slice(0, 50) } }, r.evento, '', r.severidad);
-    return res.status(r.evento === 'login.ip_bloqueada' ? 429 : 401).json({ error: r.error });
+    return res.status(r.evento === 'login.ip_bloqueada' ? 429 : 401).json({ error: r.error, bloqueada: !!r.bloqueada });
   }
   crearSesion(res, req, r.usuario.id);
   auditar({ ip: req.ip, usuario: r.usuario }, 'login');
-  res.json({ ok: true });
+  res.json({ ok: true, passkeys: numPasskeys(r.usuario.id) });
 });
 
 publico.post('/logout', (req, res) => {
@@ -260,7 +262,10 @@ privado.delete('/productos/:id', (req, res) => {
 
 // Usuarios (solo admin)
 privado.get('/usuarios', requiereAdmin, (_req, res) => {
-  res.json(db.prepare('SELECT id, usuario, nombre, email, rol, activo, ultimo_login, creado FROM usuarios ORDER BY usuario').all());
+  const ahora = Date.now();
+  res.json(db.prepare(`SELECT u.id, u.usuario, u.nombre, u.email, u.rol, u.activo, u.ultimo_login, u.creado, u.telefono, u.telefono_verificado,
+      u.bloqueado_hasta, (SELECT COUNT(*) FROM passkeys p WHERE p.usuario_id = u.id) AS passkeys FROM usuarios u ORDER BY u.usuario`).all()
+    .map(({ bloqueado_hasta, telefono, ...u }) => ({ ...u, telefono: telefono ? `+${telefono}` : '', bloqueado: bloqueado_hasta > ahora })));
 });
 privado.post('/usuarios', requiereAdmin, (req, res) => {
   const b = req.body;
@@ -268,8 +273,10 @@ privado.post('/usuarios', requiereAdmin, (req, res) => {
   const ep = errorPassword(b.password);
   if (ep) return res.status(400).json({ error: ep });
   try {
-    db.prepare('INSERT INTO usuarios(usuario, nombre, email, hash, rol) VALUES (?,?,?,?,?)')
-      .run(b.usuario, texto(b.nombre, 100) || b.usuario, texto(b.email, 150), hashPassword(b.password), b.rol === 'admin' ? 'admin' : 'usuario');
+    const tel = b.telefono ? normalizarTelefono(b.telefono) : '';
+    if (b.telefono && !tel) return res.status(400).json({ error: 'El teléfono no es válido' });
+    db.prepare('INSERT INTO usuarios(usuario, nombre, email, hash, rol, telefono) VALUES (?,?,?,?,?,?)')
+      .run(b.usuario, texto(b.nombre, 100) || b.usuario, texto(b.email, 150), hashPassword(b.password), b.rol === 'admin' ? 'admin' : 'usuario', tel);
     auditar(req, 'usuario.crear', b.usuario);
     res.status(201).json({ ok: true });
   } catch { res.status(409).json({ error: 'Ese usuario ya existe' }); }
@@ -287,8 +294,14 @@ privado.put('/usuarios/:id', requiereAdmin, (req, res) => {
   }
   const ep = b.password ? errorPassword(b.password) : null;
   if (ep) return res.status(400).json({ error: ep });
+  const tel = b.telefono === undefined ? u.telefono : (String(b.telefono).trim() ? normalizarTelefono(b.telefono) : '');
+  if (b.telefono && !tel) return res.status(400).json({ error: 'El teléfono no es válido' });
   db.prepare('UPDATE usuarios SET nombre=?, email=?, rol=?, activo=?, hash=? WHERE id = ?')
     .run(texto(b.nombre, 100) || u.nombre, texto(b.email ?? u.email, 150), rol, activo, b.password ? hashPassword(b.password) : u.hash, id);
+  // Si el administrador cambia el teléfono, el usuario tendrá que verificarlo de nuevo al entrar
+  if (tel !== u.telefono) db.prepare('UPDATE usuarios SET telefono = ?, telefono_verificado = 0 WHERE id = ?').run(tel, id);
+  // Cambiar la contraseña o marcar «desbloquear» quita el bloqueo por intentos fallidos
+  if (b.password || b.desbloquear) db.prepare('UPDATE usuarios SET intentos = 0, bloqueado_hasta = 0 WHERE id = ?').run(id);
   // Cierra las sesiones del usuario si se desactiva o si un admin le cambia la contraseña
   if (!activo || (b.password && id !== req.usuario.id)) db.prepare('DELETE FROM sesiones WHERE usuario_id = ?').run(id);
   auditar(req, 'usuario.editar', `${u.usuario}${b.password ? ' (contraseña cambiada)' : ''}${rol !== u.rol ? ` rol ${u.rol} → ${rol}` : ''}${activo !== u.activo ? (activo ? ' activado' : ' desactivado') : ''}`, rol !== u.rol || b.password ? 'aviso' : 'info');
