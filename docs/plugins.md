@@ -31,11 +31,14 @@ mi-plugin/
   "autor": "im7manu",
   "app_min": "0.1.0",
   "server": "server.mjs",
-  "ui": { "entrada": "ui/index.html", "menu": [{ "titulo": "Mi plugin" }] }
+  "ui": { "entrada": "ui/index.html", "menu": [{ "titulo": "Mi plugin" }] },
+  "csp": { "img": ["https://tile.openstreetmap.org"] }
 }
 ```
 
 - `id`: minúsculas, números y guiones. Debe coincidir con el del registro.
+- `app_min`: versión mínima de Facturador. Si la instalación es más antigua, el plugin no se instala (desde la 1.3.0).
+- `csp` (opcional, desde la 1.3.0): orígenes `https://` extra que necesitan las páginas del plugin, por tipo (`img`, `script`, `connect`, `style`, `font`, `frame`). Se añaden a la política de seguridad de contenidos **solo** en `/plugins/<id>/...`, no en el resto de la aplicación. Admite comodín de subdominio (`https://*.gstatic.com`).
 
 ### server.mjs
 
@@ -63,6 +66,7 @@ export function register(ctx) {
 | `cifrar(texto)` / `descifrar(texto)` | Guardar secretos cifrados con la clave de la instalación |
 | `cada(ms, fn)` | Tarea periódica que se detiene sola al desactivar el plugin |
 | `extender(punto, fn)` | Registrarse en un punto de extensión (ver abajo) |
+| `extensionesDe(punto)` | Lista `[{ id, fn }]` de lo registrado en un punto, para usar funciones de otros plugins (desde la 1.3.0) |
 | `parametrosPdf(idDoc, opciones)` | Datos de un documento listos para dibujar su PDF |
 | `lib` | Librerías del núcleo: `PDFDocument` (pdfkit), `calcularTotales`, `baseLinea`, `OPERACIONES`, `r2`, `componerCodigo` |
 | `express` | Express, por ejemplo para `express.raw()` al subir archivos |
@@ -77,6 +81,7 @@ export function register(ctx) {
 | `pdf.generar` | `(params) => PDFDocument \| null` | Dibujar el PDF de un documento. `null` = usar el diseño estándar |
 | `pdf.postprocesar` | `async (buffer, doc) => Buffer` | Modificar el PDF generado (por ejemplo, firmarlo digitalmente) |
 | `apariencia` | `() => ({ tema, fondos })` | Tema visual y fotos de la pantalla de inicio de sesión |
+| `rutas` | `{ calcular(textos, opciones), configurado() }` | Rutas y km (lo ofrece el plugin `rutas`; lo usa `gestor-deca` con `ctx.extensionesDe('rutas')`) |
 
 Si varios plugins usan el mismo punto se aplican por orden de id.
 
@@ -135,7 +140,7 @@ Para publicar una actualización, sube la nueva versión y cambia `version`, `ur
 
 ## Plugins oficiales
 
-En [im7manu/facturador-plugins](https://github.com/im7manu/facturador-plugins): `copias` (copias de seguridad), `temas` y `diseno-pdf`. Son buenos ejemplos de cada punto de extensión.
+En [im7manu/facturador-plugins](https://github.com/im7manu/facturador-plugins): `copias` (copias de seguridad), `temas`, `diseno-pdf`, `gestor-deca` (facturar envíos de Gestor DeCA) y `rutas` (mapas y km). Son buenos ejemplos de cada punto de extensión.
 
 ## Ideas de plugins
 

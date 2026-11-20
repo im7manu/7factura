@@ -1,5 +1,12 @@
 # Cambios
 
+## 1.3.0 — 2026-11-20
+
+- **Plugins con mapas**: un plugin puede declarar en `plugin.json` (`"csp"`) orígenes https extra para sus páginas, por ejemplo las teselas de OpenStreetMap o Google Maps. Solo se permiten en las páginas de ese plugin.
+- **Plugins que colaboran**: `ctx.extensionesDe(punto)` permite a un plugin usar las funciones que ofrece otro (por ejemplo, `gestor-deca` usa las rutas del plugin `rutas` para facturar por kilómetro).
+- `app_min` de `plugin.json` ya se comprueba: un plugin que necesita una versión más nueva de Facturador no se instala y lo explica.
+- Nuevos plugins oficiales: **Rutas y mapas** (OpenRouteService gratis o Google Maps con tu clave) y **Gestor DeCA 1.1.0** con cobro **por kilómetro** (solo ida, ida y vuelta o desde la base; precio por cliente, mínimo por viaje y km editables antes de facturar).
+
 ## 1.2.0 — 2026-11-19
 
 - **Passkeys**: «Entrar con passkey» sin usuario ni contraseña; tras entrar con contraseña, Facturador propone crear una. Se gestionan en la nueva página **Mi cuenta** (menú de usuario).

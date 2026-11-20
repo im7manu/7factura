@@ -10,7 +10,7 @@ import { router as cobros } from './routes/cobros.mjs';
 import { router as terceros } from './routes/terceros.mjs';
 import { router as correo, routerPublico as correoPublico } from './routes/correo.mjs';
 import { router as actualizaciones, programar as programarActualizaciones } from './actualizaciones.mjs';
-import { apiPlugins, montarRutasPlugins, cargarPlugins } from './plugins.mjs';
+import { apiPlugins, montarRutasPlugins, cargarPlugins, cspDePlugin } from './plugins.mjs';
 import { requiereSesion } from './auth.mjs';
 import { auditar } from './db.mjs';
 import { seguridadPublica, seguridadPrivada, exigirTelefonoVerificado } from './seguridad.mjs';
@@ -36,8 +36,11 @@ app.use((req, res, next) => {
   if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   }
+  // Las páginas de un plugin (/plugins/<id>/...) pueden declarar orígenes https extra en su plugin.json (p. ej. un mapa)
+  const m = req.path.match(/^\/plugins\/([a-z0-9-]+)\//);
+  const x = m ? cspDePlugin(m[1]) : {}, mas = (t) => (x[t]?.length ? ` ${x[t].join(' ')}` : '');
   res.setHeader('Content-Security-Policy',
-    "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'");
+    `default-src 'self'; img-src 'self' data: blob:${mas('img')}; style-src 'self' 'unsafe-inline'${mas('style')}; script-src 'self'${mas('script')}; font-src 'self' data:${mas('font')}; connect-src 'self'${mas('connect')}; frame-src 'self' blob:${mas('frame')}; frame-ancestors 'self'; base-uri 'self'; form-action 'self'`);
   next();
 });
 

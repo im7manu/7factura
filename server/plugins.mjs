@@ -6,8 +6,9 @@
 //   "app_min": "0.1.0",
 //   "server": "server.mjs",                 // opcional: export function register(ctx)
 //   "ui": { "entrada": "ui/index.html",     // opcional: página propia servida en /plugins/<id>/
-//           "menu": [{ "titulo": "Mi plugin", "icono": "puzzle" }] }
-// }
+//           "menu": [{ "titulo": "Mi plugin", "icono": "puzzle" }] },
+//   "csp": { "img": ["https://tile.openstreetmap.org"], "script": [], ... }   // opcional: orígenes https extra,
+// }                                                                        // solo para las páginas del propio plugin
 //
 // Los plugins se descargan del registro (un registry.json en GitHub) y se verifican con SHA-256.
 // IMPORTANTE: un plugin ejecuta código con los mismos permisos que la aplicación.
@@ -26,6 +27,7 @@ import { requiereAdmin, requiereSesion } from './auth.mjs';
 import PDFDocument from 'pdfkit';
 import { cifrar, descifrar } from './lib/cifrado.mjs';
 import { calcularTotales, baseLinea, OPERACIONES, r2, componerCodigo } from './lib/totales.mjs';
+import { VERSION, compararVersiones } from './actualizaciones.mjs';
 
 const exec = promisify(execFile);
 // En Windows se usa el tar.exe del sistema (el de Git u otros no entiende rutas como C:\...)
@@ -45,6 +47,8 @@ const routers = new Map(); // id -> Router montado bajo /api/p/<id>
 //   'pdf.postprocesar' async (buffer, doc) => Buffer    Modifica el PDF ya generado (p. ej. firmarlo digitalmente)
 //   'apariencia'       () => { tema, fondos }           Tema visual de la aplicación y fotos de inicio de sesión
 //   'copias'           { exportar(), ... }              Información para la pantalla «Acerca de» (opcional)
+//   'rutas'            { calcular(textos, opciones), configurado() }   Rutas y km (plugin «Rutas y mapas»)
+// Otros plugins pueden usarlas con ctx.extensionesDe(punto).
 const extensiones = new Map(); // punto -> Map(pluginId -> fn)
 const temporizadores = new Map(); // pluginId -> [intervalos]
 // Node guarda en caché los módulos importados: si un plugin ya se cargó en este proceso y se actualiza,
@@ -61,6 +65,8 @@ function desactivar(id) {
   temporizadores.delete(id);
 }
 const ID_VALIDO = /^[a-z0-9][a-z0-9-]{1,40}$/;
+const ORIGEN_CSP = /^https:\/\/(\*\.)?[a-z0-9-]+(\.[a-z0-9-]+)+$/i;
+const TIPOS_CSP = ['img', 'script', 'connect', 'style', 'font', 'frame'];
 // Solo para desarrollo y pruebas: permite registros y descargas por http (nunca en producción)
 const URL_PERMITIDA = process.env.PLUGINS_DEV_HTTP === '1' ? /^https?:\/\// : /^https:\/\//;
 
@@ -68,9 +74,13 @@ function leerManifest(dir) {
   const m = JSON.parse(fs.readFileSync(path.join(dir, 'plugin.json'), 'utf8'));
   if (!ID_VALIDO.test(m.id || '')) throw new Error('plugin.json: id no válido');
   if (!m.nombre || !m.version) throw new Error('plugin.json: faltan nombre o version');
+  if (m.app_min && compararVersiones(VERSION, m.app_min) < 0) throw new Error(`Este plugin necesita Facturador ${m.app_min} o posterior (tienes la ${VERSION}).`);
   for (const rel of [m.server, m.ui?.entrada].filter(Boolean)) {
     const abs = path.resolve(dir, rel);
     if (!abs.startsWith(dir + path.sep)) throw new Error('plugin.json: ruta fuera del plugin');
+  }
+  for (const t of Object.keys(m.csp || {})) {
+    if (!TIPOS_CSP.includes(t) || !Array.isArray(m.csp[t]) || !m.csp[t].every((o) => ORIGEN_CSP.test(o))) throw new Error('plugin.json: «csp» solo admite orígenes https');
   }
   return m;
 }
@@ -84,7 +94,7 @@ async function activar(id) {
     const datos = path.join(DATA_DIR, 'plugins-datos', id); // carpeta propia del plugin, se conserva al actualizarlo
     fs.mkdirSync(datos, { recursive: true });
     const ctx = {
-      router, db, hooks, getAjuste, setAjuste, auditar, requiereAdmin, manifest: m, dir,
+      router, db, hooks, getAjuste, setAjuste, auditar, requiereAdmin, manifest: m, dir, extensionesDe,
       dataDir: datos, dataRoot: DATA_DIR, express,
       // Librerías del núcleo disponibles para los plugins (sin tener que instalarlas)
       lib: { PDFDocument, calcularTotales, baseLinea, OPERACIONES, r2, componerCodigo },
@@ -190,6 +200,17 @@ async function instalarPaquete(buf, idEsperado = null) {
   } finally {
     fs.rmSync(staging, { recursive: true, force: true });
   }
+}
+
+/** Orígenes extra de la política de seguridad de contenidos para las páginas de un plugin activo. */
+export function cspDePlugin(id) {
+  if (!ID_VALIDO.test(String(id || ''))) return {};
+  const p = db.prepare('SELECT manifest FROM plugins WHERE id = ? AND activo = 1').get(id);
+  if (!p) return {};
+  try {
+    const c = JSON.parse(p.manifest).csp || {};
+    return Object.fromEntries(Object.entries(c).filter(([t, l]) => TIPOS_CSP.includes(t) && Array.isArray(l)).map(([t, l]) => [t, l.filter((o) => ORIGEN_CSP.test(o))]));
+  } catch { return {}; }
 }
 
 function instalados() {
