@@ -3,7 +3,7 @@
   "nombre": "Hola mundo",
   "version": "1.0.0",
   "descripcion": "Plugin de ejemplo: añade una página al menú y una ruta de API.",
-  "autor": "Facturador",
+  "autor": "7Factura",
   "app_min": "0.1.0",
   "server": "server.mjs",
   "ui": {

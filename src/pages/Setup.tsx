@@ -53,7 +53,7 @@ export default function Setup() {
         <ShieldCheck size={22} className="mt-0.5 shrink-0 text-success" />
         <div>
           <p className="font-semibold">Tus datos se quedan en este servidor</p>
-          <p className="text-muted">Facturador se ejecuta en el servidor o el ordenador de tu empresa y guarda aquí toda la información. No se sube nada a la nube.</p>
+          <p className="text-muted">7Factura se ejecuta en el servidor o el ordenador de tu empresa y guarda aquí toda la información. No se sube nada a la nube.</p>
           <a href="/manual-facturador.pdf" target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1.5 font-semibold text-brand-fg hover:underline">
             <BookOpen size={16} /> Leer el manual de uso (PDF)
           </a>
@@ -63,7 +63,7 @@ export default function Setup() {
         <p className="text-xs font-semibold uppercase tracking-wide text-brand-fg">Paso {paso} de 2</p>
         <h1 className="mt-1 text-2xl font-semibold">{paso === 1 ? "Crea tu cuenta de administrador" : "Datos de tu empresa"}</h1>
         <p className="mb-5 text-sm text-muted">
-          {paso === 1 ? "Es la primera vez que se abre Facturador en este servidor." : "Aparecerán como emisor en tus facturas. Puedes cambiarlos después en Ajustes."}
+          {paso === 1 ? "Es la primera vez que se abre 7Factura en este servidor." : "Aparecerán como emisor en tus facturas. Puedes cambiarlos después en Ajustes."}
         </p>
 
         {paso === 1 ? (

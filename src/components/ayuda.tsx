@@ -171,7 +171,7 @@ const CONTEXTOS: { prueba: (ruta: string, pestana: string | null) => boolean; ti
 
 /** Preguntas relacionadas con la pantalla actual (las más útiles primero). */
 export function contextoAyuda(ruta: string, pestana: string | null): { titulo: string; preguntas: PreguntaAyuda[] } {
-  const c = CONTEXTOS.find((x) => x.prueba(ruta, pestana)) || { titulo: "Facturador", ids: ["crear-factura", "hacer-copia"], cats: ["empezar"] };
+  const c = CONTEXTOS.find((x) => x.prueba(ruta, pestana)) || { titulo: "7Factura", ids: ["crear-factura", "hacer-copia"], cats: ["empezar"] };
   const ids = [...(c.ids || []), ...preguntas.filter((p) => c.cats?.includes(p.cat)).map((p) => p.id)];
   return { titulo: c.titulo, preguntas: [...new Set(ids)].map((id) => porId.get(id)).filter((p): p is PreguntaAyuda => !!p).slice(0, 10) };
 }

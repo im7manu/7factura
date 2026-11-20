@@ -1,4 +1,4 @@
-// SDK para las páginas de los plugins de Facturador (se cargan dentro de la app en un iframe).
+// SDK para las páginas de los plugins de 7Factura (se cargan dentro de la app en un iframe).
 // Uso: <link rel="stylesheet" href="/plugin-sdk.css"><script src="/plugin-sdk.js"></script>
 // - Copia el tema activo de la app (colores, fuente, forma, modo oscuro) para que el plugin se vea igual.
 // - Facturador.api(ruta, {method, body}) llama a la API con la sesión del usuario y devuelve JSON (lanza Error con el mensaje).

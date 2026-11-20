@@ -1,5 +1,5 @@
 // Seguridad de las cuentas: teléfono verificado por WhatsApp, recuperación de la contraseña con un código
-// enviado por WhatsApp y acceso con passkeys (WebAuthn). Mismo comportamiento que Gestor DeCA y eCMR.
+// enviado por WhatsApp y acceso con passkeys (WebAuthn). Mismo comportamiento que 7DeCA.
 //
 // WhatsApp: los mensajes se envían por un puente HTTP compatible con whatsapp-mcp
 // (POST <url>/api/send con { recipient, message }). La dirección se toma de WHATSAPP_API o, si no existe,
@@ -17,7 +17,7 @@ import {
 import { db, getAjuste, setAjuste, auditar } from './db.mjs';
 import { hashPassword, verifyPassword, errorPassword, crearSesion, requiereSesion, requiereAdmin } from './auth.mjs';
 
-const NOMBRE_APP = 'Facturador';
+const NOMBRE_APP = '7Factura';
 const CODIGO_MIN = 10;
 const CODIGO_INTENTOS = 5;
 

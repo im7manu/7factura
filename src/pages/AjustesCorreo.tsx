@@ -115,13 +115,13 @@ function AppsEmpresa() {
     <section className="card max-w-3xl p-5">
       <h2 className="mb-1 text-base font-semibold">Aplicaciones de Google y Microsoft (empresa)</h2>
       <p className="mb-3 text-sm text-muted">
-        Para que los usuarios puedan «Iniciar sesión con Google o Microsoft», hay que registrar Facturador una vez en cada plataforma.
+        Para que los usuarios puedan «Iniciar sesión con Google o Microsoft», hay que registrar 7Factura una vez en cada plataforma.
         Se hace en unos 10 minutos. Los secretos se guardan cifrados y nunca se vuelven a mostrar.
       </p>
       <details className="mb-3 rounded bg-subtle p-3 text-sm">
         <summary className="cursor-pointer font-semibold">Guía: Google (Gmail / Workspace)</summary>
         <ol className="mt-2 list-decimal space-y-1 pl-5 text-[13px]">
-          <li>Entra en <strong>console.cloud.google.com</strong> y crea un proyecto (por ejemplo «Facturador»).</li>
+          <li>Entra en <strong>console.cloud.google.com</strong> y crea un proyecto (por ejemplo «7Factura»).</li>
           <li>En «APIs y servicios → Biblioteca», activa la <strong>Gmail API</strong>.</li>
           <li>En «Pantalla de consentimiento de OAuth», elige <em>Interno</em> si usáis Google Workspace, o <em>Externo</em> y añade como usuarios de prueba los correos de tu equipo.</li>
           <li>En «Credenciales → Crear credenciales → ID de cliente de OAuth», elige <em>Aplicación web</em>.</li>

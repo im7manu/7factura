@@ -32,7 +32,7 @@ function titulo(doc) {
  */
 export function generarPdf({ doc, empresa, formaPago, rectificada, sinValorar = false, vencimientos = null, firma = null, alFinal = null }) {
   const pdf = new PDFDocument({ size: 'A4', margin: 48, bufferPages: true, info: {
-    Title: `${titulo(doc)} ${doc.codigo || 'BORRADOR'}`, Author: empresa.razon_social || '', Creator: 'Facturador',
+    Title: `${titulo(doc)} ${doc.codigo || 'BORRADOR'}`, Author: empresa.razon_social || '', Creator: '7Factura',
   } });
   const W = pdf.page.width;
   const M = 48;

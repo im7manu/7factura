@@ -57,7 +57,7 @@ export default function Plugins() {
 
   return (
     <div>
-      <PageHeader title="Plugins" subtitle="Amplía Facturador con módulos descargables desde GitHub"
+      <PageHeader title="Plugins" subtitle="Amplía 7Factura con módulos descargables desde GitHub"
         actions={<Button onClick={() => { registro.refetch(); instalados.refetch(); }}><RefreshCw size={16} /> Actualizar</Button>} />
 
       {estadoPlugins.data?.reinicio_pendiente ? (

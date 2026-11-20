@@ -59,7 +59,7 @@ test('flujo completo de seguridad de cuentas', async (t) => {
     r = await admin('POST', '/cuenta/telefono', { telefono: '600 11 22 33' });
     assert.equal(r.status, 200, JSON.stringify(r.body));
     assert.equal(enviados[0].recipient, '34600112233');
-    assert.match(enviados[0].message, /^Este es tu código para verificar tu teléfono en Facturador: \d{6}\. ¿No has sido tú\? Ignora este mensaje\.$/);
+    assert.match(enviados[0].message, /^Este es tu código para verificar tu teléfono en 7Factura: \d{6}\. ¿No has sido tú\? Ignora este mensaje\.$/);
     r = await admin('POST', '/cuenta/telefono/verificar', { codigo: ultimo() });
     assert.equal(r.status, 200, JSON.stringify(r.body));
     r = await admin('GET', '/clientes');
@@ -99,7 +99,7 @@ test('flujo completo de seguridad de cuentas', async (t) => {
     assert.equal(r.status, 200);
     assert.equal(enviados.length, n + 2);
     const codigo = enviados[n + 1].message;
-    assert.equal(enviados[n].message, `Este es tu código para restablecer la contraseña de Facturador: ${codigo}. ¿No has sido tú? Ignora este mensaje.`);
+    assert.equal(enviados[n].message, `Este es tu código para restablecer la contraseña de 7Factura: ${codigo}. ¿No has sido tú? Ignora este mensaje.`);
     r = await anon('POST', '/recuperar/comprobar', { usuario: 'mayte', codigo });
     assert.equal(r.status, 200);
     r = await anon('POST', '/recuperar/confirmar', { usuario: 'mayte', codigo, password: 'Campanilla74@', confirmar: 'Campanilla74@' });

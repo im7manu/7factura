@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export interface DireccionEncontrada { etiqueta: string; calle: string; cp: string; ciudad: string; provincia: string; lat: number; lon: number }
 
 /**
- * Campo de dirección con sugerencias mientras se escribe. Las ofrece un plugin (p. ej. «Rutas y mapas»);
+ * Campo de dirección con sugerencias mientras se escribe. Las ofrece un plugin (p. ej. «7Ruta»);
  * sin él se comporta como un campo de texto normal. Al elegir una sugerencia llama a onElegir con calle, C.P., ciudad y provincia.
  */
 export function CampoDireccion({ value, onChange, onElegir, className, disabled }: {

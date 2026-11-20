@@ -15,7 +15,7 @@ export const AYUDA = {
     { id: 'correo', titulo: 'Correo', color: '#8764B8', icono: 'M3 6h18v12H3zM3 7l9 6 9-6', desc: 'Enviar documentos por email desde tu propia cuenta.' },
     { id: 'aspecto', titulo: 'PDF, diseño y plugins', color: '#0B5A8C', icono: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z', desc: 'Logo, plantillas de PDF, firma digital, temas y plugins.' },
     { id: 'copias', titulo: 'Copias de seguridad y tus datos', color: '#107C10', icono: 'M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z', desc: 'Dónde están tus datos, copias y cómo recuperarlos.' },
-    { id: 'actualizaciones', titulo: 'Actualizaciones', color: '#038387', icono: 'M20 12a8 8 0 11-2.3-5.7M20 4v5h-5', desc: 'Cómo se actualiza Facturador y por qué es seguro.' },
+    { id: 'actualizaciones', titulo: 'Actualizaciones', color: '#038387', icono: 'M20 12a8 8 0 11-2.3-5.7M20 4v5h-5', desc: 'Cómo se actualiza 7Factura y por qué es seguro.' },
     { id: 'usuarios', titulo: 'Usuarios, acceso y seguridad', color: '#C8500B', icono: 'M5 11h14v10H5zM8 11V7a4 4 0 018 0v4', desc: 'Usuarios, contraseñas, móvil y acceso desde fuera.' },
     { id: 'windows', titulo: 'Versión para Windows', color: '#0F6CBD', icono: 'M3 5h18v12H3zM8 21h8M12 17v4', desc: 'Dudas y problemas propios de la versión para Windows.' },
     { id: 'general', titulo: 'Preguntas generales', color: '#5E5E5E', icono: 'M12 21a9 9 0 100-18 9 9 0 000 18zM9.5 9a2.5 2.5 0 115 .5c0 1.5-2.5 2-2.5 3.5M12 17h.01', desc: 'Precio, código abierto, privacidad y normativa.' },
@@ -29,15 +29,15 @@ export const AYUDA = {
 <ul><li><strong>Windows</strong>: si eres autónomo y trabajas desde un solo ordenador. Se instala como cualquier programa y solo se puede usar desde ese PC.</li>
 <li><strong>Servidor</strong>: si sois varias personas, o quieres usarlo desde el móvil, la tableta o fuera de la oficina. Se instala en un equipo siempre encendido (servidor, NAS, miniPC) y se usa desde el navegador.</li></ul>
 <p class="consejo">Puedes empezar con la de Windows y pasar más adelante a la de servidor: haz una copia de seguridad y restáurala en la nueva instalación.</p>` },
-    { id: 'instalar-windows', cat: 'empezar', v: 'win', q: '¿Cómo instalo Facturador en Windows?',
+    { id: 'instalar-windows', cat: 'empezar', v: 'win', q: '¿Cómo instalo 7Factura en Windows?',
       ejemplos: ['como lo instalo en mi ordenador', 'descargar instalador', 'instalar en el portatil', 'donde se descarga', 'pasos para instalar'],
       claves: 'instalar instalador descargar exe windows pc portatil setup',
       a: `<ol><li>Descarga <a href="https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe">Facturador-Instalador-Windows.exe</a>.</li>
 <li>Ábrelo. No pide permisos de administrador. Si Windows muestra «Windows protegió su PC», pulsa <em>Más información → Ejecutar de todas formas</em>.</li>
 <li>Sigue el asistente (Siguiente, Acepto, Instalar).</li>
-<li>Abre <strong>Facturador</strong> desde el escritorio o el menú Inicio.</li></ol>
+<li>Abre <strong>7Factura</strong> desde el escritorio o el menú Inicio.</li></ol>
 <p>Necesitas Windows 10 u 11 de 64 bits. Todo lo demás va incluido.</p>` },
-    { id: 'instalar-servidor', cat: 'empezar', v: 'srv', q: '¿Cómo instalo Facturador en un servidor?',
+    { id: 'instalar-servidor', cat: 'empezar', v: 'srv', q: '¿Cómo instalo 7Factura en un servidor?',
       ejemplos: ['instalar en un nas', 'docker', 'linux', 'raspberry o minipc', 'instalar para toda la oficina', 'npm start'],
       claves: 'servidor nas docker linux node npm minipc oficina red instalar synology',
       a: `<p>Necesitas un equipo siempre encendido con <strong>Docker</strong> o <strong>Node.js 22.13 o superior</strong>.</p>
@@ -177,7 +177,7 @@ export const AYUDA = {
     { id: 'factura-proveedor', cat: 'compras', q: '¿Cómo registro una factura de un proveedor?',
       ejemplos: ['factura recibida', 'factura de compra', 'apuntar lo que me facturan', 'proveedores', 'gasto con factura'],
       claves: 'factura recibida proveedor compra registrar soportado',
-      a: `<p>En <strong>Facturas recibidas</strong> crea una con el número de factura del proveedor. Facturador le da además un número interno correlativo (FC1/2026) y te avisa si esa factura ya estaba registrada. Genera sus pagos pendientes.</p>
+      a: `<p>En <strong>Facturas recibidas</strong> crea una con el número de factura del proveedor. 7Factura le da además un número interno correlativo (FC1/2026) y te avisa si esa factura ya estaba registrada. Genera sus pagos pendientes.</p>
 <figure><img src="capturas/11-compra.jpg" loading="lazy" alt="Factura recibida"><figcaption>Factura recibida con IVA deducible y vehículo por línea.</figcaption></figure>` },
     { id: 'gastos-tickets', cat: 'compras', q: '¿Cómo apunto un ticket de gasolina, peaje o parking?',
       ejemplos: ['gasto sin factura', 'ticket de combustible', 'gastos del dia a dia', 'dietas', 'gasoil'],
@@ -245,7 +245,7 @@ export const AYUDA = {
     { id: 'verifactu', cat: 'impuestos', q: '¿Cumple con VERI*FACTU y la ley antifraude?',
       ejemplos: ['verifactu', 'ley antifraude', 'sistema de facturacion homologado', 'envio a hacienda', 'ley crea y crece', 'factura electronica'],
       claves: 'verifactu veri*factu antifraude aeat hacienda homologado factura electronica crea crece obligatorio',
-      a: `<p>Facturador ya guarda una huella de integridad encadenada en cada factura y clasifica el IVA con los mismos códigos que VERI*FACTU, pero <strong>todavía no genera ni envía los registros a la Agencia Tributaria</strong>. Se añadirá antes de que sea obligatorio y llegará con una actualización automática.</p>` },
+      a: `<p>7Factura ya guarda una huella de integridad encadenada en cada factura y clasifica el IVA con los mismos códigos que VERI*FACTU, pero <strong>todavía no genera ni envía los registros a la Agencia Tributaria</strong>. Se añadirá antes de que sea obligatorio y llegará con una actualización automática.</p>` },
 
     // ---------------- Correo ----------------
     { id: 'enviar-correo', cat: 'correo', q: '¿Cómo envío una factura por correo?',
@@ -302,7 +302,7 @@ export const AYUDA = {
     { id: 'restaurar', cat: 'copias', q: 'Se me ha estropeado el ordenador. ¿Cómo recupero mis datos?',
       ejemplos: ['restaurar copia', 'ordenador nuevo', 'he perdido el servidor', 'recuperar facturas', 'formatear el pc', 'cambiar de ordenador', 'pasar a otro ordenador'],
       claves: 'restaurar recuperar perdido estropeado roto nuevo ordenador formatear cambiar migrar trasladar',
-      a: `<ol><li>Instala Facturador en el equipo nuevo.</li>
+      a: `<ol><li>Instala 7Factura en el equipo nuevo.</li>
 <li>Instala el plugin <strong>Copias de seguridad</strong>.</li>
 <li>Pulsa <strong>Restaurar</strong> y sube el último ZIP que descargaste. La aplicación se reinicia sola con todos tus datos.</li></ol>
 <p>Antes de restaurar, lo que había se guarda aparte por si hay que volver atrás. Este mismo método sirve para pasar de la versión de Windows a la de servidor.</p>` },
@@ -316,16 +316,16 @@ export const AYUDA = {
     { id: 'copia-manual', cat: 'copias', q: '¿Puedo copiar los datos a mano, sin el plugin?',
       ejemplos: ['copiar la carpeta', 'copia manual', 'disco externo'],
       claves: 'copia manual carpeta copiar secreto key',
-      a: `<p>Sí: copia la carpeta de datos entera <strong>con Facturador cerrado</strong>. Incluye siempre el archivo <code>secreto.key</code>: sin él no se pueden leer las credenciales de correo ni el certificado guardados.</p>` },
+      a: `<p>Sí: copia la carpeta de datos entera <strong>con 7Factura cerrado</strong>. Incluye siempre el archivo <code>secreto.key</code>: sin él no se pueden leer las credenciales de correo ni el certificado guardados.</p>` },
 
     // ---------------- Actualizaciones ----------------
-    { id: 'como-actualizar', cat: 'actualizaciones', q: '¿Cómo se actualiza Facturador?',
+    { id: 'como-actualizar', cat: 'actualizaciones', q: '¿Cómo se actualiza 7Factura?',
       ejemplos: ['nueva version', 'actualizar programa', 'actualizacion automatica', 'tengo la ultima version', 'version instalada'],
       claves: 'actualizar actualizacion version nueva automatica instalar ahora',
       a: `<p>Solo. Cada hora comprueba si hay una versión nueva en <a href="https://github.com/im7manu/facturador/releases">GitHub</a>. El administrador la ve en <span class="ruta">Ajustes → Actualizaciones</span> y con un aviso en la barra superior:</p>
 <ul><li><strong>Instalar ahora</strong> la instala en unos segundos.</li>
 <li>Con la <strong>actualización automática</strong> activada, se instala sola en la franja horaria que elijas.</li></ul>
-<p>En la versión de Windows las actualizaciones se aplican mientras Facturador está abierto.</p>
+<p>En la versión de Windows las actualizaciones se aplican mientras 7Factura está abierto.</p>
 <figure><img src="capturas/18-actualizaciones.jpg" loading="lazy" alt="Actualizaciones"><figcaption>Ajustes → Actualizaciones.</figcaption></figure>` },
     { id: 'actualizacion-segura', cat: 'actualizaciones', q: '¿Puedo perder datos al actualizar?',
       ejemplos: ['es seguro actualizar', 'y si falla la actualizacion', 'vuelta atras', 'actualizacion rota', 'se ha ido la luz actualizando'],
@@ -341,7 +341,7 @@ export const AYUDA = {
       claves: 'no actualiza error supervisor internet npm start docker version vieja',
       a: `<ul><li>Comprueba que el equipo tiene salida a internet.</li>
 <li>En el servidor, arráncalo con <code>npm start</code> o Docker (usan el supervisor que aplica las actualizaciones). Con otro método la pantalla avisa de que no puede actualizarse.</li>
-<li>En Windows, Facturador debe estar abierto. También puedes descargar el último instalador y ejecutarlo encima: tus datos no se tocan.</li>
+<li>En Windows, 7Factura debe estar abierto. También puedes descargar el último instalador y ejecutarlo encima: tus datos no se tocan.</li>
 <li>Mira el mensaje de <span class="ruta">Ajustes → Actualizaciones</span>.</li></ul>` },
 
     // ---------------- Usuarios ----------------
@@ -359,7 +359,7 @@ export const AYUDA = {
       ejemplos: ['usar en el iphone', 'android', 'app movil', 'desde la tablet', 'en la furgoneta'],
       claves: 'movil telefono iphone android tablet tableta app',
       a: `<p>Con la <strong>versión de servidor</strong>, sí: desde el navegador de cualquier móvil o tableta con acceso al servidor; la pantalla se adapta. La versión de Windows solo se usa desde el ordenador donde está instalada.</p>
-<figure class="movil"><img src="capturas/23-movil.jpg" loading="lazy" alt="Facturador en el móvil"><figcaption>Facturador en el móvil.</figcaption></figure>` },
+<figure class="movil"><img src="capturas/23-movil.jpg" loading="lazy" alt="7Factura en el móvil"><figcaption>7Factura en el móvil.</figcaption></figure>` },
     { id: 'acceso-fuera', cat: 'usuarios', v: 'srv', q: '¿Puedo usarlo fuera de la oficina o desde casa?',
       ejemplos: ['acceso remoto', 'desde internet', 'teletrabajo', 'vpn', 'https', 'dominio propio'],
       claves: 'fuera remoto casa internet vpn https tailscale proxy dominio teletrabajo',
@@ -380,22 +380,22 @@ export const AYUDA = {
       claves: 'smartscreen protegio aviso virus antivirus bloquea editor desconocido seguro firmado',
       a: `<p>No. Aparece porque el instalador no está firmado con un certificado de empresa de pago (es un proyecto gratuito). Pulsa <strong>Más información → Ejecutar de todas formas</strong>.</p>
 <p>Si quieres comprobarlo, el código es público y cada versión publica la suma SHA-256 del instalador en su <a href="https://github.com/im7manu/facturador/releases/latest">página de GitHub</a>.</p>` },
-    { id: 'windows-abrir-cerrar', cat: 'windows', v: 'win', q: '¿Cómo se abre y se cierra Facturador en Windows?',
+    { id: 'windows-abrir-cerrar', cat: 'windows', v: 'win', q: '¿Cómo se abre y se cierra 7Factura en Windows?',
       ejemplos: ['donde esta el programa', 'se queda abierto en segundo plano', 'cerrar el programa', 'acceso directo', 'se abre en edge'],
       claves: 'abrir cerrar acceso directo escritorio inicio ventana edge segundo plano',
-      a: `<p>Ábrelo con el acceso directo <strong>Facturador</strong> del escritorio o del menú Inicio: se abre en su propia ventana. Al <strong>cerrar la ventana</strong>, Facturador se para del todo; no se queda nada funcionando en segundo plano.</p>
+      a: `<p>Ábrelo con el acceso directo <strong>7Factura</strong> del escritorio o del menú Inicio: se abre en su propia ventana. Al <strong>cerrar la ventana</strong>, 7Factura se para del todo; no se queda nada funcionando en segundo plano.</p>
 <p>Si no tienes Edge ni Chrome, se abre en tu navegador y aparece un aviso: déjalo abierto mientras lo uses.</p>` },
-    { id: 'windows-no-arranca', cat: 'windows', v: 'win', q: 'Sale «Facturador no ha podido arrancar». ¿Qué hago?',
+    { id: 'windows-no-arranca', cat: 'windows', v: 'win', q: 'Sale «7Factura no ha podido arrancar». ¿Qué hago?',
       ejemplos: ['no abre', 'error al abrir', 'no funciona', 'pantalla en blanco', 'se cierra solo'],
       claves: 'no arranca no abre error falla blanco registro log antivirus',
-      a: `<ol><li>Cierra todas las ventanas de Facturador y vuelve a abrirlo.</li>
+      a: `<ol><li>Cierra todas las ventanas de 7Factura y vuelve a abrirlo.</li>
 <li>Si un antivirus ha bloqueado <code>node.exe</code>, añade una excepción para <code>%LOCALAPPDATA%\\Programs\\Facturador</code>.</li>
 <li>Mira el final del archivo <code>%LOCALAPPDATA%\\Facturador\\registro.log</code> y, si no lo entiendes, <a href="https://github.com/im7manu/facturador/issues">abre una incidencia</a> adjuntándolo.</li>
 <li>Reinstalar no borra tus datos.</li></ol>` },
-    { id: 'windows-desinstalar', cat: 'windows', v: 'win', q: '¿Cómo desinstalo Facturador? ¿Se borran mis datos?',
+    { id: 'windows-desinstalar', cat: 'windows', v: 'win', q: '¿Cómo desinstalo 7Factura? ¿Se borran mis datos?',
       ejemplos: ['quitar el programa', 'eliminar facturador', 'reinstalar', 'borrar todo'],
       claves: 'desinstalar eliminar quitar reinstalar borrar datos',
-      a: `<p>Desde <span class="ruta">Configuración → Aplicaciones → Facturador → Desinstalar</span>. Al final te pregunta si quieres borrar también tus datos: <strong>por defecto se conservan</strong> y vuelven a aparecer si lo instalas de nuevo.</p>` },
+      a: `<p>Desde <span class="ruta">Configuración → Aplicaciones → 7Factura → Desinstalar</span>. Al final te pregunta si quieres borrar también tus datos: <strong>por defecto se conservan</strong> y vuelven a aparecer si lo instalas de nuevo.</p>` },
 
     // ---------------- General ----------------
     { id: 'precio', cat: 'general', q: '¿Cuánto cuesta? ¿Hay alguna versión de pago?',
@@ -408,15 +408,15 @@ export const AYUDA = {
       a: `<p>Que todo el código es público y cualquiera puede revisarlo, usarlo, copiarlo y modificarlo libremente (licencia MIT). Está escrito desde cero y todo está en GitHub:</p>
 <ul><li><a href="https://github.com/im7manu/facturador">github.com/im7manu/facturador</a>: el programa.</li>
 <li><a href="https://github.com/im7manu/facturador-plugins">github.com/im7manu/facturador-plugins</a>: los plugins oficiales.</li></ul>` },
-    { id: 'internet', cat: 'general', q: '¿Necesito internet para usar Facturador?',
+    { id: 'internet', cat: 'general', q: '¿Necesito internet para usar 7Factura?',
       ejemplos: ['funciona sin conexion', 'offline', 'sin wifi'],
       claves: 'internet conexion offline wifi sin red',
       a: `<p>No. Solo lo usa para enviar correos, buscar actualizaciones e instalar plugins.</p>` },
     { id: 'privacidad', cat: 'general', q: '¿Mis datos se suben a la nube? ¿Cumple el RGPD?',
       ejemplos: ['proteccion de datos', 'lopd', 'quien ve mis facturas', 'privacidad', 'datos de mis clientes'],
       claves: 'rgpd lopd proteccion datos privacidad nube terceros clientes responsable',
-      a: `<p>No se sube nada. Facturador se ejecuta en tu equipo y guarda todo allí: ni el autor ni nadie más tiene acceso. No hay cuentas, publicidad ni estadísticas de uso.</p>
-<p>Respecto al RGPD, <strong>tú eres el responsable</strong> de los datos de tus clientes y Facturador no actúa como encargado del tratamiento, porque no recibe ningún dato. Tienes que proteger tu equipo, hacer copias y cumplir tus propias obligaciones (informar a tus clientes, etc.). Más detalles en la <a href="privacidad.html">política de privacidad</a>.</p>` },
+      a: `<p>No se sube nada. 7Factura se ejecuta en tu equipo y guarda todo allí: ni el autor ni nadie más tiene acceso. No hay cuentas, publicidad ni estadísticas de uso.</p>
+<p>Respecto al RGPD, <strong>tú eres el responsable</strong> de los datos de tus clientes y 7Factura no actúa como encargado del tratamiento, porque no recibe ningún dato. Tienes que proteger tu equipo, hacer copias y cumplir tus propias obligaciones (informar a tus clientes, etc.). Más detalles en la <a href="privacidad.html">política de privacidad</a>.</p>` },
     { id: 'soporte', cat: 'general', q: '¿Dónde pido ayuda o aviso de un error?',
       ejemplos: ['contactar', 'soporte tecnico', 'tengo un problema', 'sugerir una mejora', 'reportar un fallo'],
       claves: 'ayuda soporte contacto error fallo problema mejora sugerencia incidencia',

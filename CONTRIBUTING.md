@@ -1,6 +1,6 @@
 # Contribuir
 
-¡Gracias por querer mejorar Facturador!
+¡Gracias por querer mejorar 7Factura!
 
 1. Abre una incidencia antes de cambios grandes, para hablarlo primero.
 2. Haz un fork, crea una rama y prepara tu cambio.
@@ -13,7 +13,7 @@
 
 ## Normas
 
-- **Código original.** No copies código de otros programas de facturación (FacturaScripts, etc.) aunque su licencia lo permita: Facturador es MIT y se escribe desde cero.
+- **Código original.** No copies código de otros programas de facturación (FacturaScripts, etc.) aunque su licencia lo permita: 7Factura es MIT y se escribe desde cero.
 - **Los datos no salen del servidor.** No añadas telemetría ni servicios externos. Cualquier conexión saliente nueva debe ser opcional y estar documentada.
 - **Nunca rompas datos existentes.** Los cambios de esquema van en una migración nueva en `server/db.mjs`; no modifiques las ya publicadas.
 - **Usa los tokens de color** (`bg-surface`, `text-muted`, `bg-brand`…) para que los temas funcionen.

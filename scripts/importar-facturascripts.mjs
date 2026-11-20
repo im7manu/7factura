@@ -1,4 +1,4 @@
-// Importa datos de una copia SQL de FacturaScripts (mysqldump) a Facturador.
+// Importa datos de una copia SQL de FacturaScripts (mysqldump) a 7Factura.
 //
 // Uso:  node scripts/importar-facturascripts.mjs <copia.sql> [--empresa] [--db data/facturador.db]
 //
@@ -6,7 +6,7 @@
 // facturas de cliente (con líneas, cobros y rectificativas) y presupuestos.
 // Con --empresa también sustituye los datos de tu empresa por los de FacturaScripts.
 // Las facturas conservan su número original (p. ej. «29/2026»). Las importadas no tienen
-// huella de integridad: la cadena empieza con la primera factura emitida en Facturador.
+// huella de integridad: la cadena empieza con la primera factura emitida en 7Factura.
 // Se niega a importar si la base de datos ya tiene clientes o documentos.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -86,7 +86,7 @@ function tabla(nombre) {
 
 // ---------- Base de datos de destino ----------
 if (!fs.existsSync(rutaDb)) {
-  console.error(`No existe ${rutaDb}. Arranca Facturador una vez y completa la instalación antes de importar.`);
+  console.error(`No existe ${rutaDb}. Arranca 7Factura una vez y completa la instalación antes de importar.`);
   process.exit(1);
 }
 const db = new DatabaseSync(rutaDb);

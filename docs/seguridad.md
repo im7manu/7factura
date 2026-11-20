@@ -2,7 +2,7 @@
 
 ## Privacidad
 
-Facturador se ejecuta en tu equipo y guarda los datos en `data/`. No envía telemetría ni datos de negocio a nadie. Las únicas conexiones salientes son la comprobación de actualizaciones y de plugins en GitHub, y los correos que el usuario envía desde su propia cuenta (ver el [README](../README.md#tus-datos-en-tu-servidor)).
+7Factura se ejecuta en tu equipo y guarda los datos en `data/`. No envía telemetría ni datos de negocio a nadie. Las únicas conexiones salientes son la comprobación de actualizaciones y de plugins en GitHub, y los correos que el usuario envía desde su propia cuenta (ver el [README](../README.md#tus-datos-en-tu-servidor)).
 
 ## Accesos
 
@@ -14,7 +14,7 @@ Facturador se ejecuta en tu equipo y guarda los datos en `data/`. No envía tele
 
 ## Passkeys y recuperación por WhatsApp
 
-- **Passkeys (WebAuthn)**: cada usuario puede crear passkeys en **Mi cuenta** y entrar con «Entrar con passkey», sin usuario ni contraseña. La clave privada nunca sale del dispositivo; Facturador solo guarda la pública. Una cuenta bloqueada por intentos fallidos puede seguir entrando con passkey. El administrador puede quitar las passkeys de un usuario (Ajustes › Usuarios) si pierde el dispositivo. Solo funcionan desde un dominio con HTTPS (o `localhost`): en la versión de escritorio, que usa `127.0.0.1`, no están disponibles.
+- **Passkeys (WebAuthn)**: cada usuario puede crear passkeys en **Mi cuenta** y entrar con «Entrar con passkey», sin usuario ni contraseña. La clave privada nunca sale del dispositivo; 7Factura solo guarda la pública. Una cuenta bloqueada por intentos fallidos puede seguir entrando con passkey. El administrador puede quitar las passkeys de un usuario (Ajustes › Usuarios) si pierde el dispositivo. Solo funcionan desde un dominio con HTTPS (o `localhost`): en la versión de escritorio, que usa `127.0.0.1`, no están disponibles.
 - **Recuperar la contraseña por WhatsApp**: «¿Has olvidado tu contraseña?» envía un código de 6 cifras al teléfono verificado del usuario. Caduca en 10 minutos, admite 5 intentos, solo se guarda su hash y se limita a un envío por minuto y cinco por hora. La respuesta es la misma exista o no el usuario. Al usarlo se desbloquea la cuenta, se cierran las demás sesiones y se avisa por WhatsApp del cambio.
 - **Teléfono verificado**: con WhatsApp configurado, cada usuario verifica su móvil con un código la próxima vez que entra (se puede desactivar en Ajustes › Seguridad).
 - **Configuración**: Ajustes › Seguridad, con la dirección de un puente compatible con [whatsapp-mcp](https://github.com/lharries/whatsapp-mcp) (`POST /api/send`). La variable de entorno `WHATSAPP_API` tiene prioridad; `WHATSAPP_EXIGIR=0` no obliga a verificar el teléfono; `RP_ID` y `RP_ORIGIN` fijan el dominio de las passkeys detrás de un proxy.
@@ -49,7 +49,7 @@ Ajustes → Actividad guarda accesos (correctos y fallidos), bloqueos, emisiones
 
 - Si se accede desde fuera de la oficina, hazlo por **VPN** o detrás de **HTTPS** ([instalacion.md](instalacion.md#acceso-desde-fuera-de-la-oficina-https)).
 - Un usuario por persona, con su propia contraseña. Rol de administrador solo para quien lo necesite.
-- Mantén Node.js y el sistema operativo actualizados, y la actualización automática de Facturador activada.
+- Mantén Node.js y el sistema operativo actualizados, y la actualización automática de 7Factura activada.
 - Descarga las copias de seguridad y guárdalas fuera del servidor; contienen todos los datos de la empresa.
 
 ## Informar de una vulnerabilidad

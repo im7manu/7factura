@@ -1,6 +1,6 @@
 // Clientes, proveedores, vehículos y conductores.
 // Todos llevan un uid estable y la fecha de última modificación para poder compartirlos con
-// Gestor DeCA y eCMR (mismos campos: NIF de empresas, matrícula de vehículos, DNI de conductores).
+// 7DeCA (mismos campos: NIF de empresas, matrícula de vehículos, DNI de conductores).
 import { Router } from 'express';
 import crypto from 'node:crypto';
 import { db, auditar } from '../db.mjs';
@@ -80,7 +80,7 @@ function rutasTercero(tabla, singular, campoDoc, tipoFactura) {
 rutasTercero('clientes', 'cliente', 'cliente_id', 'factura');
 rutasTercero('proveedores', 'proveedor', 'proveedor_id', 'factura_compra');
 
-// ---------- Vehículos (mismos tipos y estados que Gestor DeCA) ----------
+// ---------- Vehículos (mismos tipos y estados que 7DeCA) ----------
 export const TIPOS_VEHICULO = ['Tractora', 'Rígido', 'Remolque', 'Semirremolque', 'Furgoneta', 'Turismo', 'Otro'];
 export const ESTADOS_VEHICULO = ['Disponible', 'En ruta', 'Taller', 'Baja'];
 
@@ -127,7 +127,7 @@ router.delete('/vehiculos/:id', envolver((req, res) => {
   res.json({ ok: true });
 }));
 
-// ---------- Conductores (mismos campos que Gestor DeCA) ----------
+// ---------- Conductores (mismos campos que 7DeCA) ----------
 function datosConductor(b) {
   const c = { nombre: texto(b.nombre, 120), dni: normalizarNif(b.dni), telefono: texto(b.telefono, 30), email: texto(b.email, 150), activo: b.activo === false ? 0 : 1 };
   if (!c.nombre) throw err('El nombre es obligatorio');
@@ -153,7 +153,7 @@ router.delete('/conductores/:id', envolver((req, res) => {
   res.json({ ok: true });
 }));
 
-// ---------- Datos compartidos (base para la futura conexión con Gestor DeCA y eCMR) ----------
+// ---------- Datos compartidos (base para la futura conexión con 7DeCA) ----------
 // Formato neutro: uid estable, clave natural (NIF / matrícula / DNI) y fecha de modificación.
 // ?desde=AAAA-MM-DD HH:MM:SS devuelve solo lo modificado después (sincronización incremental).
 const COMPARTIDO = {

@@ -48,7 +48,7 @@ const routersPublicos = new Map(); // id -> Router público (sin sesión) montad
 //   'pdf.postprocesar' async (buffer, doc) => Buffer    Modifica el PDF ya generado (p. ej. firmarlo digitalmente)
 //   'apariencia'       () => { tema, fondos }           Tema visual de la aplicación y fotos de inicio de sesión
 //   'copias'           { exportar(), ... }              Información para la pantalla «Acerca de» (opcional)
-//   'rutas'            { calcular(textos, opciones), configurado() }   Rutas y km (plugin «Rutas y mapas»)
+//   'rutas'            { calcular(textos, opciones), configurado() }   Rutas y km (plugin «7Ruta»)
 // Otros plugins pueden usarlas con ctx.extensionesDe(punto).
 const extensiones = new Map(); // punto -> Map(pluginId -> fn)
 const temporizadores = new Map(); // pluginId -> [intervalos]
@@ -79,7 +79,7 @@ function leerManifest(dir) {
   const m = JSON.parse(fs.readFileSync(path.join(dir, 'plugin.json'), 'utf8'));
   if (!ID_VALIDO.test(m.id || '')) throw new Error('plugin.json: id no válido');
   if (!m.nombre || !m.version) throw new Error('plugin.json: faltan nombre o version');
-  if (m.app_min && compararVersiones(VERSION, m.app_min) < 0) throw new Error(`Este plugin necesita Facturador ${m.app_min} o posterior (tienes la ${VERSION}).`);
+  if (m.app_min && compararVersiones(VERSION, m.app_min) < 0) throw new Error(`Este plugin necesita 7Factura ${m.app_min} o posterior (tienes la ${VERSION}).`);
   for (const rel of [m.server, m.ui?.entrada, m.publico].filter(Boolean)) {
     const abs = path.resolve(dir, rel);
     if (!abs.startsWith(dir + path.sep)) throw new Error('plugin.json: ruta fuera del plugin');

@@ -1,4 +1,4 @@
-// Facturador: servidor HTTP.
+// 7Factura: servidor HTTP.
 import express from 'express';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -96,4 +96,4 @@ app.use((err, _req, res, _next) => {
 
 await cargarPlugins();
 programarActualizaciones();
-app.listen(PORT, HOST, () => console.log(`Facturador escuchando en http://localhost:${PORT}`));
+app.listen(PORT, HOST, () => console.log(`7Factura escuchando en http://localhost:${PORT}`));

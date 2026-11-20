@@ -20,7 +20,7 @@ RequestExecutionLevel user
 ${StrStr}
 ${UnStrStr}
 
-!define APP "Facturador"
+!define APP "7Factura"
 !define CLAVE_DESINSTALAR "Software\Microsoft\Windows\CurrentVersion\Uninstall\Facturador"
 
 Name "${APP} ${VERSION}"
@@ -34,14 +34,14 @@ VIAddVersionKey /LANG=1034 "ProductVersion" "${VERSION}"
 VIAddVersionKey /LANG=1034 "FileVersion" "${VERSION}"
 VIAddVersionKey /LANG=1034 "FileDescription" "Instalador de ${APP}"
 VIAddVersionKey /LANG=1034 "LegalCopyright" "Licencia MIT"
-VIAddVersionKey /LANG=1034 "CompanyName" "Facturador (código abierto)"
+VIAddVersionKey /LANG=1034 "CompanyName" "7Factura (código abierto)"
 
 !define MUI_ICON "${RAIZ}\windows\facturador.ico"
 !define MUI_UNICON "${RAIZ}\windows\facturador.ico"
 !define MUI_ABORTWARNING
 
 !define MUI_WELCOMEPAGE_TITLE "Instalar ${APP} ${VERSION}"
-!define MUI_WELCOMEPAGE_TEXT "Facturación para autónomos en tu propio ordenador.$\r$\n$\r$\nNo necesitas servidor ni conexión permanente a internet: todos tus datos se guardan en este equipo, en la carpeta de tu usuario.$\r$\n$\r$\nFacturador se actualiza solo, con versiones firmadas y vuelta atrás automática si algo falla.$\r$\n$\r$\nPulsa Siguiente para continuar."
+!define MUI_WELCOMEPAGE_TEXT "Facturación para autónomos en tu propio ordenador.$\r$\n$\r$\nNo necesitas servidor ni conexión permanente a internet: todos tus datos se guardan en este equipo, en la carpeta de tu usuario.$\r$\n$\r$\n7Factura se actualiza solo, con versiones firmadas y vuelta atrás automática si algo falla.$\r$\n$\r$\nPulsa Siguiente para continuar."
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "${RAIZ}\LICENSE"
 !insertmacro MUI_PAGE_INSTFILES
@@ -64,7 +64,7 @@ VIAddVersionKey /LANG=1034 "CompanyName" "Facturador (código abierto)"
   ${${UN}StrStr} $2 $1 "Facturador.exe"
   ${If} $2 != ""
     IfSilent +2
-    MessageBox MB_OKCANCEL|MB_ICONINFORMATION "Facturador está abierto y se va a cerrar para continuar.$\r$\n$\r$\nTus datos no se pierden." IDOK +2
+    MessageBox MB_OKCANCEL|MB_ICONINFORMATION "7Factura está abierto y se va a cerrar para continuar.$\r$\n$\r$\nTus datos no se pierden." IDOK +2
     Abort
     nsExec::Exec '"$SYSDIR\taskkill.exe" /F /T /IM Facturador.exe'
     Sleep 1500
@@ -73,17 +73,17 @@ VIAddVersionKey /LANG=1034 "CompanyName" "Facturador (código abierto)"
 
 Function .onInit
   ${IfNot} ${AtLeastWin10}
-    MessageBox MB_OK|MB_ICONSTOP "Facturador necesita Windows 10 o posterior."
+    MessageBox MB_OK|MB_ICONSTOP "7Factura necesita Windows 10 o posterior."
     Abort
   ${EndIf}
   ${IfNot} ${RunningX64}
-    MessageBox MB_OK|MB_ICONSTOP "Facturador necesita Windows de 64 bits."
+    MessageBox MB_OK|MB_ICONSTOP "7Factura necesita Windows de 64 bits."
     Abort
   ${EndIf}
   SetShellVarContext current
 FunctionEnd
 
-Section "Facturador" SecPrincipal
+Section "7Factura" SecPrincipal
   SectionIn RO
   !insertmacro CerrarFacturador ""
 
@@ -102,13 +102,15 @@ Section "Facturador" SecPrincipal
 
   CreateDirectory "$LOCALAPPDATA\Facturador"
 
-  CreateShortcut "$DESKTOP\Facturador.lnk" "$INSTDIR\Facturador.exe" "" "$INSTDIR\facturador.ico" 0 SW_SHOWNORMAL "" "Facturación"
-  CreateShortcut "$SMPROGRAMS\Facturador.lnk" "$INSTDIR\Facturador.exe" "" "$INSTDIR\facturador.ico" 0 SW_SHOWNORMAL "" "Facturación"
+  Delete "$DESKTOP\Facturador.lnk"
+  Delete "$SMPROGRAMS\Facturador.lnk"
+  CreateShortcut "$DESKTOP\7Factura.lnk" "$INSTDIR\Facturador.exe" "" "$INSTDIR\facturador.ico" 0 SW_SHOWNORMAL "" "Facturación"
+  CreateShortcut "$SMPROGRAMS\7Factura.lnk" "$INSTDIR\Facturador.exe" "" "$INSTDIR\facturador.ico" 0 SW_SHOWNORMAL "" "Facturación"
 
   WriteUninstaller "$INSTDIR\Desinstalar.exe"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "DisplayName" "${APP}"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "DisplayVersion" "${VERSION}"
-  WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "Publisher" "Facturador (código abierto)"
+  WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "Publisher" "7Factura (código abierto)"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "DisplayIcon" "$INSTDIR\facturador.ico"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "InstallLocation" "$INSTDIR"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "URLInfoAbout" "https://github.com/im7manu/facturador"
@@ -128,6 +130,8 @@ Section "Uninstall"
 
   Delete "$DESKTOP\Facturador.lnk"
   Delete "$SMPROGRAMS\Facturador.lnk"
+  Delete "$DESKTOP\7Factura.lnk"
+  Delete "$SMPROGRAMS\7Factura.lnk"
   RMDir /r "$INSTDIR\app"
   RMDir /r "$INSTDIR\node"
   Delete "$INSTDIR\Facturador.exe"

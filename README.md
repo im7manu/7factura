@@ -1,4 +1,4 @@
-# Facturador
+# 7Factura
 
 Facturación para autónomos y pymes en España. Código abierto (MIT), escrito desde cero y pensado para **instalarse en tu propio equipo**, ya sea el servidor de la empresa o tu ordenador con Windows: tus datos no salen de él.
 
@@ -8,7 +8,7 @@ Facturación para autónomos y pymes en España. Código abierto (MIT), escrito 
 
 ¿Eres autónomo y solo usas un ordenador? Descarga el instalador, ábrelo y listo: no necesitas servidor, ni permisos de administrador, ni instalar nada más. [Guía de Windows](docs/windows.md).
 
-![Inicio de Facturador](docs/manual/capturas/02-inicio.jpg)
+![Inicio de 7Factura](docs/manual/capturas/02-inicio.jpg)
 
 - **Ventas completas**: facturas, rectificativas, simplificadas, presupuestos, proformas, pedidos y albaranes (valorados o no, firmados por el receptor en la pantalla), con conversión entre ellos y «Facturar el mes».
 - **IVA completo**: tipos 21/10/4/0 %, exentas, exportación, intracomunitarias, inversión del sujeto pasivo, recargo de equivalencia, suplidos e IRPF, con las leyendas legales en el PDF.
@@ -25,7 +25,7 @@ Facturación para autónomos y pymes en España. Código abierto (MIT), escrito 
 
 ## Tus datos, en tu servidor
 
-Facturador se ejecuta en el servidor o el ordenador de la empresa y guarda toda la información en la carpeta `data/` de ese equipo (en Windows, en `%LOCALAPPDATA%\Facturador\data`). **No se sube nada a la nube.** No hay telemetría, ni cuentas en internet, ni servicios de terceros.
+7Factura se ejecuta en el servidor o el ordenador de la empresa y guarda toda la información en la carpeta `data/` de ese equipo (en Windows, en `%LOCALAPPDATA%\Facturador\data`). **No se sube nada a la nube.** No hay telemetría, ni cuentas en internet, ni servicios de terceros.
 
 Solo se conecta a internet para:
 
@@ -71,7 +71,7 @@ Guía completa (servidor de la oficina, NAS, Windows, HTTPS, acceso desde fuera,
 | [Plugins](docs/plugins.md) | Instalar plugins y crear los tuyos |
 | [Importar desde FacturaScripts](docs/importar-facturascripts.md) | Migrar clientes, productos y facturas |
 | [Arquitectura y desarrollo](docs/arquitectura.md) | Estructura del código, base de datos, API y pruebas |
-| [Integración con Gestor DeCA](docs/integracion-deca.md) | Datos compartidos con Gestor DeCA y eCMR (en preparación) |
+| [Integración con 7DeCA](docs/integracion-deca.md) | Datos compartidos con 7DeCA (en preparación) |
 
 Plugins oficiales: **[im7manu/facturador-plugins](https://github.com/im7manu/facturador-plugins)**.
 

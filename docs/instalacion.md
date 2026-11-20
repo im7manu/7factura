@@ -1,6 +1,6 @@
 # Instalación y puesta en marcha
 
-Facturador se instala en un equipo de la empresa (un servidor, un NAS, un miniPC o el ordenador de la oficina) y se usa desde el navegador de cualquier equipo de la red. Todos los datos se guardan en ese equipo.
+7Factura se instala en un equipo de la empresa (un servidor, un NAS, un miniPC o el ordenador de la oficina) y se usa desde el navegador de cualquier equipo de la red. Todos los datos se guardan en ese equipo.
 
 > **¿Solo vas a usarlo en tu ordenador con Windows?** Usa el [instalador de Windows](windows.md): no necesitas nada de lo que sigue.
 
@@ -11,7 +11,7 @@ Facturador se instala en un equipo de la empresa (un servidor, un NAS, un miniPC
 - Que el equipo esté encendido mientras se usa la aplicación.
 - Navegador moderno (Chrome, Edge, Firefox o Safari) en los equipos que la usen, también en móviles y tabletas.
 
-No hace falta instalar ninguna base de datos: Facturador usa SQLite, que viene con Node.js.
+No hace falta instalar ninguna base de datos: 7Factura usa SQLite, que viene con Node.js.
 
 ## Opción A: Node.js
 
@@ -45,7 +45,7 @@ npm start
 
 ```ini
 [Unit]
-Description=Facturador
+Description=7Factura
 After=network.target
 
 [Service]
@@ -61,7 +61,7 @@ WantedBy=multi-user.target
 
 y actívalo con `sudo systemctl enable --now facturador`.
 
-**Windows.** Si solo se usa en ese ordenador, usa el [instalador de Windows](windows.md). Para usarlo desde otros equipos de la red, lo más sencillo es Docker Desktop (opción B). Sin Docker, puedes crear una tarea en el *Programador de tareas* que ejecute `npm start` en la carpeta de Facturador «al iniciar el sistema», o registrarlo como servicio con una herramienta como NSSM.
+**Windows.** Si solo se usa en ese ordenador, usa el [instalador de Windows](windows.md). Para usarlo desde otros equipos de la red, lo más sencillo es Docker Desktop (opción B). Sin Docker, puedes crear una tarea en el *Programador de tareas* que ejecute `npm start` en la carpeta de 7Factura «al iniciar el sistema», o registrarlo como servicio con una herramienta como NSSM.
 
 **macOS.** Usa Docker Desktop o un `launchd` agent que ejecute `npm start`.
 
@@ -79,7 +79,7 @@ La imagen arranca con el supervisor, así que también se actualiza sola. Las ve
 
 ## Primera configuración
 
-Al abrir Facturador por primera vez aparece un asistente:
+Al abrir 7Factura por primera vez aparece un asistente:
 
 1. **Cuenta de administrador**: nombre, usuario, email y contraseña (al menos 10 caracteres con mayúsculas, minúsculas, números y un símbolo).
 2. **Datos de la empresa**: razón social, NIF, dirección, IBAN y texto legal del pie de los documentos.
@@ -105,7 +105,7 @@ Dentro de la red local basta con `http://IP-DEL-SERVIDOR:9100`. Para acceder des
       reverse_proxy 127.0.0.1:9100
   }
   ```
-  En este caso arranca Facturador con `TRUST_PROXY=1` y `BASE_URL=https://facturas.tuempresa.es`.
+  En este caso arranca 7Factura con `TRUST_PROXY=1` y `BASE_URL=https://facturas.tuempresa.es`.
 - **Túnel** (Cloudflare Tunnel u otro).
 
 `BASE_URL` es necesaria para iniciar sesión con Google o Microsoft en Ajustes → Correo, porque esos servicios devuelven al usuario a esa dirección.
@@ -146,7 +146,7 @@ Como los datos solo están en tu equipo, **las copias son responsabilidad tuya**
 - **Recomendado**: el plugin [Copias de seguridad](https://github.com/im7manu/facturador-plugins/tree/main/copias) hace una copia automática semanal y bajo demanda, descargable en ZIP. Guarda los ZIP fuera del servidor (disco externo, nube de la empresa…).
 - **Manual**: copia la carpeta `data/` entera con la aplicación parada. Incluye siempre `secreto.key`: sin ella las credenciales de correo y el certificado digital guardados no se pueden leer y habría que volver a configurarlos.
 
-Para recuperar el servidor: instala Facturador en otro equipo, instala el plugin de copias y restaura el último ZIP (o copia la carpeta `data/` antes de arrancar).
+Para recuperar el servidor: instala 7Factura en otro equipo, instala el plugin de copias y restaura el último ZIP (o copia la carpeta `data/` antes de arrancar).
 
 ## Solución de problemas
 

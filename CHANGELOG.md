@@ -2,6 +2,7 @@
 
 ## 1.3.0 — 2026-11-20
 
+- **Nuevo nombre: 7Factura** (antes Facturador), de la familia de programas 7Factura, 7DeCA y 7Ruta. Los datos, las instalaciones, las actualizaciones y los plugins siguen funcionando igual; en Windows se mantienen la carpeta de datos y el programa, y los accesos directos pasan a llamarse 7Factura.
 - **Plugins con mapas**: un plugin puede declarar en `plugin.json` (`"csp"`) orígenes https extra para sus páginas, por ejemplo las teselas de OpenStreetMap o Google Maps. Solo se permiten en las páginas de ese plugin.
 - **Plugins que colaboran**: `ctx.extensionesDe(punto)` permite a un plugin usar las funciones que ofrece otro (por ejemplo, `gestor-deca` usa las rutas del plugin `rutas` para facturar por kilómetro).
 - **Direcciones que se completan solas** en clientes, proveedores y datos de la empresa: al escribir aparecen sugerencias y al elegir una se rellenan el C.P., la ciudad y la provincia. Las ofrece un plugin con el punto de extensión `direcciones` (el plugin **Rutas y mapas**); sin él, el campo funciona como siempre.

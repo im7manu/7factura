@@ -1,6 +1,6 @@
 # Plugins
 
-Los plugins amplían Facturador sin tocar su código. Se publican en GitHub y se instalan desde **Plugins** en la aplicación (solo administradores).
+Los plugins amplían 7Factura sin tocar su código. Se publican en GitHub y se instalan desde **Plugins** en la aplicación (solo administradores).
 
 ## Cómo funciona
 
@@ -38,7 +38,7 @@ mi-plugin/
 
 - `id`: minúsculas, números y guiones. Debe coincidir con el del registro.
 - `publico` (opcional, desde la 1.3.0): carpeta del plugin servida **sin sesión** en `/pub/<id>/` (p. ej. la página para que un cliente acepte un presupuesto).
-- `app_min`: versión mínima de Facturador. Si la instalación es más antigua, el plugin no se instala (desde la 1.3.0).
+- `app_min`: versión mínima de 7Factura. Si la instalación es más antigua, el plugin no se instala (desde la 1.3.0).
 - `csp` (opcional, desde la 1.3.0): orígenes `https://` extra que necesitan las páginas del plugin, por tipo (`img`, `script`, `connect`, `style`, `font`, `frame`). Se añaden a la política de seguridad de contenidos **solo** en `/plugins/<id>/...`, no en el resto de la aplicación. Admite comodín de subdominio (`https://*.gstatic.com`).
 
 ### server.mjs
@@ -151,10 +151,10 @@ Para publicar una actualización, sube la nueva versión y cambia `version`, `ur
 
 ## Plugins oficiales
 
-En [im7manu/facturador-plugins](https://github.com/im7manu/facturador-plugins): `copias` (copias de seguridad), `temas`, `diseno-pdf`, `gestor-deca` (facturar envíos de Gestor DeCA) y `rutas` (mapas y km). Son buenos ejemplos de cada punto de extensión.
+En [im7manu/facturador-plugins](https://github.com/im7manu/facturador-plugins): `copias` (copias de seguridad), `temas`, `diseno-pdf`, `gestor-deca` (facturar envíos de 7DeCA) y `rutas` (mapas y km). Son buenos ejemplos de cada punto de extensión.
 
 ## Ideas de plugins
 
 - **verifactu**: registro de facturación con el formato de la AEAT, QR y envío.
-- **gestor-deca**: integración con Gestor DeCA y eCMR.
+- **gestor-deca**: integración con 7DeCA.
 - **contabilidad**: asientos automáticos y plan de cuentas.

@@ -298,7 +298,7 @@ function volverAAjustes(res, resultado, mensaje = '') {
   const destino = `/ajustes?pestana=correo&correo=${resultado}${mensaje ? `&mensaje=${encodeURIComponent(mensaje)}` : ''}`;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.send(`<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=${destino.replace(/"/g, '&quot;')}">
-<title>Facturador</title><p style="font-family:sans-serif">Volviendo a Facturador… <a href="${destino.replace(/"/g, '&quot;')}">Continuar</a></p>`);
+<title>7Factura</title><p style="font-family:sans-serif">Volviendo a 7Factura… <a href="${destino.replace(/"/g, '&quot;')}">Continuar</a></p>`);
 }
 
 routerPublico.get('/oauth/vuelta', envolver(async (req, res) => {
@@ -365,7 +365,7 @@ router.delete('/cuenta', envolver((req, res) => {
 router.post('/prueba', envolver(async (req, res) => {
   limitarEnvios(req.usuario.id);
   const cuenta = await cuentaLista(req.usuario.id);
-  await enviar(cuenta, { para: [cuenta.email], asunto: 'Prueba de correo de Facturador', texto: `Si lees esto, tu cuenta ${cuenta.email} está bien conectada a Facturador.` });
+  await enviar(cuenta, { para: [cuenta.email], asunto: 'Prueba de correo de 7Factura', texto: `Si lees esto, tu cuenta ${cuenta.email} está bien conectada a 7Factura.` });
   res.json({ ok: true, enviado_a: cuenta.email });
 }));
 

@@ -55,7 +55,7 @@ export default function MiCuenta() {
           {puedePasskey ? <Button variant="primary" onClick={nuevaPasskey}><Plus size={16} /> Crear passkey</Button> : null}
         </div>
         <p className="mb-3 text-sm text-muted">Con una passkey entras con la huella, la cara o el PIN del dispositivo, sin contraseña. Crea una en cada dispositivo que uses; si usas iCloud, Google o 1Password, se sincroniza sola.</p>
-        {!c.passkeys_disponibles ? <Aviso>Las passkeys solo funcionan cuando Facturador se abre desde una dirección con dominio y HTTPS (no en la versión de escritorio, que usa 127.0.0.1).</Aviso>
+        {!c.passkeys_disponibles ? <Aviso>Las passkeys solo funcionan cuando 7Factura se abre desde una dirección con dominio y HTTPS (no en la versión de escritorio, que usa 127.0.0.1).</Aviso>
           : !navegadorAdmitePasskeys() ? <Aviso>Este navegador no admite passkeys.</Aviso> : null}
         {c.passkeys.length ? (
           <ul className="divide-y divide-stroke">

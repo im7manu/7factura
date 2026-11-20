@@ -15,7 +15,7 @@ const salida = path.join(raiz, 'release');
 const trabajo = fs.mkdtempSync(path.join(os.tmpdir(), 'facturador-release-'));
 const destino = path.join(trabajo, 'facturador');
 
-console.log(`Preparando Facturador ${version}…`);
+console.log(`Preparando 7Factura ${version}…`);
 execFileSync('npm', ['run', 'build'], { stdio: 'inherit' });
 fs.mkdirSync(destino, { recursive: true });
 for (const f of ['server', 'shared', 'scripts', 'dist', 'docs', 'examples', 'package.json', 'package-lock.json', 'LICENSE', 'README.md', 'Dockerfile', 'docker-compose.yml']) {

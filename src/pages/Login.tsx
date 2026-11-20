@@ -27,7 +27,7 @@ export function PantallaAcceso({ children, ancho = "max-w-sm" }: { children: Rea
             style={{ opacity: i === actual ? 1 : 0 }} />
         ))}
         {fondos.length ? <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/30" aria-hidden /> : null}
-        <div className="relative flex items-center gap-2 text-lg font-semibold"><FileText /> Facturador</div>
+        <div className="relative flex items-center gap-2 text-lg font-semibold"><FileText /> 7Factura</div>
         {fondos.length ? (
           texto_login ? <p className="relative mt-auto max-w-sm text-lg font-semibold drop-shadow">{texto_login}</p> : <div className="mt-auto" />
         ) : (
@@ -85,7 +85,7 @@ export default function Login() {
       <form onSubmit={entrar} className="card space-y-4 p-8">
         <div>
           <h1 className="text-2xl font-semibold">Iniciar sesión</h1>
-          <p className="text-sm text-muted">Accede a tu cuenta de Facturador</p>
+          <p className="text-sm text-muted">Accede a tu cuenta de 7Factura</p>
         </div>
         <Field label="Usuario">
           <Input autoFocus autoComplete="username webauthn" value={usuario} onChange={(e) => setUsuario(e.target.value)} required />

@@ -155,7 +155,7 @@ export function AppShell() {
             {compacto ? <Menu size={20} /> : <ChevronLeft size={20} />}
           </button>
         ) : null}
-        <span className="text-base font-semibold">Facturador</span>
+        <span className="text-base font-semibold">7Factura</span>
         {empresa?.razon_social ? <span className="hidden truncate text-sm text-suite-fg/75 sm:inline">· {empresa.razon_social}</span> : null}
         <div className="flex-1" />
         <button
