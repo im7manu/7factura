@@ -234,6 +234,26 @@ async function enviar(cuenta, m) {
   return null;
 }
 
+/**
+ * Envía un correo con la cuenta conectada de un usuario y lo registra en el historial del documento (si se indica).
+ * Lo usan los plugins (p. ej. recordatorios de cobro). Lanza un error si el usuario no tiene cuenta o falla el envío.
+ */
+export async function enviarCorreoUsuario(usuarioId, { para, cc = [], asunto, texto, adjuntos = [], documentoId = null }) {
+  const destinatarios = direcciones(Array.isArray(para) ? para.join(',') : para, true);
+  const cuenta = await cuentaLista(usuarioId);
+  const registro = db.prepare(`INSERT INTO correos_enviados(documento_id, usuario_id, desde, proveedor, para, cc, cco, asunto, cuerpo, adjuntos, estado, error, id_mensaje)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+  const nombres = JSON.stringify(adjuntos.map((a) => a.filename));
+  try {
+    const id = await enviar(cuenta, { para: destinatarios, cc, asunto: sinSaltos(asunto, 250), texto: String(texto || '').slice(0, 20000), adjuntos });
+    if (documentoId) registro.run(documentoId, usuarioId, cuenta.email, cuenta.proveedor, destinatarios.join(', '), cc.join(', '), '', asunto, texto, nombres, 'enviado', null, id);
+    return { id, desde: cuenta.email };
+  } catch (e) {
+    if (documentoId) registro.run(documentoId, usuarioId, cuenta.email, cuenta.proveedor, destinatarios.join(', '), cc.join(', '), '', asunto, texto, nombres, 'error', String(e.message).slice(0, 500), null);
+    throw e;
+  }
+}
+
 // Límite por usuario para evitar envíos masivos por error
 const envios = new Map();
 function limitarEnvios(usuarioId) {

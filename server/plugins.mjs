@@ -40,6 +40,7 @@ fs.mkdirSync(PLUGINS_DIR, { recursive: true });
 
 export const hooks = new EventEmitter();
 const routers = new Map(); // id -> Router montado bajo /api/p/<id>
+const routersPublicos = new Map(); // id -> Router público (sin sesión) montado bajo /api/pub/<id>
 
 // ---- Puntos de extensión ----
 // Un plugin puede registrar funciones en estos puntos con ctx.extender(punto, fn):
@@ -51,6 +52,7 @@ const routers = new Map(); // id -> Router montado bajo /api/p/<id>
 // Otros plugins pueden usarlas con ctx.extensionesDe(punto).
 const extensiones = new Map(); // punto -> Map(pluginId -> fn)
 const temporizadores = new Map(); // pluginId -> [intervalos]
+const paradas = new Map(); // pluginId -> funciones a ejecutar al desactivarlo (cerrar conexiones…)
 // Node guarda en caché los módulos importados: si un plugin ya se cargó en este proceso y se actualiza,
 // su código nuevo no se usa entero hasta reiniciar la aplicación.
 const cargadosEnProceso = new Set();
@@ -59,7 +61,10 @@ export function extensionesDe(punto) {
   return [...(extensiones.get(punto)?.entries() || [])].sort((a, b) => a[0].localeCompare(b[0])).map(([id, fn]) => ({ id, fn }));
 }
 function desactivar(id) {
+  for (const fn of paradas.get(id) || []) { try { fn(); } catch (e) { console.error(`[${id}] al parar:`, e.message); } }
+  paradas.delete(id);
   routers.delete(id);
+  routersPublicos.delete(id);
   for (const m of extensiones.values()) m.delete(id);
   for (const t of temporizadores.get(id) || []) clearInterval(t);
   temporizadores.delete(id);
@@ -75,7 +80,7 @@ function leerManifest(dir) {
   if (!ID_VALIDO.test(m.id || '')) throw new Error('plugin.json: id no válido');
   if (!m.nombre || !m.version) throw new Error('plugin.json: faltan nombre o version');
   if (m.app_min && compararVersiones(VERSION, m.app_min) < 0) throw new Error(`Este plugin necesita Facturador ${m.app_min} o posterior (tienes la ${VERSION}).`);
-  for (const rel of [m.server, m.ui?.entrada].filter(Boolean)) {
+  for (const rel of [m.server, m.ui?.entrada, m.publico].filter(Boolean)) {
     const abs = path.resolve(dir, rel);
     if (!abs.startsWith(dir + path.sep)) throw new Error('plugin.json: ruta fuera del plugin');
   }
@@ -91,10 +96,21 @@ async function activar(id) {
   desactivar(id);
   if (m.server) {
     const router = Router();
+    const routerPublico = Router();
     const datos = path.join(DATA_DIR, 'plugins-datos', id); // carpeta propia del plugin, se conserva al actualizarlo
     fs.mkdirSync(datos, { recursive: true });
     const ctx = {
-      router, db, hooks, getAjuste, setAjuste, auditar, requiereAdmin, manifest: m, dir, extensionesDe,
+      router, routerPublico, db, hooks, getAjuste, setAjuste, auditar, requiereAdmin, manifest: m, dir, extensionesDe,
+      // Funciones del núcleo (carga diferida): documentos, PDF y correo con las mismas validaciones que la API
+      app: {
+        async cargarDocumento(idDoc) { return (await import('./routes/documentos.mjs')).cargarDocumento(Number(idDoc)); },
+        async pdfDocumento(idDoc, opciones) { return (await import('./routes/documentos.mjs')).pdfBuffer(idDoc, opciones); },
+        async crearBorrador(body, usuarioId) { return (await import('./routes/documentos.mjs')).crearDocumentoBorrador(body, usuarioId); },
+        async enviarCorreo(usuarioId, mensaje) { return (await import('./routes/correo.mjs')).enviarCorreoUsuario(usuarioId, mensaje); },
+        async recibos(idDoc) { return (await import('./routes/cobros.mjs')).recibosDe(Number(idDoc)); },
+        async registrarCobro(reciboId, datos, usuarioId) { return (await import('./routes/cobros.mjs')).registrarCobro(reciboId, datos, usuarioId); },
+        async borrarCobro(cobroId) { return (await import('./routes/cobros.mjs')).borrarCobro(cobroId); },
+      },
       dataDir: datos, dataRoot: DATA_DIR, express,
       // Librerías del núcleo disponibles para los plugins (sin tener que instalarlas)
       lib: { PDFDocument, calcularTotales, baseLinea, OPERACIONES, r2, componerCodigo },
@@ -105,6 +121,7 @@ async function activar(id) {
         if (!extensiones.has(punto)) extensiones.set(punto, new Map());
         extensiones.get(punto).set(id, fn);
       },
+      alParar(fn) { paradas.set(id, [...(paradas.get(id) || []), fn]); },
       // Tarea periódica que se detiene sola al desactivar el plugin
       cada(ms, fn) {
         const t = setInterval(() => { Promise.resolve().then(fn).catch((e) => console.error(`[${id}]`, e)); }, ms);
@@ -118,6 +135,7 @@ async function activar(id) {
     const mod = await import(`${pathToFileURL(path.join(dir, m.server)).href}?v=${Date.now()}`);
     if (typeof mod.register === 'function') await mod.register(ctx);
     routers.set(id, router);
+    routersPublicos.set(id, routerPublico);
     cargadosEnProceso.add(id);
   }
   return m;
@@ -295,6 +313,54 @@ apiPlugins.delete('/:id', requiereAdmin, (req, res) => {
 });
 
 // Rutas de API de cada plugin: /api/p/<id>/...
+// Límite sencillo para las rutas públicas de los plugins: 60 peticiones por minuto y IP
+const usoPublico = new Map();
+function limitePublico(req, res, next) {
+  const k = `${req.ip}|${req.params.pluginId}`, ahora = Date.now();
+  const l = (usoPublico.get(k) || []).filter((t) => ahora - t < 60_000);
+  if (l.length >= 60) return res.status(429).json({ error: 'Demasiadas peticiones. Espera un minuto.' });
+  l.push(ahora); usoPublico.set(k, l);
+  if (usoPublico.size > 5000) usoPublico.clear();
+  next();
+}
+
+/** Rutas públicas de los plugins (sin sesión): API en /api/pub/<id>/ y archivos de la carpeta «publico» en /pub/<id>/. */
+export function montarRutasPublicasPlugins(app) {
+  app.use('/api/pub/:pluginId', limitePublico, (req, res, next) => {
+    const r = routersPublicos.get(req.params.pluginId);
+    if (!r) return res.status(404).json({ error: 'No disponible' });
+    r(req, res, next);
+  });
+  app.use('/pub/:pluginId', limitePublico, (req, res, next) => {
+    const id = req.params.pluginId;
+    const p = ID_VALIDO.test(id) && db.prepare('SELECT manifest FROM plugins WHERE id = ? AND activo = 1').get(id);
+    const carpeta = p && JSON.parse(p.manifest).publico;
+    if (!carpeta) return res.status(404).end();
+    const dir = path.resolve(PLUGINS_DIR, id, carpeta);
+    if (!dir.startsWith(path.join(PLUGINS_DIR, id) + path.sep)) return res.status(404).end();
+    express.static(dir, { dotfiles: 'deny', index: 'index.html' })(req, res, next);
+  });
+}
+
+// Acciones que los plugins ofrecen en un documento (p. ej. «Enviar por WhatsApp»). Punto de extensión:
+//   'documento.acciones'  (doc, { evento, usuario }) => [{ titulo, ruta, proponer? }]
+//   ruta: página del plugin que se abre en una ventana con ?documento=<id>; proponer: abrirla sola tras el evento (p. ej. 'emitido')
+apiPlugins.get('/acciones/:documento', async (req, res) => {
+  const doc = (await import('./routes/documentos.mjs')).cargarDocumento(Number(req.params.documento));
+  if (!doc) return res.status(404).json({ error: 'No encontrado' });
+  const evento = String(req.query.evento || '');
+  const out = [];
+  for (const { id, fn } of extensionesDe('documento.acciones')) {
+    try {
+      for (const a of (await fn(doc, { evento, usuario: req.usuario })) || []) {
+        if (!a?.titulo || !a?.ruta || /^[a-z]+:|\.\.|^\//i.test(a.ruta)) continue;
+        out.push({ plugin: id, titulo: String(a.titulo).slice(0, 60), url: `/plugins/${id}/${a.ruta}${a.ruta.includes('?') ? '&' : '?'}documento=${doc.id}`, proponer: !!a.proponer });
+      }
+    } catch (e) { console.error(`[${id}] documento.acciones:`, e.message); }
+  }
+  res.json(out);
+});
+
 export function montarRutasPlugins(app) {
   app.use('/api/p/:pluginId', requiereSesion, (req, res, next) => {
     const r = routers.get(req.params.pluginId);

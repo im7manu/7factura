@@ -48,5 +48,13 @@
     return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
   }
 
-  window.Facturador = { api: api, aviso: aviso, escapar: escapar };
+  // Dentro de la ventana de una acción de documento: cerrarla o pedir que se recargue el documento
+  function avisarPadre(tipo) { try { window.parent.postMessage({ tipo: tipo }, window.location.origin); } catch (e) { /* fuera de la app */ } }
+  function parametro(nombre) { return new URLSearchParams(window.location.search).get(nombre); }
+
+  window.Facturador = {
+    api: api, aviso: aviso, escapar: escapar, parametro: parametro,
+    cerrar: function () { avisarPadre('facturador:cerrar'); },
+    actualizar: function () { avisarPadre('facturador:actualizar'); },
+  };
 })();

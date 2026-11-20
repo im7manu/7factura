@@ -37,6 +37,7 @@ mi-plugin/
 ```
 
 - `id`: minúsculas, números y guiones. Debe coincidir con el del registro.
+- `publico` (opcional, desde la 1.3.0): carpeta del plugin servida **sin sesión** en `/pub/<id>/` (p. ej. la página para que un cliente acepte un presupuesto).
 - `app_min`: versión mínima de Facturador. Si la instalación es más antigua, el plugin no se instala (desde la 1.3.0).
 - `csp` (opcional, desde la 1.3.0): orígenes `https://` extra que necesitan las páginas del plugin, por tipo (`img`, `script`, `connect`, `style`, `font`, `frame`). Se añaden a la política de seguridad de contenidos **solo** en `/plugins/<id>/...`, no en el resto de la aplicación. Admite comodín de subdominio (`https://*.gstatic.com`).
 
@@ -66,6 +67,9 @@ export function register(ctx) {
 | `cifrar(texto)` / `descifrar(texto)` | Guardar secretos cifrados con la clave de la instalación |
 | `cada(ms, fn)` | Tarea periódica que se detiene sola al desactivar el plugin |
 | `extender(punto, fn)` | Registrarse en un punto de extensión (ver abajo) |
+| `app` | Funciones del núcleo (asíncronas): `cargarDocumento(id)`, `pdfDocumento(id, opciones)`, `crearBorrador(body, usuarioId)`, `enviarCorreo(usuarioId, { para, asunto, texto, adjuntos, documentoId })`, `recibos(id)`, `registrarCobro(reciboId, { fecha, importe, notas }, usuarioId)`, `borrarCobro(id)`. Aplican las mismas validaciones que la API |
+| `routerPublico` | Router **sin sesión** en `/api/pub/<id>/` (60 peticiones por minuto e IP). Úsalo solo para lo imprescindible y valida todo |
+| `alParar(fn)` | Función que se ejecuta al desactivar o actualizar el plugin (cerrar conexiones…) |
 | `extensionesDe(punto)` | Lista `[{ id, fn }]` de lo registrado en un punto, para usar funciones de otros plugins (desde la 1.3.0) |
 | `parametrosPdf(idDoc, opciones)` | Datos de un documento listos para dibujar su PDF |
 | `lib` | Librerías del núcleo: `PDFDocument` (pdfkit), `calcularTotales`, `baseLinea`, `OPERACIONES`, `r2`, `componerCodigo` |
@@ -82,6 +86,10 @@ export function register(ctx) {
 | `pdf.postprocesar` | `async (buffer, doc) => Buffer` | Modificar el PDF generado (por ejemplo, firmarlo digitalmente) |
 | `apariencia` | `() => ({ tema, fondos })` | Tema visual y fotos de la pantalla de inicio de sesión |
 | `direcciones` | `{ sugerir(texto) }` → `[{ etiqueta, calle, cp, ciudad, provincia, lat, lon }]` | Sugerencias en los campos de dirección (clientes, proveedores, empresa) |
+| `documento.acciones` | `(doc, { evento, usuario }) => [{ titulo, ruta, proponer? }]` | Botones en un documento. `ruta` es una página del plugin que se abre en una ventana con `?documento=<id>`. Con `evento === 'emitido'` y `proponer: true`, se abre sola al emitir |
+| `avisos` | `() => [{ titulo, detalle, enlace }]` | Avisos en la campana (`enlace`: ruta interna, p. ej. `/p/mi-plugin`) |
+| `pdf.dibujar` | `(pdf, params, lugar) => y` | Dibuja al final del cuerpo del PDF, antes del pie. `lugar.reservar(alto)` pasa de página si no cabe y devuelve la `y` donde empezar |
+| `documento.validarEmision` | `(doc) => motivo \| null` | Impide emitir un borrador con un motivo (p. ej. falta de existencias) |
 | `rutas` | `{ calcular(textos, opciones), configurado() }` | Rutas y km (lo ofrece el plugin `rutas`; lo usa `gestor-deca` con `ctx.extensionesDe('rutas')`) |
 
 Si varios plugins usan el mismo punto se aplican por orden de id.
@@ -102,6 +110,8 @@ Para que se vea igual que la aplicación y respete el tema activo, incluye el SD
 <link rel="stylesheet" href="/plugin-sdk.css">
 <script src="/plugin-sdk.js"></script>
 ```
+
+Dentro de la ventana de una acción de documento: `Facturador.parametro('documento')` da el id, `Facturador.cerrar()` cierra la ventana y `Facturador.actualizar()` recarga el documento. La política de seguridad no permite scripts en línea: pon el código en archivos `.js`.
 
 `plugin-sdk.css` aplica los colores y la tipografía del tema con clases sencillas (`.fx-card`, `.fx-btn`, `.fx-btn-primario`, `.fx-btn-peligro`, `.fx-input`, `.fx-campo`, `.fx-tabla`, `.fx-aviso`…), y `plugin-sdk.js` ofrece `Facturador.api(...)` para llamar a la API con la sesión, `Facturador.aviso(texto)` para mostrar avisos y `Facturador.escapar(texto)` para insertar texto en HTML sin riesgo.
 

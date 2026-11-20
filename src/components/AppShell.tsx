@@ -61,7 +61,7 @@ export function AppShell() {
     queryKey: ["actualizaciones"], queryFn: () => api.get<{ disponible: { version: string } | null }>("/actualizaciones"),
     enabled: usuario?.rol === "admin", refetchInterval: 60 * 60 * 1000,
   });
-  const numAvisos = (avisos.data?.proximos.length || 0) + (avisos.data?.impagados.length || 0) + (avisos.data?.pagos?.length || 0);
+  const numAvisos = (avisos.data?.proximos.length || 0) + (avisos.data?.impagados.length || 0) + (avisos.data?.pagos?.length || 0) + (avisos.data?.plugins?.length || 0);
   const plugins = useQuery({
     queryKey: ["plugins-menu"],
     queryFn: () => api.get<{ id: string; nombre: string; menu: { titulo: string }[] }[]>("/plugins/menu"),

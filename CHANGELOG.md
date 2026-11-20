@@ -5,6 +5,10 @@
 - **Plugins con mapas**: un plugin puede declarar en `plugin.json` (`"csp"`) orígenes https extra para sus páginas, por ejemplo las teselas de OpenStreetMap o Google Maps. Solo se permiten en las páginas de ese plugin.
 - **Plugins que colaboran**: `ctx.extensionesDe(punto)` permite a un plugin usar las funciones que ofrece otro (por ejemplo, `gestor-deca` usa las rutas del plugin `rutas` para facturar por kilómetro).
 - **Direcciones que se completan solas** en clientes, proveedores y datos de la empresa: al escribir aparecen sugerencias y al elegir una se rellenan el C.P., la ciudad y la provincia. Las ofrece un plugin con el punto de extensión `direcciones` (el plugin **Rutas y mapas**); sin él, el campo funciona como siempre.
+- **Más puntos para plugins**: botones en los documentos (`documento.acciones`, con propuesta al emitir), avisos en la campana (`avisos`), contenido al final del PDF antes del pie (`pdf.dibujar`), validaciones antes de emitir (`documento.validarEmision`), páginas públicas sin sesión (`routerPublico` y carpeta `publico`, con límite de peticiones) y funciones del núcleo en `ctx.app` (crear borradores, PDF, enviar correo con la cuenta del usuario, registrar y anular cobros). `ctx.alParar(fn)` para cerrar conexiones al desactivar un plugin.
+- Evento `documento.estado` al cambiar el estado de un documento.
+- Las páginas de los plugins pueden cerrarse y refrescar el documento (`Facturador.cerrar()`, `Facturador.actualizar()`, `Facturador.parametro()`); los enlaces usan el color del tema.
+- Nuevos plugins oficiales: WhatsApp Web, recordatorios de cobro, conciliación bancaria, facturación periódica, estado de cuenta, QR de pago, aceptación de presupuestos, control de stock y registro de horas.
 - `app_min` de `plugin.json` ya se comprueba: un plugin que necesita una versión más nueva de Facturador no se instala y lo explica.
 - Nuevos plugins oficiales: **Rutas y mapas** (OpenRouteService gratis o Google Maps con tu clave) y **Gestor DeCA 1.1.0** con cobro **por kilómetro** (solo ida, ida y vuelta o desde la base; precio por cliente, mínimo por viaje y km editables antes de facturar).
 

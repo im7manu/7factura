@@ -278,20 +278,30 @@ router.get('/', envolver((req, res) => {
 }));
 
 // ---- Crear borrador ----
-router.post('/', envolver((req, res) => {
-  const tipo = tipoValido(req.body.tipo);
+/** Crea un borrador con las mismas validaciones que la API (lo usan también los plugins). Devuelve su id. */
+export function crearDocumentoBorrador(body, usuarioId) {
+  const tipo = tipoValido(body.tipo);
   if (!tipo) throw new ErrorUsuario('Tipo de documento no válido');
-  const id = transaccion(() => {
-    const cab = datosCabecera(req.body, tipo);
-    return crearBorrador({ tipo, cab, lineas: limpiarLineas(req.body.lineas || []), usuarioId: req.usuario.id });
-  });
-  auditar(req, `${tipo}.crear`, `id=${id}`);
+  return transaccion(() => crearBorrador({ tipo, cab: datosCabecera(body, tipo), lineas: limpiarLineas(body.lineas || []), usuarioId }));
+}
+router.post('/', envolver((req, res) => {
+  const id = crearDocumentoBorrador(req.body, req.usuario.id);
+  auditar(req, `${req.body.tipo}.crear`, `id=${id}`);
   res.status(201).json(cargarDocumento(id));
 }));
 
 // ---- Emitir: asigna número correlativo y congela el documento ----
 /** Emite un borrador: asigna número, genera recibos y congela el documento. Lanza ErrorUsuario si no se puede. */
 function emitirDocumento(id, req) {
+  // Los plugins pueden impedir la emisión con un motivo (p. ej. «sin existencias» en el control de stock)
+  const previo = cargarDocumento(id);
+  if (previo && previo.estado === 'borrador') {
+    for (const { id: plugin, fn } of extensionesDe('documento.validarEmision')) {
+      let motivo = null;
+      try { motivo = fn(previo); } catch (e) { console.error(`[${plugin}] documento.validarEmision:`, e.message); }
+      if (motivo) throw new ErrorUsuario(String(motivo), 409);
+    }
+  }
   transaccion(() => {
     const d = db.prepare('SELECT * FROM documentos WHERE id = ?').get(id);
     if (!d) throw new ErrorUsuario('No encontrado', 404);
@@ -386,7 +396,9 @@ router.post('/:id/estado', envolver((req, res) => {
     db.prepare("UPDATE documentos SET estado = ?, actualizado = datetime('now') WHERE id = ?").run(nuevo, id);
   }
   auditar(req, `${d.tipo}.estado`, `${d.codigo}: ${d.estado} → ${nuevo}`);
-  res.json(cargarDocumento(id));
+  const doc = cargarDocumento(id);
+  hooks.emit('documento.estado', { doc, antes: d.estado, nuevo });
+  res.json(doc);
 }));
 
 // ---- Rectificativa: nuevo documento con las líneas en negativo ----
@@ -608,6 +620,18 @@ function parametrosDe(d, { sinValorar: forzarSin = false, valorar = false } = {}
 /** Prepara el PDF de un documento. Un albarán «no valorado» sale sin precios salvo que se pida valorar. */
 function prepararPdf(d, opciones = {}) {
   const params = parametrosDe(d, opciones);
+  // Los plugins con 'pdf.dibujar' añaden contenido al final del cuerpo (antes del pie). El generador llama a alFinal(pdf, y, { limite, margen }).
+  params.alFinal = (pdf, y0, info) => {
+    let y = y0;
+    for (const { id, fn } of extensionesDe('pdf.dibujar')) {
+      try {
+        const lugar = { y, limite: info.limite, margen: info.margen, reservar(alto) { if (y + alto > info.limite) { pdf.addPage(); y = info.margen; } return y; } };
+        const r = fn(pdf, params, lugar);
+        if (typeof r === 'number') y = r;
+      } catch (e) { console.error(`El plugin ${id} falló al dibujar en el PDF:`, e.message); }
+    }
+    return y;
+  };
   const { sinValorar } = params;
   // Un plugin de diseño puede dibujar el PDF; si no hay ninguno (o devuelve null) se usa el diseño estándar
   for (const { id, fn } of extensionesDe('pdf.generar')) {
@@ -620,6 +644,7 @@ function prepararPdf(d, opciones = {}) {
   }
   return { pdf: generarPdf(params), sinValorar };
 }
+
 
 /** Genera el PDF en memoria y lo pasa por los plugins de posproceso (p. ej. firma digital). */
 async function pdfFinal(d, opciones = {}) {
