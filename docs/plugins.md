@@ -5,7 +5,7 @@ Los plugins amplían 7Factura sin tocar su código. Se publican en GitHub y se i
 ## Cómo funciona
 
 1. La aplicación lee un **registro**: un `registry.json` público. Por defecto es
-   `https://raw.githubusercontent.com/im7manu/facturador-plugins/main/registry.json`, y se puede cambiar en la página Plugins.
+   `https://raw.githubusercontent.com/im7manu/7factura-plugins/main/registry.json`, y se puede cambiar en la página Plugins.
 2. Al pulsar **Instalar**, descarga el paquete `.tar.gz` de la URL indicada y **comprueba su SHA-256**. Si no coincide, lo rechaza.
 3. Extrae el paquete en `plugins/<id>/` (rechaza rutas peligrosas y enlaces simbólicos), lee `plugin.json` y lo activa sin reiniciar.
 
@@ -124,7 +124,7 @@ Node.js guarda en caché el código ya cargado. Si actualizas un plugin que esta
 1. Empaquétalo:
    ```bash
    node scripts/empaquetar-plugin.mjs examples/plugin-hola \
-     https://github.com/im7manu/facturador-plugins/releases/download/hola-v1.0.0/hola-1.0.0.tar.gz
+     https://github.com/im7manu/7factura-plugins/releases/download/hola-v1.0.0/hola-1.0.0.tar.gz
    ```
    El script crea `hola-1.0.0.tar.gz` y muestra la entrada para el registro, con su SHA-256.
 2. Sube el `.tar.gz` a una *Release* de GitHub.
@@ -139,9 +139,9 @@ Node.js guarda en caché el código ya cargado. Si actualizas un plugin que esta
       "version": "1.0.0",
       "descripcion": "Plugin de ejemplo",
       "autor": "im7manu",
-      "url": "https://github.com/im7manu/facturador-plugins/releases/download/hola-v1.0.0/hola-1.0.0.tar.gz",
+      "url": "https://github.com/im7manu/7factura-plugins/releases/download/hola-v1.0.0/hola-1.0.0.tar.gz",
       "sha256": "…",
-      "repo": "https://github.com/im7manu/facturador-plugins"
+      "repo": "https://github.com/im7manu/7factura-plugins"
     }
   ]
 }
@@ -151,7 +151,7 @@ Para publicar una actualización, sube la nueva versión y cambia `version`, `ur
 
 ## Plugins oficiales
 
-En [im7manu/facturador-plugins](https://github.com/im7manu/facturador-plugins): `copias` (copias de seguridad), `temas`, `diseno-pdf`, `gestor-deca` (facturar envíos de 7DeCA) y `rutas` (mapas y km). Son buenos ejemplos de cada punto de extensión.
+En [im7manu/7factura-plugins](https://github.com/im7manu/7factura-plugins): `copias` (copias de seguridad), `temas`, `diseno-pdf`, `gestor-deca` (facturar envíos de 7DeCA) y `rutas` (mapas y km). Son buenos ejemplos de cada punto de extensión.
 
 ## Ideas de plugins
 

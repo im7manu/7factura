@@ -1,6 +1,6 @@
 # Actualizaciones
 
-7Factura busca versiones nuevas en las [Releases de este repositorio](https://github.com/im7manu/facturador/releases) y se actualiza solo, sin riesgo de perder datos.
+7Factura busca versiones nuevas en las [Releases de este repositorio](https://github.com/im7manu/7factura/releases) y se actualiza solo, sin riesgo de perder datos.
 
 ## Para quien usa la aplicación
 
@@ -90,7 +90,7 @@ gh release create v1.0.1 release/* --title "7Factura 1.0.1" --generate-notes
 | Variable | Por defecto | Descripción |
 |---|---|---|
 | `UPDATE_DISABLED` | — | `1` desactiva la comprobación y la instalación |
-| `UPDATE_REPO` | `im7manu/facturador` | Repositorio de las Releases (por ejemplo, un fork propio) |
+| `UPDATE_REPO` | `im7manu/7factura` | Repositorio de las Releases (por ejemplo, un fork propio) |
 | `UPDATE_PUBKEY` | `server/clave-actualizaciones.pem` | Clave pública en PEM (para forks con su propia clave) |
 | `UPDATE_HEALTH_SECONDS` | `60` | Duración del periodo de prueba |
 | `UPDATE_KEEP_BACKUPS` | `3` | Copias y versiones que se conservan |

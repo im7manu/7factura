@@ -35,7 +35,7 @@ const CAPITULOS = [
       { h: 'Cuándo se conecta a internet (y qué envía)' },
       { p: '7Factura funciona sin conexión. Solo usa internet en estos casos, y nunca envía tus datos de negocio a terceros:' },
       { lista: [
-        'Buscar actualizaciones: una vez por hora pregunta a GitHub (github.com/im7manu/facturador) si hay una versión nueva. No envía ningún dato de tu empresa; solo descarga la versión nueva si la instalas.',
+        'Buscar actualizaciones: una vez por hora pregunta a GitHub (github.com/im7manu/7factura) si hay una versión nueva. No envía ningún dato de tu empresa; solo descarga la versión nueva si la instalas.',
         'Plugins: al abrir la página Plugins consulta la lista de plugins disponibles en GitHub, y descarga el que instales.',
         'Correo: cuando tú envías un documento por correo, el mensaje sale por tu propia cuenta (Gmail, Outlook o tu proveedor por SMTP), igual que cualquier correo que envíes desde tu buzón.',
       ] },
@@ -55,7 +55,7 @@ const CAPITULOS = [
       ] },
       { h: 'Instalación' },
       { pasos: [
-        'Descarga la última versión desde github.com/im7manu/facturador (apartado Releases) y descomprímela.',
+        'Descarga la última versión desde github.com/im7manu/7factura (apartado Releases) y descomprímela.',
         'En una terminal, dentro de la carpeta, ejecuta «npm start» (el paquete ya incluye todo lo necesario). Con Docker: «docker compose up -d --build».',
         'Abre en el navegador http://localhost:9100 (o la dirección del servidor desde otros equipos de la red).',
       ] },
@@ -250,7 +250,7 @@ const CAPITULOS = [
   {
     titulo: 'Actualizaciones',
     bloques: [
-      { p: '7Factura comprueba cada hora si hay una versión nueva publicada en github.com/im7manu/facturador. El administrador la ve en Ajustes > Actualizaciones y con un aviso en la barra superior, y puede instalarla con un clic o dejar activada la actualización automática de madrugada.' },
+      { p: '7Factura comprueba cada hora si hay una versión nueva publicada en github.com/im7manu/7factura. El administrador la ve en Ajustes > Actualizaciones y con un aviso en la barra superior, y puede instalarla con un clic o dejar activada la actualización automática de madrugada.' },
       { img: '18-actualizaciones', pie: 'Ajustes > Actualizaciones.' },
       { h: 'Por qué es segura' },
       { pasos: [
@@ -291,7 +291,7 @@ const CAPITULOS = [
       { h: 'He perdido el servidor. ¿Qué hago?' },
       { p: 'Instala 7Factura en otro equipo, instala el plugin de copias y restaura el último ZIP que descargaste.' },
       { h: '¿De quién es el programa?' },
-      { p: '7Factura es software libre con licencia MIT, escrito desde cero. Puedes usarlo, copiarlo y modificarlo libremente. El código está en github.com/im7manu/facturador.' },
+      { p: '7Factura es software libre con licencia MIT, escrito desde cero. Puedes usarlo, copiarlo y modificarlo libremente. El código está en github.com/im7manu/7factura.' },
     ],
   },
 ];
@@ -319,7 +319,7 @@ pdf.font('Helvetica').fontSize(20).text('Manual de uso', 60, 172);
 pdf.fontSize(11).fillOpacity(0.9).text(`Versión ${version}`, 60, 204).fillOpacity(1);
 pdf.font('Helvetica-Bold').fontSize(12).text('Facturación para autónomos y pymes.', 60, 690);
 pdf.font('Helvetica').fontSize(11).text('Se ejecuta en el servidor de tu empresa. Tus datos no salen de él.', 60, 708, { width: ANCHO });
-pdf.fontSize(9).fillOpacity(0.8).text('Software libre (licencia MIT) · github.com/im7manu/facturador', 60, 770).fillOpacity(1);
+pdf.fontSize(9).fillOpacity(0.8).text('Software libre (licencia MIT) · github.com/im7manu/7factura', 60, 770).fillOpacity(1);
 
 // Página del índice (se rellena al final)
 pdf.addPage();

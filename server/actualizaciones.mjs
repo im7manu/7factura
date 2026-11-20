@@ -24,7 +24,7 @@ const COPIAS = path.join(DIR, 'copias');
 fs.mkdirSync(VERSIONES, { recursive: true });
 fs.mkdirSync(COPIAS, { recursive: true });
 
-const REPO = process.env.UPDATE_REPO || 'im7manu/facturador';
+const REPO = process.env.UPDATE_REPO || 'im7manu/7factura';
 const API = (process.env.UPDATE_API || 'https://api.github.com').replace(/\/$/, '');
 const DESACTIVADAS = process.env.UPDATE_DISABLED === '1';
 const CONSERVAR = Math.max(1, Number(process.env.UPDATE_KEEP_BACKUPS || 3));

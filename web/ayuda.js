@@ -17,7 +17,7 @@ const chips = (p) => {
   if (p.v === 'srv') h += '<span class="chip srv">Solo servidor</span>';
   return `<div class="chips">${h}</div>`;
 };
-const enlaceIncidencia = (q) => `https://github.com/im7manu/facturador/issues/new?title=${encodeURIComponent(q || 'Duda')}`;
+const enlaceIncidencia = (q) => `https://github.com/im7manu/7factura/issues/new?title=${encodeURIComponent(q || 'Duda')}`;
 const pregunta = (p, { abierta = false, prefijo = '' } = {}) => `
   <details class="pregunta" id="${prefijo}${p.id}"${abierta ? ' open' : ''}>
     <summary>${p.q}</summary>

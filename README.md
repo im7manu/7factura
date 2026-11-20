@@ -2,9 +2,9 @@
 
 Facturación para autónomos y pymes en España. Código abierto (MIT), escrito desde cero y pensado para **instalarse en tu propio equipo**, ya sea el servidor de la empresa o tu ordenador con Windows: tus datos no salen de él.
 
-### ⬇️ [Descargar para Windows](https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe)
+### ⬇️ [Descargar para Windows](https://github.com/im7manu/7factura/releases/latest/download/Facturador-Instalador-Windows.exe)
 
-🌐 **Web del proyecto y centro de ayuda: [im7manu.github.io/facturador](https://im7manu.github.io/facturador/)**
+🌐 **Web del proyecto y centro de ayuda: [im7manu.github.io/7factura](https://im7manu.github.io/7factura/)**
 
 ¿Eres autónomo y solo usas un ordenador? Descarga el instalador, ábrelo y listo: no necesitas servidor, ni permisos de administrador, ni instalar nada más. [Guía de Windows](docs/windows.md).
 
@@ -39,7 +39,7 @@ Solo se conecta a internet para:
 
 ### Windows, en un solo ordenador
 
-Descarga **[Facturador-Instalador-Windows.exe](https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe)** y ábrelo. Se instala para tu usuario, crea un acceso directo y se abre en su propia ventana. Tiene las mismas opciones que la versión de servidor y se actualiza igual, sola y con versiones firmadas. Más información en **[docs/windows.md](docs/windows.md)**.
+Descarga **[Facturador-Instalador-Windows.exe](https://github.com/im7manu/7factura/releases/latest/download/Facturador-Instalador-Windows.exe)** y ábrelo. Se instala para tu usuario, crea un acceso directo y se abre en su propia ventana. Tiene las mismas opciones que la versión de servidor y se actualiza igual, sola y con versiones firmadas. Más información en **[docs/windows.md](docs/windows.md)**.
 
 ### Servidor (oficina, NAS, miniPC…), para usarlo desde varios equipos
 
@@ -62,7 +62,7 @@ Guía completa (servidor de la oficina, NAS, Windows, HTTPS, acceso desde fuera,
 | | |
 |---|---|
 | [Manual de uso (PDF)](public/manual-facturador.pdf) | Todo lo que hace la aplicación, pantalla a pantalla |
-| [Centro de ayuda (web)](https://im7manu.github.io/facturador/ayuda.html) | Preguntas frecuentes con buscador: escribe tu duda con tus palabras |
+| [Centro de ayuda (web)](https://im7manu.github.io/7factura/ayuda.html) | Preguntas frecuentes con buscador: escribe tu duda con tus palabras |
 | [Windows en un solo ordenador](docs/windows.md) | Instalador para autónomos sin servidor: instalar, datos, actualizaciones |
 | [Instalación y puesta en marcha](docs/instalacion.md) | Requisitos, instalación, HTTPS, variables de entorno, copias |
 | [Actualizaciones](docs/actualizaciones.md) | Cómo se actualiza sola de forma segura y cómo publicar versiones |
@@ -73,7 +73,7 @@ Guía completa (servidor de la oficina, NAS, Windows, HTTPS, acceso desde fuera,
 | [Arquitectura y desarrollo](docs/arquitectura.md) | Estructura del código, base de datos, API y pruebas |
 | [Integración con 7DeCA](docs/integracion-deca.md) | Datos compartidos con 7DeCA (en preparación) |
 
-Plugins oficiales: **[im7manu/facturador-plugins](https://github.com/im7manu/facturador-plugins)**.
+Plugins oficiales: **[im7manu/7factura-plugins](https://github.com/im7manu/7factura-plugins)**.
 
 ## Desarrollo
 

@@ -74,7 +74,7 @@ export default function Ayuda() {
               ))}
               <p className="text-sm text-muted">
                 {preguntas.length} preguntas · ¿No encuentras lo que buscas?{" "}
-                <a className="text-brand-fg underline" href="https://github.com/im7manu/facturador/issues" target="_blank" rel="noreferrer">Pregunta en GitHub</a>
+                <a className="text-brand-fg underline" href="https://github.com/im7manu/7factura/issues" target="_blank" rel="noreferrer">Pregunta en GitHub</a>
               </p>
             </>
           )}

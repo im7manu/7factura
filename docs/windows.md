@@ -4,7 +4,7 @@ Para autónomos que quieren usar 7Factura en **su propio ordenador con Windows**
 
 ## Instalar
 
-1. Descarga **[Facturador-Instalador-Windows.exe](https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe)** (desde la última [Release](https://github.com/im7manu/facturador/releases/latest)).
+1. Descarga **[Facturador-Instalador-Windows.exe](https://github.com/im7manu/7factura/releases/latest/download/Facturador-Instalador-Windows.exe)** (desde la última [Release](https://github.com/im7manu/7factura/releases/latest)).
 2. Ábrelo. **No pide permisos de administrador.**
    - Windows puede mostrar «Windows protegió su PC» porque el instalador no está firmado con un certificado de empresa. Pulsa **Más información → Ejecutar de todas formas**.
 3. Al terminar, abre **7Factura** desde el escritorio o el menú Inicio. La primera vez, un asistente te pide crear tu usuario y los datos de tu empresa.

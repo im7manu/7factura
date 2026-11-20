@@ -32,7 +32,7 @@ export const AYUDA = {
     { id: 'instalar-windows', cat: 'empezar', v: 'win', q: '¿Cómo instalo 7Factura en Windows?',
       ejemplos: ['como lo instalo en mi ordenador', 'descargar instalador', 'instalar en el portatil', 'donde se descarga', 'pasos para instalar'],
       claves: 'instalar instalador descargar exe windows pc portatil setup',
-      a: `<ol><li>Descarga <a href="https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe">Facturador-Instalador-Windows.exe</a>.</li>
+      a: `<ol><li>Descarga <a href="https://github.com/im7manu/7factura/releases/latest/download/Facturador-Instalador-Windows.exe">Facturador-Instalador-Windows.exe</a>.</li>
 <li>Ábrelo. No pide permisos de administrador. Si Windows muestra «Windows protegió su PC», pulsa <em>Más información → Ejecutar de todas formas</em>.</li>
 <li>Sigue el asistente (Siguiente, Acepto, Instalar).</li>
 <li>Abre <strong>7Factura</strong> desde el escritorio o el menú Inicio.</li></ol>
@@ -41,10 +41,10 @@ export const AYUDA = {
       ejemplos: ['instalar en un nas', 'docker', 'linux', 'raspberry o minipc', 'instalar para toda la oficina', 'npm start'],
       claves: 'servidor nas docker linux node npm minipc oficina red instalar synology',
       a: `<p>Necesitas un equipo siempre encendido con <strong>Docker</strong> o <strong>Node.js 22.13 o superior</strong>.</p>
-<ol><li>Descarga el paquete <code>facturador-X.Y.Z.tar.gz</code> de la <a href="https://github.com/im7manu/facturador/releases/latest">última versión</a> y descomprímelo.</li>
+<ol><li>Descarga el paquete <code>facturador-X.Y.Z.tar.gz</code> de la <a href="https://github.com/im7manu/7factura/releases/latest">última versión</a> y descomprímelo.</li>
 <li>Dentro de la carpeta, ejecuta <code>npm start</code>. Con Docker, desde el código fuente: <code>docker compose up -d --build</code>.</li>
 <li>Abre <code>http://localhost:9100</code>, o <code>http://IP-DEL-SERVIDOR:9100</code> desde otros equipos.</li></ol>
-<p>Guía completa (arranque automático, HTTPS, NAS, variables): <a href="https://github.com/im7manu/facturador/blob/main/docs/instalacion.md">docs/instalacion.md</a>.</p>` },
+<p>Guía completa (arranque automático, HTTPS, NAS, variables): <a href="https://github.com/im7manu/7factura/blob/main/docs/instalacion.md">docs/instalacion.md</a>.</p>` },
     { id: 'primera-configuracion', cat: 'empezar', q: '¿Qué tengo que hacer la primera vez que lo abro?',
       ejemplos: ['primeros pasos', 'configurar mi empresa', 'poner mis datos fiscales', 'crear usuario administrador', 'asistente inicial'],
       claves: 'primera vez configuracion asistente administrador empresa nif razon social iban datos fiscales',
@@ -63,7 +63,7 @@ export const AYUDA = {
     { id: 'importar-facturascripts', cat: 'empezar', q: '¿Puedo traer mis datos desde otro programa (FacturaScripts)?',
       ejemplos: ['migrar desde otro programa', 'importar clientes', 'pasar mis facturas antiguas', 'tengo facturascripts', 'importar excel'],
       claves: 'importar migrar facturascripts clientes productos facturas antiguas pasar datos',
-      a: `<p>Sí, desde FacturaScripts se pueden importar clientes, productos y facturas con una herramienta incluida. Instrucciones: <a href="https://github.com/im7manu/facturador/blob/main/docs/importar-facturascripts.md">Importar desde FacturaScripts</a>.</p>
+      a: `<p>Sí, desde FacturaScripts se pueden importar clientes, productos y facturas con una herramienta incluida. Instrucciones: <a href="https://github.com/im7manu/7factura/blob/main/docs/importar-facturascripts.md">Importar desde FacturaScripts</a>.</p>
 <p>Desde otros programas todavía no hay importación automática; puedes dar de alta los clientes y productos a mano.</p>` },
 
     // ---------------- Facturas ----------------
@@ -260,7 +260,7 @@ export const AYUDA = {
       a: `<p>En <span class="ruta">Ajustes → Correo</span> cada usuario conecta su propia cuenta:</p>
 <ul><li><strong>Google</strong> (Gmail o Workspace) o <strong>Microsoft 365</strong> (Outlook o Exchange).</li>
 <li><strong>SMTP</strong> para cualquier otro proveedor (Yahoo, el correo de tu hosting…).</li></ul>
-<p>El correo sale desde tu buzón y queda también en tu carpeta de enviados. Las credenciales se guardan cifradas. Guía detallada: <a href="https://github.com/im7manu/facturador/blob/main/docs/correo.md">Correo</a>.</p>
+<p>El correo sale desde tu buzón y queda también en tu carpeta de enviados. Las credenciales se guardan cifradas. Guía detallada: <a href="https://github.com/im7manu/7factura/blob/main/docs/correo.md">Correo</a>.</p>
 <figure><img src="capturas/17-ajustes-correo.jpg" loading="lazy" alt="Ajustes de correo"><figcaption>Ajustes → Correo.</figcaption></figure>` },
     { id: 'plantillas-correo', cat: 'correo', q: '¿Puedo cambiar el texto de los correos que envío?',
       ejemplos: ['plantilla de email', 'mensaje predeterminado', 'asunto del correo', 'texto del email'],
@@ -287,7 +287,7 @@ export const AYUDA = {
     { id: 'plugins', cat: 'aspecto', q: '¿Qué son los plugins y cómo se instalan?',
       ejemplos: ['instalar complementos', 'extensiones', 'añadir funciones', 'plugin de copias'],
       claves: 'plugin plugins complemento extension instalar funciones',
-      a: `<p>Añaden funciones sin tocar el programa. Un administrador los instala desde <span class="ruta">Ajustes → Plugins</span>, que muestra los disponibles en el <a href="https://github.com/im7manu/facturador-plugins">repositorio oficial</a>. Cada descarga se verifica con su huella SHA-256. Los oficiales son: Copias de seguridad, Temas y Diseño de PDF.</p>
+      a: `<p>Añaden funciones sin tocar el programa. Un administrador los instala desde <span class="ruta">Ajustes → Plugins</span>, que muestra los disponibles en el <a href="https://github.com/im7manu/7factura-plugins">repositorio oficial</a>. Cada descarga se verifica con su huella SHA-256. Los oficiales son: Copias de seguridad, Temas y Diseño de PDF.</p>
 <figure><img src="capturas/19-plugins.jpg" loading="lazy" alt="Plugins"><figcaption>Página de plugins.</figcaption></figure>` },
 
     // ---------------- Copias ----------------
@@ -322,7 +322,7 @@ export const AYUDA = {
     { id: 'como-actualizar', cat: 'actualizaciones', q: '¿Cómo se actualiza 7Factura?',
       ejemplos: ['nueva version', 'actualizar programa', 'actualizacion automatica', 'tengo la ultima version', 'version instalada'],
       claves: 'actualizar actualizacion version nueva automatica instalar ahora',
-      a: `<p>Solo. Cada hora comprueba si hay una versión nueva en <a href="https://github.com/im7manu/facturador/releases">GitHub</a>. El administrador la ve en <span class="ruta">Ajustes → Actualizaciones</span> y con un aviso en la barra superior:</p>
+      a: `<p>Solo. Cada hora comprueba si hay una versión nueva en <a href="https://github.com/im7manu/7factura/releases">GitHub</a>. El administrador la ve en <span class="ruta">Ajustes → Actualizaciones</span> y con un aviso en la barra superior:</p>
 <ul><li><strong>Instalar ahora</strong> la instala en unos segundos.</li>
 <li>Con la <strong>actualización automática</strong> activada, se instala sola en la franja horaria que elijas.</li></ul>
 <p>En la versión de Windows las actualizaciones se aplican mientras 7Factura está abierto.</p>
@@ -354,7 +354,7 @@ export const AYUDA = {
       claves: 'contraseña password clave olvidada recuperar entrar acceso bloqueado intentos login',
       a: `<ul><li>Otro administrador puede cambiártela en <span class="ruta">Ajustes → Usuarios</span>.</li>
 <li>Si te equivocas 5 veces seguidas, la cuenta se bloquea un rato por seguridad: espera unos minutos.</li>
-<li>Si eres el único administrador, <a href="https://github.com/im7manu/facturador/issues">abre una incidencia</a> y te indicamos cómo restablecerla.</li></ul>` },
+<li>Si eres el único administrador, <a href="https://github.com/im7manu/7factura/issues">abre una incidencia</a> y te indicamos cómo restablecerla.</li></ul>` },
     { id: 'movil', cat: 'usuarios', q: '¿Puedo usarlo desde el móvil o la tableta?',
       ejemplos: ['usar en el iphone', 'android', 'app movil', 'desde la tablet', 'en la furgoneta'],
       claves: 'movil telefono iphone android tablet tableta app',
@@ -363,7 +363,7 @@ export const AYUDA = {
     { id: 'acceso-fuera', cat: 'usuarios', v: 'srv', q: '¿Puedo usarlo fuera de la oficina o desde casa?',
       ejemplos: ['acceso remoto', 'desde internet', 'teletrabajo', 'vpn', 'https', 'dominio propio'],
       claves: 'fuera remoto casa internet vpn https tailscale proxy dominio teletrabajo',
-      a: `<p>Con la versión de servidor, publícalo detrás de <strong>HTTPS</strong> (con un proxy como Caddy o Nginx) o usa una <strong>VPN</strong> como Tailscale, e indica la dirección en <code>BASE_URL</code>. Detalles en la <a href="https://github.com/im7manu/facturador/blob/main/docs/instalacion.md">guía de instalación</a>.</p>` },
+      a: `<p>Con la versión de servidor, publícalo detrás de <strong>HTTPS</strong> (con un proxy como Caddy o Nginx) o usa una <strong>VPN</strong> como Tailscale, e indica la dirección en <code>BASE_URL</code>. Detalles en la <a href="https://github.com/im7manu/7factura/blob/main/docs/instalacion.md">guía de instalación</a>.</p>` },
     { id: 'seguridad', cat: 'usuarios', q: '¿Es seguro? ¿Cómo protege mis datos?',
       ejemplos: ['contraseñas cifradas', 'hackers', 'proteccion', 'registro de actividad', 'quien ha hecho que'],
       claves: 'seguridad seguro proteccion cifrado contraseñas hacker actividad registro auditoria',
@@ -372,14 +372,14 @@ export const AYUDA = {
 <li>Protección contra ataques web (CSRF, cabeceras de seguridad).</li>
 <li>Actualizaciones y plugins verificados antes de instalarse.</li>
 <li>Registro de actividad en <span class="ruta">Ajustes → Actividad</span>.</li></ul>
-<p>Más información en <a href="https://github.com/im7manu/facturador/blob/main/docs/seguridad.md">Seguridad</a>.</p>` },
+<p>Más información en <a href="https://github.com/im7manu/7factura/blob/main/docs/seguridad.md">Seguridad</a>.</p>` },
 
     // ---------------- Windows ----------------
     { id: 'windows-protegio', cat: 'windows', v: 'win', q: 'Windows dice «Windows protegió su PC» al instalar. ¿Es peligroso?',
       ejemplos: ['smartscreen', 'aviso de virus', 'no me deja instalar', 'editor desconocido', 'antivirus bloquea'],
       claves: 'smartscreen protegio aviso virus antivirus bloquea editor desconocido seguro firmado',
       a: `<p>No. Aparece porque el instalador no está firmado con un certificado de empresa de pago (es un proyecto gratuito). Pulsa <strong>Más información → Ejecutar de todas formas</strong>.</p>
-<p>Si quieres comprobarlo, el código es público y cada versión publica la suma SHA-256 del instalador en su <a href="https://github.com/im7manu/facturador/releases/latest">página de GitHub</a>.</p>` },
+<p>Si quieres comprobarlo, el código es público y cada versión publica la suma SHA-256 del instalador en su <a href="https://github.com/im7manu/7factura/releases/latest">página de GitHub</a>.</p>` },
     { id: 'windows-abrir-cerrar', cat: 'windows', v: 'win', q: '¿Cómo se abre y se cierra 7Factura en Windows?',
       ejemplos: ['donde esta el programa', 'se queda abierto en segundo plano', 'cerrar el programa', 'acceso directo', 'se abre en edge'],
       claves: 'abrir cerrar acceso directo escritorio inicio ventana edge segundo plano',
@@ -390,7 +390,7 @@ export const AYUDA = {
       claves: 'no arranca no abre error falla blanco registro log antivirus',
       a: `<ol><li>Cierra todas las ventanas de 7Factura y vuelve a abrirlo.</li>
 <li>Si un antivirus ha bloqueado <code>node.exe</code>, añade una excepción para <code>%LOCALAPPDATA%\\Programs\\Facturador</code>.</li>
-<li>Mira el final del archivo <code>%LOCALAPPDATA%\\Facturador\\registro.log</code> y, si no lo entiendes, <a href="https://github.com/im7manu/facturador/issues">abre una incidencia</a> adjuntándolo.</li>
+<li>Mira el final del archivo <code>%LOCALAPPDATA%\\Facturador\\registro.log</code> y, si no lo entiendes, <a href="https://github.com/im7manu/7factura/issues">abre una incidencia</a> adjuntándolo.</li>
 <li>Reinstalar no borra tus datos.</li></ol>` },
     { id: 'windows-desinstalar', cat: 'windows', v: 'win', q: '¿Cómo desinstalo 7Factura? ¿Se borran mis datos?',
       ejemplos: ['quitar el programa', 'eliminar facturador', 'reinstalar', 'borrar todo'],
@@ -406,8 +406,8 @@ export const AYUDA = {
       ejemplos: ['open source', 'github', 'quien lo ha hecho', 'puedo modificarlo', 'licencia mit'],
       claves: 'codigo abierto open source libre mit github autor modificar',
       a: `<p>Que todo el código es público y cualquiera puede revisarlo, usarlo, copiarlo y modificarlo libremente (licencia MIT). Está escrito desde cero y todo está en GitHub:</p>
-<ul><li><a href="https://github.com/im7manu/facturador">github.com/im7manu/facturador</a>: el programa.</li>
-<li><a href="https://github.com/im7manu/facturador-plugins">github.com/im7manu/facturador-plugins</a>: los plugins oficiales.</li></ul>` },
+<ul><li><a href="https://github.com/im7manu/7factura">github.com/im7manu/7factura</a>: el programa.</li>
+<li><a href="https://github.com/im7manu/7factura-plugins">github.com/im7manu/7factura-plugins</a>: los plugins oficiales.</li></ul>` },
     { id: 'internet', cat: 'general', q: '¿Necesito internet para usar 7Factura?',
       ejemplos: ['funciona sin conexion', 'offline', 'sin wifi'],
       claves: 'internet conexion offline wifi sin red',
@@ -420,6 +420,6 @@ export const AYUDA = {
     { id: 'soporte', cat: 'general', q: '¿Dónde pido ayuda o aviso de un error?',
       ejemplos: ['contactar', 'soporte tecnico', 'tengo un problema', 'sugerir una mejora', 'reportar un fallo'],
       claves: 'ayuda soporte contacto error fallo problema mejora sugerencia incidencia',
-      a: `<p>Abre una <a href="https://github.com/im7manu/facturador/issues">incidencia en GitHub</a> explicando qué pasa (sin incluir datos de tus clientes). También puedes consultar el <a href="manual-facturador.pdf">manual en PDF</a>.</p>` },
+      a: `<p>Abre una <a href="https://github.com/im7manu/7factura/issues">incidencia en GitHub</a> explicando qué pasa (sin incluir datos de tus clientes). También puedes consultar el <a href="manual-facturador.pdf">manual en PDF</a>.</p>` },
   ],
 };

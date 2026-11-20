@@ -35,7 +35,7 @@ const TAR = process.platform === 'win32' ? path.join(process.env.SystemRoot || '
 // Rutas peligrosas dentro de un paquete: absolutas, con unidad (C:), con \ o que suben de carpeta
 const rutaPeligrosa = (e) => e.startsWith('/') || /^[a-z]:/i.test(e) || e.includes('\\') || e.split('/').includes('..');
 export const PLUGINS_DIR = process.env.PLUGINS_DIR || path.resolve('plugins');
-export const REGISTRO_DEFECTO = 'https://raw.githubusercontent.com/im7manu/facturador-plugins/main/registry.json';
+export const REGISTRO_DEFECTO = 'https://raw.githubusercontent.com/im7manu/7factura-plugins/main/registry.json';
 fs.mkdirSync(PLUGINS_DIR, { recursive: true });
 
 export const hooks = new EventEmitter();

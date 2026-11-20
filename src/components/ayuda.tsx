@@ -7,12 +7,12 @@ import { crearBuscador, normalizar, raiz, resaltar, seleccionar, type ResultadoA
 import { cn } from "@/lib/utils";
 
 export const { categorias, preguntas } = AYUDA;
-export const WEB_AYUDA = "https://im7manu.github.io/facturador/";
+export const WEB_AYUDA = "https://im7manu.github.io/7factura/";
 const buscar = crearBuscador(preguntas);
 const porId = new Map(preguntas.map((p) => [p.id, p]));
 const catPorId = new Map(categorias.map((c) => [c.id, c]));
 export const preguntaPorId = (id: string) => porId.get(id);
-export const enlaceIncidencia = (q: string) => `https://github.com/im7manu/facturador/issues/new?title=${encodeURIComponent(q || "Duda")}`;
+export const enlaceIncidencia = (q: string) => `https://github.com/im7manu/7factura/issues/new?title=${encodeURIComponent(q || "Duda")}`;
 
 /** Adapta las rutas de las respuestas (pensadas para la web) a la aplicación. */
 function adaptarHtml(html: string) {

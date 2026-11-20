@@ -113,7 +113,7 @@ Section "7Factura" SecPrincipal
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "Publisher" "7Factura (código abierto)"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "DisplayIcon" "$INSTDIR\facturador.ico"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "InstallLocation" "$INSTDIR"
-  WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "URLInfoAbout" "https://github.com/im7manu/facturador"
+  WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "URLInfoAbout" "https://github.com/im7manu/7factura"
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "UninstallString" '"$INSTDIR\Desinstalar.exe"'
   WriteRegStr HKCU "${CLAVE_DESINSTALAR}" "QuietUninstallString" '"$INSTDIR\Desinstalar.exe" /S'
   WriteRegDWORD HKCU "${CLAVE_DESINSTALAR}" "NoModify" 1

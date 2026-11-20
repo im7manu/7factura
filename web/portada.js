@@ -4,8 +4,8 @@
   const v = document.getElementById('veredicto');
   if (!f || !v) return;
   f.addEventListener('submit', (e) => e.preventDefault());
-  const WIN = 'https://github.com/im7manu/facturador/releases/latest/download/Facturador-Instalador-Windows.exe';
-  const SRV = 'https://github.com/im7manu/facturador/blob/main/docs/instalacion.md';
+  const WIN = 'https://github.com/im7manu/7factura/releases/latest/download/Facturador-Instalador-Windows.exe';
+  const SRV = 'https://github.com/im7manu/7factura/blob/main/docs/instalacion.md';
   f.addEventListener('change', () => {
     const quien = f.querySelector('input[name=quien]:checked')?.value;
     const movil = f.querySelector('input[name=movil]:checked')?.value;

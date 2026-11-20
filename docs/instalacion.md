@@ -15,7 +15,7 @@ No hace falta instalar ninguna base de datos: 7Factura usa SQLite, que viene con
 
 ## Opción A: Node.js
 
-1. Descarga `facturador-X.Y.Z.tar.gz` de la última [Release](https://github.com/im7manu/facturador/releases/latest) y descomprímelo:
+1. Descarga `facturador-X.Y.Z.tar.gz` de la última [Release](https://github.com/im7manu/7factura/releases/latest) y descomprímelo:
    ```bash
    tar -xzf facturador-1.0.0.tar.gz
    cd facturador
@@ -32,7 +32,7 @@ No hace falta instalar ninguna base de datos: 7Factura usa SQLite, que viene con
 ### Desde el código fuente
 
 ```bash
-git clone https://github.com/im7manu/facturador.git
+git clone https://github.com/im7manu/7factura.git
 cd facturador
 npm install
 npm run build
@@ -68,7 +68,7 @@ y actívalo con `sudo systemctl enable --now facturador`.
 ## Opción B: Docker
 
 ```bash
-git clone https://github.com/im7manu/facturador.git
+git clone https://github.com/im7manu/7factura.git
 cd facturador
 docker compose up -d --build
 ```
@@ -123,7 +123,7 @@ Dentro de la red local basta con `http://IP-DEL-SERVIDOR:9100`. Para acceder des
 | `BASE_URL` | — | Dirección pública, p. ej. `https://facturas.tuempresa.es` |
 | `FACTURADOR_SECRET` | — | Clave para cifrar credenciales. Si no se indica, se crea `data/secreto.key` |
 | `UPDATE_DISABLED` | — | `1` desactiva las actualizaciones |
-| `UPDATE_REPO` | `im7manu/facturador` | Repositorio del que se descargan las actualizaciones |
+| `UPDATE_REPO` | `im7manu/7factura` | Repositorio del que se descargan las actualizaciones |
 | `UPDATE_HEALTH_SECONDS` | `60` | Periodo de prueba de una versión nueva antes de darla por buena |
 | `UPDATE_KEEP_BACKUPS` | `3` | Copias previas y versiones antiguas que se conservan |
 
@@ -143,7 +143,7 @@ Dentro de la red local basta con `http://IP-DEL-SERVIDOR:9100`. Para acceder des
 
 Como los datos solo están en tu equipo, **las copias son responsabilidad tuya**.
 
-- **Recomendado**: el plugin [Copias de seguridad](https://github.com/im7manu/facturador-plugins/tree/main/copias) hace una copia automática semanal y bajo demanda, descargable en ZIP. Guarda los ZIP fuera del servidor (disco externo, nube de la empresa…).
+- **Recomendado**: el plugin [Copias de seguridad](https://github.com/im7manu/7factura-plugins/tree/main/copias) hace una copia automática semanal y bajo demanda, descargable en ZIP. Guarda los ZIP fuera del servidor (disco externo, nube de la empresa…).
 - **Manual**: copia la carpeta `data/` entera con la aplicación parada. Incluye siempre `secreto.key`: sin ella las credenciales de correo y el certificado digital guardados no se pueden leer y habría que volver a configurarlos.
 
 Para recuperar el servidor: instala 7Factura en otro equipo, instala el plugin de copias y restaura el último ZIP (o copia la carpeta `data/` antes de arrancar).
