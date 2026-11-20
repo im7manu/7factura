@@ -1,3 +1,4 @@
+import { CampoDireccion } from "@/components/CampoDireccion";
 import { useEffect, useState, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -47,7 +48,7 @@ export function ClienteDialog({ open, onOpenChange, cliente, onGuardado, tipo = 
       <form id="form-cliente" onSubmit={enviar} className="grid gap-3 sm:grid-cols-6">
         <Field label="Nombre o razón social *" className="sm:col-span-4"><Input value={d.nombre} onChange={set("nombre")} required autoFocus /></Field>
         <Field label="NIF" className="sm:col-span-2" error={nifMal ? "NIF no válido" : null}><Input value={d.nif} onChange={set("nif")} className="uppercase" /></Field>
-        <Field label="Dirección" className="sm:col-span-6"><Input value={d.direccion} onChange={set("direccion")} /></Field>
+        <Field label="Dirección" className="sm:col-span-6"><CampoDireccion value={d.direccion} onChange={(v) => setD((x) => ({ ...x, direccion: v }))} onElegir={(r) => setD((x) => ({ ...x, direccion: r.calle || x.direccion, cp: r.cp || x.cp, ciudad: r.ciudad || x.ciudad, provincia: r.provincia || x.provincia }))} /></Field>
         <Field label="C.P." className="sm:col-span-1"><Input value={d.cp} onChange={set("cp")} /></Field>
         <Field label="Ciudad" className="sm:col-span-2"><Input value={d.ciudad} onChange={set("ciudad")} /></Field>
         <Field label="Provincia" className="sm:col-span-2"><Input value={d.provincia} onChange={set("provincia")} /></Field>

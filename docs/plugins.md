@@ -81,6 +81,7 @@ export function register(ctx) {
 | `pdf.generar` | `(params) => PDFDocument \| null` | Dibujar el PDF de un documento. `null` = usar el diseño estándar |
 | `pdf.postprocesar` | `async (buffer, doc) => Buffer` | Modificar el PDF generado (por ejemplo, firmarlo digitalmente) |
 | `apariencia` | `() => ({ tema, fondos })` | Tema visual y fotos de la pantalla de inicio de sesión |
+| `direcciones` | `{ sugerir(texto) }` → `[{ etiqueta, calle, cp, ciudad, provincia, lat, lon }]` | Sugerencias en los campos de dirección (clientes, proveedores, empresa) |
 | `rutas` | `{ calcular(textos, opciones), configurado() }` | Rutas y km (lo ofrece el plugin `rutas`; lo usa `gestor-deca` con `ctx.extensionesDe('rutas')`) |
 
 Si varios plugins usan el mismo punto se aplican por orden de id.

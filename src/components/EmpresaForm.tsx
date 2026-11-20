@@ -1,3 +1,4 @@
+import { CampoDireccion } from "@/components/CampoDireccion";
 import type { Empresa } from "@/lib/api";
 import { Field, Input, Textarea } from "@/components/ui/input";
 import { nifValido } from "@/lib/utils";
@@ -17,7 +18,7 @@ export function EmpresaForm({ valor, onChange, disabled }: { valor: Empresa; onC
       <Field label="NIF *" className="sm:col-span-2" error={nifMal ? "NIF no válido" : null}>
         <Input value={valor.nif} onChange={set("nif")} required className="uppercase" />
       </Field>
-      <Field label="Dirección" className="sm:col-span-6"><Input value={valor.direccion} onChange={set("direccion")} /></Field>
+      <Field label="Dirección" className="sm:col-span-6"><CampoDireccion value={valor.direccion} onChange={(v) => onChange({ ...valor, direccion: v })} onElegir={(r) => onChange({ ...valor, direccion: r.calle || valor.direccion, cp: r.cp || valor.cp, ciudad: r.ciudad || valor.ciudad, provincia: r.provincia || valor.provincia })} /></Field>
       <Field label="C.P." className="sm:col-span-1"><Input value={valor.cp} onChange={set("cp")} inputMode="numeric" /></Field>
       <Field label="Ciudad" className="sm:col-span-3"><Input value={valor.ciudad} onChange={set("ciudad")} /></Field>
       <Field label="Provincia" className="sm:col-span-2"><Input value={valor.provincia} onChange={set("provincia")} /></Field>
