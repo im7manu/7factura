@@ -7,7 +7,7 @@ const MAX_INTENTOS = 5;
 const BLOQUEO_MS = 1000 * 60 * 15;
 export const COOKIE = 'fx_sid';
 
-// scrypt con coste N=16384, r=8, p=1, sal aleatoria de 32 bytes y clave de 64 bytes (igual que Gestor DeCA)
+// scrypt con coste N=16384, r=8, p=1, sal aleatoria de 32 bytes y clave de 64 bytes (igual que 7DeCA)
 const SCRYPT = { N: 16384, r: 8, p: 1, maxmem: 64 * 1024 * 1024 };
 const SAL_BYTES = 32;
 

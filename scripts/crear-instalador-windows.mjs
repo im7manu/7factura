@@ -27,7 +27,7 @@ fs.mkdirSync(cache, { recursive: true });
 fs.mkdirSync(origen, { recursive: true });
 
 // 1. Aplicación: el paquete de la Release tal cual
-console.log(`Facturador ${version} para Windows`);
+console.log(`7Factura ${version} para Windows`);
 run('tar', ['-xzf', paquete, '-C', trabajo]);
 fs.renameSync(path.join(trabajo, 'facturador'), path.join(origen, 'app'));
 

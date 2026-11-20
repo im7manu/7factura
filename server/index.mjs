@@ -1,4 +1,4 @@
-// Facturador: servidor HTTP.
+// 7Factura: servidor HTTP.
 import express from 'express';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -10,7 +10,7 @@ import { router as cobros } from './routes/cobros.mjs';
 import { router as terceros } from './routes/terceros.mjs';
 import { router as correo, routerPublico as correoPublico } from './routes/correo.mjs';
 import { router as actualizaciones, programar as programarActualizaciones } from './actualizaciones.mjs';
-import { apiPlugins, montarRutasPlugins, cargarPlugins } from './plugins.mjs';
+import { apiPlugins, montarRutasPlugins, montarRutasPublicasPlugins, cargarPlugins, cspDePlugin } from './plugins.mjs';
 import { requiereSesion } from './auth.mjs';
 import { auditar } from './db.mjs';
 import { seguridadPublica, seguridadPrivada, exigirTelefonoVerificado } from './seguridad.mjs';
@@ -36,8 +36,11 @@ app.use((req, res, next) => {
   if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   }
+  // Las páginas de un plugin (/plugins/<id>/...) pueden declarar orígenes https extra en su plugin.json (p. ej. un mapa)
+  const m = req.path.match(/^\/(?:plugins|pub)\/([a-z0-9-]+)\//);
+  const x = m ? cspDePlugin(m[1]) : {}, mas = (t) => (x[t]?.length ? ` ${x[t].join(' ')}` : '');
   res.setHeader('Content-Security-Policy',
-    "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'");
+    `default-src 'self'; img-src 'self' data: blob:${mas('img')}; style-src 'self' 'unsafe-inline'${mas('style')}; script-src 'self'${mas('script')}; font-src 'self' data:${mas('font')}; connect-src 'self'${mas('connect')}; frame-src 'self' blob:${mas('frame')}; frame-ancestors 'self'; base-uri 'self'; form-action 'self'`);
   next();
 });
 
@@ -60,6 +63,7 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
+montarRutasPublicasPlugins(app); // páginas públicas de plugins (sin sesión), antes de la comprobación de sesión
 app.use(cargarUsuario);
 app.use('/api', publico);
 app.use('/api', seguridadPublica);
@@ -81,7 +85,7 @@ app.use('/api', (_req, res) => res.status(404).json({ error: 'No encontrado' }))
 // Interfaz compilada (npm run build)
 if (fs.existsSync(DIST)) {
   app.use(express.static(DIST, { index: false, maxAge: '1h' }));
-  app.get(/^(?!\/api\/|\/plugins\/).*/, (_req, res) => res.sendFile(path.join(DIST, 'index.html')));
+  app.get(/^(?!\/api\/|\/plugins\/|\/pub\/).*/, (_req, res) => res.sendFile(path.join(DIST, 'index.html')));
 }
 
 app.use((err, _req, res, _next) => {
@@ -92,4 +96,4 @@ app.use((err, _req, res, _next) => {
 
 await cargarPlugins();
 programarActualizaciones();
-app.listen(PORT, HOST, () => console.log(`Facturador escuchando en http://localhost:${PORT}`));
+app.listen(PORT, HOST, () => console.log(`7Factura escuchando en http://localhost:${PORT}`));

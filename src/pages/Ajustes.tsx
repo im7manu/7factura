@@ -437,7 +437,7 @@ function PestanaSeguridad() {
     <div className="max-w-2xl space-y-4">
       <section className="card space-y-3 p-5">
         <h2 className="text-lg font-semibold">Recuperación de contraseña por WhatsApp</h2>
-        <p className="text-sm text-muted">Facturador envía los códigos de verificación y de recuperación a través de un puente de WhatsApp compatible con
+        <p className="text-sm text-muted">7Factura envía los códigos de verificación y de recuperación a través de un puente de WhatsApp compatible con
           {" "}<a className="text-brand-fg underline" href="https://github.com/lharries/whatsapp-mcp" target="_blank" rel="noreferrer">whatsapp-mcp</a>, desde el número vinculado a ese puente.</p>
         {q.data.desde_entorno ? <p className="rounded bg-brand/10 px-3 py-2 text-sm">La dirección del puente viene de la variable de entorno <code>WHATSAPP_API</code> del servidor y tiene prioridad sobre este ajuste.</p> : null}
         <Field label="Dirección del puente" hint="Por ejemplo http://127.0.0.1:8765. Déjala vacía para desactivar la recuperación por WhatsApp.">
@@ -456,7 +456,7 @@ function PestanaSeguridad() {
       </section>
       <section className="card p-5 text-sm">
         <h2 className="mb-1 text-lg font-semibold">Passkeys</h2>
-        <p className="text-muted">Cada usuario puede crear sus passkeys en <strong>Mi cuenta</strong> (menú de usuario, arriba a la derecha) y entrar con «Entrar con passkey». Solo funcionan cuando Facturador se abre desde un dominio con HTTPS; en la versión de escritorio (127.0.0.1) no están disponibles.</p>
+        <p className="text-muted">Cada usuario puede crear sus passkeys en <strong>Mi cuenta</strong> (menú de usuario, arriba a la derecha) y entrar con «Entrar con passkey». Solo funcionan cuando 7Factura se abre desde un dominio con HTTPS; en la versión de escritorio (127.0.0.1) no están disponibles.</p>
       </section>
     </div>
   );

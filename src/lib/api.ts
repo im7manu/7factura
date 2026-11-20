@@ -57,7 +57,8 @@ export interface AjustesCobros {
   avisos: boolean; aviso_dias_antes: number; aviso_impagado_dias: number; avisos_en_inicio: boolean;
 }
 export interface AvisoRecibo { id: number; numero: number; vencimiento: string; documento_id: number; codigo: string; cliente_nombre: string; pendiente: number }
-export interface Avisos { activos: boolean; en_inicio?: boolean; proximos: AvisoRecibo[]; impagados: AvisoRecibo[]; pagos?: AvisoRecibo[] }
+export interface AvisoPlugin { plugin: string; titulo: string; detalle: string; enlace: string }
+export interface Avisos { activos: boolean; en_inicio?: boolean; proximos: AvisoRecibo[]; impagados: AvisoRecibo[]; pagos?: AvisoRecibo[]; plugins?: AvisoPlugin[] }
 export interface Linea {
   id?: number; producto_id: number | null; descripcion: string; cantidad: number; precio: number; dto: number; iva: number; irpf: number;
   recargo: number; operacion: CodigoOperacion; suplido: boolean; vehiculo_id?: number | null;

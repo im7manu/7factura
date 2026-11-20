@@ -372,7 +372,7 @@ test('flujo completo: instalación, cliente, factura, emisión, rectificativa', 
   assert.equal(r.status, 201, JSON.stringify(r.body));
   assert.equal(r.body.tipo, 'factura_compra');
   assert.equal(r.body.proveedor_id, prov.id);
-  // Datos compartidos (base para conectar con Gestor DeCA)
+  // Datos compartidos (base para conectar con 7DeCA)
   r = await api('GET', '/api/compartido/vehiculos');
   assert.equal(r.body.clave, 'matricula');
   assert.equal(r.body.registros[0].uid, veh.uid);

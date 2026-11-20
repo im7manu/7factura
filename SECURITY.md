@@ -10,4 +10,4 @@ Solo la última versión publicada recibe correcciones de seguridad. Mantén act
 
 Incluye qué versión usas, cómo reproducirlo y qué impacto tiene. Responderemos lo antes posible y publicaremos una versión corregida antes de dar detalles.
 
-Las medidas de seguridad de Facturador están descritas en [docs/seguridad.md](docs/seguridad.md).
+Las medidas de seguridad de 7Factura están descritas en [docs/seguridad.md](docs/seguridad.md).

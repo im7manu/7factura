@@ -1,10 +1,10 @@
-# Datos compartidos con Gestor DeCA y eCMR
+# Datos compartidos con 7DeCA
 
-Facturador y Gestor DeCA y eCMR los usa la misma empresa. Para que en el futuro compartan clientes, proveedores, vehículos y conductores, Facturador ya guarda estos datos con la misma forma que Gestor DeCA y con un identificador estable.
+7Factura y 7DeCA los usa la misma empresa. Para que en el futuro compartan clientes, proveedores, vehículos y conductores, 7Factura ya guarda estos datos con la misma forma que 7DeCA y con un identificador estable.
 
 ## Entidades
 
-| Entidad | Clave natural (para emparejar) | Campos comunes con Gestor DeCA |
+| Entidad | Clave natural (para emparejar) | Campos comunes con 7DeCA |
 |---|---|---|
 | Clientes | NIF | nombre, nif, direccion, cp, ciudad, email, telefono (`tel` en DeCA) |
 | Proveedores | NIF | igual que clientes (en DeCA son «empresas» con otro `tipo`) |
@@ -42,7 +42,7 @@ Con `desde` solo llegan los registros modificados después de esa fecha, lo que 
 
 Por decidir con el usuario. La idea:
 
-1. Gestor DeCA añade `uid` y `actualizado` a sus tablas (`empresas`, `vehiculos`, `conductores`).
+1. 7DeCA añade `uid` y `actualizado` a sus tablas (`empresas`, `vehiculos`, `conductores`).
 2. Las dos aplicaciones se conectan con una clave de API (no con la sesión de un usuario).
 3. Al sincronizar, cada registro se empareja por `uid` y, si no existe, por su clave natural. Si hay conflicto, gana el `actualizado` más reciente.
 4. Se podrá elegir qué entidades se comparten y en qué dirección.

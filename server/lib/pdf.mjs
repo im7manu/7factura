@@ -30,9 +30,9 @@ function titulo(doc) {
  * @param {boolean} [p.sinValorar] oculta precios, importes y totales
  * @returns {PDFDocument}
  */
-export function generarPdf({ doc, empresa, formaPago, rectificada, sinValorar = false, vencimientos = null, firma = null }) {
+export function generarPdf({ doc, empresa, formaPago, rectificada, sinValorar = false, vencimientos = null, firma = null, alFinal = null }) {
   const pdf = new PDFDocument({ size: 'A4', margin: 48, bufferPages: true, info: {
-    Title: `${titulo(doc)} ${doc.codigo || 'BORRADOR'}`, Author: empresa.razon_social || '', Creator: 'Facturador',
+    Title: `${titulo(doc)} ${doc.codigo || 'BORRADOR'}`, Author: empresa.razon_social || '', Creator: '7Factura',
   } });
   const W = pdf.page.width;
   const M = 48;
@@ -277,6 +277,9 @@ export function generarPdf({ doc, empresa, formaPago, rectificada, sinValorar = 
       .text('BORRADOR', 0, pdf.page.height / 2 - 50, { width: W, align: 'center' }).restore();
     pdf.fillOpacity(1);
   }
+
+  // Plugins que añaden algo al final del documento (p. ej. un QR de pago), antes del pie
+  if (typeof alFinal === 'function') y = alFinal(pdf, y, { limite: pdf.page.height - 75, margen: M }) ?? y;
 
   // Pie en todas las páginas
   const rango = pdf.bufferedPageRange();

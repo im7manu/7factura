@@ -14,7 +14,7 @@ Con Google y Microsoft el mensaje se envía mediante su API (Gmail API o Microso
 
 ## Requisito: `BASE_URL`
 
-Google y Microsoft devuelven al usuario a Facturador tras iniciar sesión, así que la aplicación necesita una dirección fija. Arráncala con `BASE_URL`, por ejemplo `BASE_URL=https://facturas.tuempresa.es`. La dirección de redirección que hay que registrar se muestra en Ajustes → Correo:
+Google y Microsoft devuelven al usuario a 7Factura tras iniciar sesión, así que la aplicación necesita una dirección fija. Arráncala con `BASE_URL`, por ejemplo `BASE_URL=https://facturas.tuempresa.es`. La dirección de redirección que hay que registrar se muestra en Ajustes → Correo:
 
 ```
 <BASE_URL>/api/correo/oauth/vuelta
@@ -24,14 +24,14 @@ Google solo admite `https://` o `http://localhost`.
 
 ## Registrar la aplicación en Google
 
-1. Entra en [console.cloud.google.com](https://console.cloud.google.com) y crea un proyecto (por ejemplo «Facturador»).
+1. Entra en [console.cloud.google.com](https://console.cloud.google.com) y crea un proyecto (por ejemplo «7Factura»).
 2. En «APIs y servicios → Biblioteca», activa la **Gmail API**.
 3. En «Pantalla de consentimiento de OAuth», elige *Interno* si usáis Google Workspace, o *Externo* y añade como usuarios de prueba los correos de tu equipo.
 4. En «Credenciales → Crear credenciales → ID de cliente de OAuth», elige *Aplicación web*.
 5. En «URI de redireccionamiento autorizados» pega la dirección de redirección.
 6. Copia el **ID de cliente** y el **Secreto del cliente** en Ajustes → Correo → Aplicaciones.
 
-Permisos que se piden: `openid email profile` y `gmail.send` (solo enviar; Facturador no puede leer el correo).
+Permisos que se piden: `openid email profile` y `gmail.send` (solo enviar; 7Factura no puede leer el correo).
 
 ## Registrar la aplicación en Microsoft
 

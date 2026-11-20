@@ -234,6 +234,26 @@ async function enviar(cuenta, m) {
   return null;
 }
 
+/**
+ * Envía un correo con la cuenta conectada de un usuario y lo registra en el historial del documento (si se indica).
+ * Lo usan los plugins (p. ej. recordatorios de cobro). Lanza un error si el usuario no tiene cuenta o falla el envío.
+ */
+export async function enviarCorreoUsuario(usuarioId, { para, cc = [], asunto, texto, adjuntos = [], documentoId = null }) {
+  const destinatarios = direcciones(Array.isArray(para) ? para.join(',') : para, true);
+  const cuenta = await cuentaLista(usuarioId);
+  const registro = db.prepare(`INSERT INTO correos_enviados(documento_id, usuario_id, desde, proveedor, para, cc, cco, asunto, cuerpo, adjuntos, estado, error, id_mensaje)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+  const nombres = JSON.stringify(adjuntos.map((a) => a.filename));
+  try {
+    const id = await enviar(cuenta, { para: destinatarios, cc, asunto: sinSaltos(asunto, 250), texto: String(texto || '').slice(0, 20000), adjuntos });
+    if (documentoId) registro.run(documentoId, usuarioId, cuenta.email, cuenta.proveedor, destinatarios.join(', '), cc.join(', '), '', asunto, texto, nombres, 'enviado', null, id);
+    return { id, desde: cuenta.email };
+  } catch (e) {
+    if (documentoId) registro.run(documentoId, usuarioId, cuenta.email, cuenta.proveedor, destinatarios.join(', '), cc.join(', '), '', asunto, texto, nombres, 'error', String(e.message).slice(0, 500), null);
+    throw e;
+  }
+}
+
 // Límite por usuario para evitar envíos masivos por error
 const envios = new Map();
 function limitarEnvios(usuarioId) {
@@ -278,7 +298,7 @@ function volverAAjustes(res, resultado, mensaje = '') {
   const destino = `/ajustes?pestana=correo&correo=${resultado}${mensaje ? `&mensaje=${encodeURIComponent(mensaje)}` : ''}`;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.send(`<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=${destino.replace(/"/g, '&quot;')}">
-<title>Facturador</title><p style="font-family:sans-serif">Volviendo a Facturador… <a href="${destino.replace(/"/g, '&quot;')}">Continuar</a></p>`);
+<title>7Factura</title><p style="font-family:sans-serif">Volviendo a 7Factura… <a href="${destino.replace(/"/g, '&quot;')}">Continuar</a></p>`);
 }
 
 routerPublico.get('/oauth/vuelta', envolver(async (req, res) => {
@@ -345,7 +365,7 @@ router.delete('/cuenta', envolver((req, res) => {
 router.post('/prueba', envolver(async (req, res) => {
   limitarEnvios(req.usuario.id);
   const cuenta = await cuentaLista(req.usuario.id);
-  await enviar(cuenta, { para: [cuenta.email], asunto: 'Prueba de correo de Facturador', texto: `Si lees esto, tu cuenta ${cuenta.email} está bien conectada a Facturador.` });
+  await enviar(cuenta, { para: [cuenta.email], asunto: 'Prueba de correo de 7Factura', texto: `Si lees esto, tu cuenta ${cuenta.email} está bien conectada a 7Factura.` });
   res.json({ ok: true, enviado_a: cuenta.email });
 }));
 

@@ -87,7 +87,7 @@ export function PestanaActualizaciones() {
         <h2 className="mb-2 flex items-center gap-2 text-base font-semibold"><ShieldCheck size={18} className="text-success" /> Cómo se protege una actualización</h2>
         <ol className="list-decimal space-y-1 pl-5">
           <li>Solo se aceptan paquetes con la <strong>firma digital del autor</strong> {d.firma_configurada ? "" : <span className="text-danger">(esta instalación no tiene la clave pública: no se instalará nada)</span>}.</li>
-          <li>Se comprueba el paquete: que es Facturador, que la versión es más nueva, que el código no tiene errores y que la versión de Node es suficiente.</li>
+          <li>Se comprueba el paquete: que es 7Factura, que la versión es más nueva, que el código no tiene errores y que la versión de Node es suficiente.</li>
           <li>Se hace una <strong>copia de la base de datos</strong> antes de cambiar nada. Tus datos (carpeta <code>data</code>) nunca se borran.</li>
           <li>La versión nueva se vigila durante un minuto. <strong>Si falla, se vuelve sola a la anterior</strong> y se restaura la copia.</li>
         </ol>

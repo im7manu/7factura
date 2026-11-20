@@ -292,7 +292,7 @@ const MIGRACIONES = [
 
   // 5: compras (proveedores, facturas recibidas, gastos), vehículos y conductores.
   //    Clientes, proveedores, vehículos y conductores llevan uid + actualizado para poder
-  //    sincronizarse en el futuro con Gestor DeCA y eCMR (mismos campos que allí).
+  //    sincronizarse en el futuro con 7DeCA (mismos campos que allí).
   () => {
     db.exec(`CREATE TABLE IF NOT EXISTS proveedores(
         id INTEGER PRIMARY KEY,

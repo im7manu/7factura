@@ -9,7 +9,7 @@ import { Dialog } from "@/components/ui/dialog";
 import { Empty, Loading, PageHeader, Table, td, th } from "@/components/ui/misc";
 import { cn, eur, fecha, hoyIso, nifValido } from "@/lib/utils";
 
-// Mismos tipos y estados que Gestor DeCA y eCMR, para poder compartir la lista
+// Mismos tipos y estados que 7DeCA, para poder compartir la lista
 const TIPOS = ["Tractora", "Rígido", "Remolque", "Semirremolque", "Furgoneta", "Turismo", "Otro"];
 const ESTADOS = ["Disponible", "En ruta", "Taller", "Baja"];
 
@@ -17,7 +17,7 @@ export default function Vehiculos() {
   const [pestana, setPestana] = useState<"vehiculos" | "conductores">("vehiculos");
   return (
     <div>
-      <PageHeader title="Vehículos y conductores" subtitle="Los mismos datos que usa Gestor DeCA y eCMR, listos para compartirse" />
+      <PageHeader title="Vehículos y conductores" subtitle="Los mismos datos que usa 7DeCA, listos para compartirse" />
       <div className="mb-4 flex gap-4 border-b border-stroke" role="tablist">
         {([["vehiculos", "Vehículos"], ["conductores", "Conductores"]] as const).map(([k, t]) => (
           <button key={k} role="tab" aria-selected={pestana === k} onClick={() => setPestana(k)}
@@ -122,7 +122,7 @@ function ListaConductores() {
     <>
       <div className="mb-2 flex justify-end"><Button variant="primary" onClick={() => setDlg("nuevo")}><Plus size={16} /> Nuevo conductor</Button></div>
       {q.isLoading ? <Loading /> : !q.data?.length ? (
-        <div className="card"><Empty icon={<UserRound size={40} />} title="Aún no hay conductores">Se compartirán con Gestor DeCA cuando conectes las dos aplicaciones.</Empty></div>
+        <div className="card"><Empty icon={<UserRound size={40} />} title="Aún no hay conductores">Se compartirán con 7DeCA cuando conectes las dos aplicaciones.</Empty></div>
       ) : (
         <Table>
           <thead><tr><th className={th}>Nombre</th><th className={th}>DNI</th><th className={cn(th, "hidden md:table-cell")}>Contacto</th><th className={th}>Estado</th><th className={th} /></tr></thead>

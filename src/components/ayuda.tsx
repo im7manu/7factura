@@ -7,12 +7,12 @@ import { crearBuscador, normalizar, raiz, resaltar, seleccionar, type ResultadoA
 import { cn } from "@/lib/utils";
 
 export const { categorias, preguntas } = AYUDA;
-export const WEB_AYUDA = "https://im7manu.github.io/facturador/";
+export const WEB_AYUDA = "https://im7manu.github.io/7factura/";
 const buscar = crearBuscador(preguntas);
 const porId = new Map(preguntas.map((p) => [p.id, p]));
 const catPorId = new Map(categorias.map((c) => [c.id, c]));
 export const preguntaPorId = (id: string) => porId.get(id);
-export const enlaceIncidencia = (q: string) => `https://github.com/im7manu/facturador/issues/new?title=${encodeURIComponent(q || "Duda")}`;
+export const enlaceIncidencia = (q: string) => `https://github.com/im7manu/7factura/issues/new?title=${encodeURIComponent(q || "Duda")}`;
 
 /** Adapta las rutas de las respuestas (pensadas para la web) a la aplicación. */
 function adaptarHtml(html: string) {
@@ -171,7 +171,7 @@ const CONTEXTOS: { prueba: (ruta: string, pestana: string | null) => boolean; ti
 
 /** Preguntas relacionadas con la pantalla actual (las más útiles primero). */
 export function contextoAyuda(ruta: string, pestana: string | null): { titulo: string; preguntas: PreguntaAyuda[] } {
-  const c = CONTEXTOS.find((x) => x.prueba(ruta, pestana)) || { titulo: "Facturador", ids: ["crear-factura", "hacer-copia"], cats: ["empezar"] };
+  const c = CONTEXTOS.find((x) => x.prueba(ruta, pestana)) || { titulo: "7Factura", ids: ["crear-factura", "hacer-copia"], cats: ["empezar"] };
   const ids = [...(c.ids || []), ...preguntas.filter((p) => c.cats?.includes(p.cat)).map((p) => p.id)];
   return { titulo: c.titulo, preguntas: [...new Set(ids)].map((id) => porId.get(id)).filter((p): p is PreguntaAyuda => !!p).slice(0, 10) };
 }

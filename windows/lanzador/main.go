@@ -1,6 +1,6 @@
-// Lanzador de Facturador para Windows (Facturador.exe).
+// Lanzador de 7Factura para Windows (Facturador.exe).
 //
-// Arranca el servidor de Facturador (scripts/supervisor.mjs con el Node.js incluido) sin ventana de consola,
+// Arranca el servidor de 7Factura (scripts/supervisor.mjs con el Node.js incluido) sin ventana de consola,
 // escuchando solo en 127.0.0.1, y abre la aplicación en una ventana propia de Microsoft Edge (modo aplicación,
 // con un perfil aparte). Cuando se cierra esa ventana, el servidor se para.
 //
@@ -8,12 +8,12 @@
 //
 //	Facturador.exe   este lanzador
 //	node\node.exe    Node.js
-//	app\             Facturador (el mismo paquete firmado que se publica en las Releases)
+//	app\             7Factura (el mismo paquete firmado que se publica en las Releases)
 //
 // Datos del usuario: %LOCALAPPDATA%\Facturador\
 //
 //	data\            base de datos, adjuntos, plugins, actualizaciones descargadas… (DATA_DIR)
-//	navegador\       perfil de Edge de la ventana de Facturador (sesión iniciada)
+//	navegador\       perfil de Edge de la ventana de 7Factura (sesión iniciada)
 //	puerto.txt       puerto local en uso (9100 salvo que esté ocupado)
 //	registro.log     salida del servidor
 //
@@ -42,7 +42,7 @@ import (
 var version = "dev"
 
 const (
-	titulo         = "Facturador"
+	titulo         = "7Factura"
 	puertoDefecto  = 9100
 	createNoWindow = 0x08000000
 )
@@ -65,7 +65,7 @@ func main() {
 	if local == "" {
 		fallo("No se encuentra la carpeta LOCALAPPDATA del usuario")
 	}
-	dirUsuario = filepath.Join(local, "Facturador")
+	dirUsuario = filepath.Join(local, "7Factura")
 	dirDatos = filepath.Join(dirUsuario, "data")
 	dirPerfil = filepath.Join(dirUsuario, "navegador")
 	archivoLog = filepath.Join(dirUsuario, "registro.log")
@@ -86,7 +86,7 @@ func main() {
 		return
 	}
 	if err != nil {
-		fallo("No se puede iniciar Facturador: " + err.Error())
+		fallo("No se puede iniciar 7Factura: " + err.Error())
 	}
 	defer windows.CloseHandle(mutex)
 
@@ -105,17 +105,17 @@ func main() {
 
 	if !esperarServidor(puerto, 120*time.Second, terminado) {
 		_ = servidor.Process.Kill()
-		fallo("Facturador no ha podido arrancar.\n\nPuedes ver el motivo en:\n" + archivoLog)
+		fallo("7Factura no ha podido arrancar.\n\nPuedes ver el motivo en:\n" + archivoLog)
 	}
 
 	if navegador := buscarNavegador(); navegador != "" {
 		if err := esperarVentana(navegador, puerto); err != nil {
 			abrirNavegadorPredeterminado(puerto)
-			aviso("Facturador está abierto en tu navegador.\n\nNo cierres este mensaje mientras lo uses: al pulsar Aceptar, Facturador se cerrará.")
+			aviso("7Factura está abierto en tu navegador.\n\nNo cierres este mensaje mientras lo uses: al pulsar Aceptar, 7Factura se cerrará.")
 		}
 	} else {
 		abrirNavegadorPredeterminado(puerto)
-		aviso("Facturador está abierto en tu navegador.\n\nNo cierres este mensaje mientras lo uses: al pulsar Aceptar, Facturador se cerrará.")
+		aviso("7Factura está abierto en tu navegador.\n\nNo cierres este mensaje mientras lo uses: al pulsar Aceptar, 7Factura se cerrará.")
 	}
 
 	esperarActualizacionEnCurso()
@@ -134,7 +134,7 @@ func leerPuerto() int {
 	return puertoDefecto
 }
 
-// esFacturador indica si en ese puerto responde un Facturador (por ejemplo, uno que quedó abierto).
+// esFacturador indica si en ese puerto responde un 7Factura (por ejemplo, uno que quedó abierto).
 func esFacturador(puerto int) bool {
 	c := http.Client{Timeout: 2 * time.Second}
 	r, err := c.Get(fmt.Sprintf("http://127.0.0.1:%d/api/estado", puerto))
@@ -181,7 +181,7 @@ func elegirPuerto() int {
 			return q
 		}
 	}
-	fallo("No hay ningún puerto libre para Facturador")
+	fallo("No hay ningún puerto libre para 7Factura")
 	return 0
 }
 
@@ -189,7 +189,7 @@ func arrancarServidor(puerto int) (*exec.Cmd, error) {
 	node := filepath.Join(dirPrograma, "node", "node.exe")
 	app := filepath.Join(dirPrograma, "app")
 	if _, err := os.Stat(node); err != nil {
-		return nil, fmt.Errorf("falta %s; vuelve a instalar Facturador", node)
+		return nil, fmt.Errorf("falta %s; vuelve a instalar 7Factura", node)
 	}
 	// Registro: se rota al pasar de 5 MB
 	if st, err := os.Stat(archivoLog); err == nil && st.Size() > 5<<20 {
@@ -315,7 +315,7 @@ func abrirVentana(navegador string, puerto int) error {
 	return err
 }
 
-// esperarVentana abre la ventana de Facturador y vuelve cuando el usuario la cierra.
+// esperarVentana abre la ventana de 7Factura y vuelve cuando el usuario la cierra.
 func esperarVentana(navegador string, puerto int) error {
 	inicio := time.Now()
 	cmd, err := comandoVentana(navegador, puerto)

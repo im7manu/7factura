@@ -61,7 +61,7 @@ export function AppShell() {
     queryKey: ["actualizaciones"], queryFn: () => api.get<{ disponible: { version: string } | null }>("/actualizaciones"),
     enabled: usuario?.rol === "admin", refetchInterval: 60 * 60 * 1000,
   });
-  const numAvisos = (avisos.data?.proximos.length || 0) + (avisos.data?.impagados.length || 0) + (avisos.data?.pagos?.length || 0);
+  const numAvisos = (avisos.data?.proximos.length || 0) + (avisos.data?.impagados.length || 0) + (avisos.data?.pagos?.length || 0) + (avisos.data?.plugins?.length || 0);
   const plugins = useQuery({
     queryKey: ["plugins-menu"],
     queryFn: () => api.get<{ id: string; nombre: string; menu: { titulo: string }[] }[]>("/plugins/menu"),
@@ -155,7 +155,7 @@ export function AppShell() {
             {compacto ? <Menu size={20} /> : <ChevronLeft size={20} />}
           </button>
         ) : null}
-        <span className="text-base font-semibold">Facturador</span>
+        <span className="text-base font-semibold">7Factura</span>
         {empresa?.razon_social ? <span className="hidden truncate text-sm text-suite-fg/75 sm:inline">· {empresa.razon_social}</span> : null}
         <div className="flex-1" />
         <button

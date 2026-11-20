@@ -1,6 +1,6 @@
 # Actualizaciones
 
-Facturador busca versiones nuevas en las [Releases de este repositorio](https://github.com/im7manu/facturador/releases) y se actualiza solo, sin riesgo de perder datos.
+7Factura busca versiones nuevas en las [Releases de este repositorio](https://github.com/im7manu/7factura/releases) y se actualiza solo, sin riesgo de perder datos.
 
 ## Para quien usa la aplicación
 
@@ -9,9 +9,9 @@ Facturador busca versiones nuevas en las [Releases de este repositorio](https://
 - **Actualización automática**: si la activas, las versiones nuevas se instalan solas en la franja horaria que elijas (por defecto entre las 3:00 y las 5:00).
 - El historial muestra cada actualización y si hubo que volver atrás. También queda en Ajustes → Actividad.
 
-Requisito: arrancar Facturador con `npm start`, con Docker o con el [instalador de Windows](windows.md), que usan el supervisor. Sin supervisor la pantalla avisa de que no se puede instalar.
+Requisito: arrancar 7Factura con `npm start`, con Docker o con el [instalador de Windows](windows.md), que usan el supervisor. Sin supervisor la pantalla avisa de que no se puede instalar.
 
-La versión de Windows usa exactamente el mismo paquete firmado y el mismo supervisor; sus datos están en `%LOCALAPPDATA%\Facturador\data`. Las actualizaciones solo se aplican mientras Facturador está abierto.
+La versión de Windows usa exactamente el mismo paquete firmado y el mismo supervisor; sus datos están en `%LOCALAPPDATA%\Facturador\data`. Las actualizaciones solo se aplican mientras 7Factura está abierto.
 
 ## Cómo se protege una actualización
 
@@ -74,7 +74,7 @@ Las instalaciones la verán en menos de una hora. Una Release marcada como *pre-
 ```bash
 FACTURADOR_CLAVE_FIRMA="$(cat ~/.facturador/clave-firma-actualizaciones.pem)" npm run release
 npm run instalador:windows   # necesita go y makensis
-gh release create v1.0.1 release/* --title "Facturador 1.0.1" --generate-notes
+gh release create v1.0.1 release/* --title "7Factura 1.0.1" --generate-notes
 ```
 
 ### La clave de firma
@@ -90,7 +90,7 @@ gh release create v1.0.1 release/* --title "Facturador 1.0.1" --generate-notes
 | Variable | Por defecto | Descripción |
 |---|---|---|
 | `UPDATE_DISABLED` | — | `1` desactiva la comprobación y la instalación |
-| `UPDATE_REPO` | `im7manu/facturador` | Repositorio de las Releases (por ejemplo, un fork propio) |
+| `UPDATE_REPO` | `im7manu/7factura` | Repositorio de las Releases (por ejemplo, un fork propio) |
 | `UPDATE_PUBKEY` | `server/clave-actualizaciones.pem` | Clave pública en PEM (para forks con su propia clave) |
 | `UPDATE_HEALTH_SECONDS` | `60` | Duración del periodo de prueba |
 | `UPDATE_KEEP_BACKUPS` | `3` | Copias y versiones que se conservan |

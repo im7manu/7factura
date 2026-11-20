@@ -24,7 +24,7 @@ const COPIAS = path.join(DIR, 'copias');
 fs.mkdirSync(VERSIONES, { recursive: true });
 fs.mkdirSync(COPIAS, { recursive: true });
 
-const REPO = process.env.UPDATE_REPO || 'im7manu/facturador';
+const REPO = process.env.UPDATE_REPO || 'im7manu/7factura';
 const API = (process.env.UPDATE_API || 'https://api.github.com').replace(/\/$/, '');
 const DESACTIVADAS = process.env.UPDATE_DISABLED === '1';
 const CONSERVAR = Math.max(1, Number(process.env.UPDATE_KEEP_BACKUPS || 3));
@@ -139,7 +139,7 @@ async function preparar(paquete, firma, version) {
     };
     revisar(raiz);
     const pk = leerJson(path.join(raiz, 'package.json'), {});
-    if (pk.name !== 'facturador') throw new Error('El paquete no es Facturador');
+    if (pk.name !== 'facturador') throw new Error('El paquete no es 7Factura');
     if (pk.version !== version) throw new Error(`La versión del paquete (${pk.version}) no coincide con la publicada (${version})`);
     const minNode = String(pk.engines?.node || '').match(/(\d+)\.(\d+)/);
     if (minNode && compararVersiones(process.versions.node, `${minNode[1]}.${minNode[2]}.0`) < 0) throw new Error(`La versión nueva necesita Node ${minNode[1]}.${minNode[2]} o superior`);

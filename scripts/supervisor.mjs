@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Supervisor de Facturador: arranca la aplicación, la vuelve a arrancar si se para (reinicios, restauraciones)
+// Supervisor de 7Factura: arranca la aplicación, la vuelve a arrancar si se para (reinicios, restauraciones)
 // y aplica las actualizaciones de forma segura:
 //   1. La aplicación descarga y verifica la versión nueva, hace una copia de la base de datos y deja
 //      data/actualizaciones/pendiente.json. Después se para.
@@ -50,7 +50,7 @@ let parando = false;
 const salidas = [];
 
 function arrancar(dir) {
-  log(`Arrancando Facturador ${versionDe(dir)} desde ${dir}`);
+  log(`Arrancando 7Factura ${versionDe(dir)} desde ${dir}`);
   const p = spawn(process.execPath, ['server/index.mjs'], {
     cwd: dir,
     env: { ...process.env, DATA_DIR: DATA, FACTURADOR_SUPERVISADO: '1', FACTURADOR_CODIGO: dir, PLUGINS_DIR: process.env.PLUGINS_DIR || path.join(DATA, 'plugins') },

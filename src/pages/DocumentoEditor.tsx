@@ -18,6 +18,7 @@ import { CobrosPanel } from "@/components/CobrosPanel";
 import { FirmaDialog } from "@/components/FirmaDialog";
 import { CorreoDialog } from "@/components/CorreoDialog";
 import { CorreosEnviados } from "@/components/CorreosEnviados";
+import { AccionesPlugins } from "@/components/AccionesPlugins";
 import {
   baseLinea, calcularTotales, conRecibos, CONVERSIONES, esCompra, eur, fecha, hoyIso, num, OPERACIONES, RECARGO_POR_IVA, TIPOS_DOC, TIPOS_IRPF, TIPOS_IVA,
 } from "@/lib/utils";
@@ -63,6 +64,7 @@ export default function DocumentoEditor({ tipo }: { tipo: TipoDoc }) {
   const [menuConv, setMenuConv] = useState(false);
   const [dlgFirma, setDlgFirma] = useState(false);
   const [dlgCorreo, setDlgCorreo] = useState(false);
+  const [emitidoEn, setEmitidoEn] = useState(0);
   const menuPdfRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -132,6 +134,7 @@ export default function DocumentoEditor({ tipo }: { tipo: TipoDoc }) {
       } else {
         refrescar(d);
         toast.success(ruta === "emitir" ? `${info.singular} ${d.codigo} emitido` : "Estado actualizado");
+        if (ruta === "emitir") setEmitidoEn(Date.now());
       }
     },
     onError: fallo,
@@ -301,6 +304,7 @@ export default function DocumentoEditor({ tipo }: { tipo: TipoDoc }) {
             ) : null}
           </div>
         ) : null}
+        {d ? <AccionesPlugins documentoId={d.id} emitidoEn={emitidoEn} /> : null}
         {!nuevo ? <Button variant="subtle" onClick={() => accion.mutate({ ruta: "duplicar" })}><Copy size={16} /> Duplicar</Button> : null}
         {editable && !nuevo ? <Button variant="subtle" className="text-danger" onClick={() => setConfirmar("borrar")}><Trash2 size={16} /> Eliminar</Button> : null}
       </CommandBar>

@@ -214,37 +214,54 @@ router.put('/documentos/:id/recibos', envolver((req, res) => {
 }));
 
 // ---- Cobros ----
-router.post('/recibos/:id/cobros', envolver((req, res) => {
-  const r = db.prepare('SELECT * FROM recibos WHERE id = ?').get(Number(req.params.id));
+/** Registra un cobro (o pago) en un recibo con las comprobaciones normales. Devuelve { id, documento_id }. Lo usan también los plugins. */
+export function registrarCobro(reciboId, body, usuarioId) {
+  const r = db.prepare('SELECT * FROM recibos WHERE id = ?').get(Number(reciboId));
   if (!r) throw error('Recibo no encontrado', 404);
   const [rec] = recibosDe(r.documento_id).filter((x) => x.id === r.id);
-  const fecha = fechaValida(req.body.fecha) ? req.body.fecha : hoy();
-  const importe = r2(req.body.importe ?? rec.pendiente);
+  const fecha = fechaValida(body.fecha) ? body.fecha : hoy();
+  const importe = r2(body.importe ?? rec.pendiente);
   if (!Number.isFinite(importe) || importe === 0) throw error('Importe no válido');
   if (Math.sign(importe) !== Math.sign(rec.importe)) throw error('El importe debe tener el mismo signo que el recibo');
   if (Math.abs(importe) - Math.abs(rec.pendiente) > 0.005) throw error(`El cobro supera lo pendiente del recibo (${rec.pendiente})`);
   if (!ajustesCobros().cobros_parciales && Math.abs(importe - rec.pendiente) > 0.005) throw error('Los cobros parciales están desactivados en Ajustes → Cobros');
-  const fp = req.body.forma_pago && db.prepare('SELECT 1 FROM formas_pago WHERE codigo = ?').get(req.body.forma_pago) ? req.body.forma_pago : r.forma_pago;
-  db.prepare('INSERT INTO cobros(recibo_id, fecha, importe, forma_pago, notas, usuario_id) VALUES (?,?,?,?,?,?)')
-    .run(r.id, fecha, importe, fp, String(req.body.notas || '').slice(0, 300), req.usuario.id);
+  const fp = body.forma_pago && db.prepare('SELECT 1 FROM formas_pago WHERE codigo = ?').get(body.forma_pago) ? body.forma_pago : r.forma_pago;
+  const id = Number(db.prepare('INSERT INTO cobros(recibo_id, fecha, importe, forma_pago, notas, usuario_id) VALUES (?,?,?,?,?,?)')
+    .run(r.id, fecha, importe, fp, String(body.notas || '').slice(0, 300), usuarioId ?? null).lastInsertRowid);
   actualizarEstadoCobro(r.documento_id);
-  auditar(req, 'cobro.registrar', `recibo=${r.id} ${importe}`);
-  res.status(201).json(recibosDe(r.documento_id));
-}));
-
-router.delete('/cobros/:id', envolver((req, res) => {
-  const c = db.prepare('SELECT c.*, r.documento_id FROM cobros c JOIN recibos r ON r.id = c.recibo_id WHERE c.id = ?').get(Number(req.params.id));
+  return { id, documento_id: r.documento_id, importe };
+}
+/** Anula un cobro. Devuelve el cobro borrado (con documento_id). */
+export function borrarCobro(cobroId) {
+  const c = db.prepare('SELECT c.*, r.documento_id FROM cobros c JOIN recibos r ON r.id = c.recibo_id WHERE c.id = ?').get(Number(cobroId));
   if (!c) throw error('Cobro no encontrado', 404);
   db.prepare('DELETE FROM cobros WHERE id = ?').run(c.id);
   actualizarEstadoCobro(c.documento_id);
+  return c;
+}
+router.post('/recibos/:id/cobros', envolver((req, res) => {
+  const c = registrarCobro(req.params.id, req.body, req.usuario.id);
+  auditar(req, 'cobro.registrar', `recibo=${req.params.id} ${c.importe}`);
+  res.status(201).json(recibosDe(c.documento_id));
+}));
+
+router.delete('/cobros/:id', envolver((req, res) => {
+  const c = borrarCobro(req.params.id);
   auditar(req, 'cobro.anular', `cobro=${c.id} ${c.importe}`, 'aviso');
   res.json(recibosDe(c.documento_id));
 }));
 
 // ---- Avisos (campana e inicio) ----
-router.get('/avisos', envolver((_req, res) => {
+router.get('/avisos', envolver(async (_req, res) => {
+  // Avisos de los plugins (p. ej. borradores de facturas periódicas por revisar): [{ titulo, detalle, enlace }]
+  const plugins = [];
+  const { extensionesDe } = await import('../plugins.mjs');
+  for (const { id, fn } of extensionesDe('avisos')) {
+    try { for (const a of (await fn()) || []) if (a?.titulo) plugins.push({ plugin: id, titulo: String(a.titulo).slice(0, 120), detalle: String(a.detalle || '').slice(0, 200), enlace: String(a.enlace || '').startsWith('/') ? a.enlace : '' }); }
+    catch (e) { console.error(`[${id}] avisos:`, e.message); }
+  }
   const o = ajustesCobros();
-  if (!o.avisos) return res.json({ activos: false, proximos: [], impagados: [], pagos: [] });
+  if (!o.avisos) return res.json({ activos: plugins.length > 0, proximos: [], impagados: [], pagos: [], plugins });
   const h = hoy();
   const pendienteSql = 'ROUND(r.importe - COALESCE((SELECT SUM(importe) FROM cobros WHERE recibo_id = r.id), 0), 2)';
   const base = `SELECT r.id, r.numero, r.vencimiento, d.id AS documento_id, d.codigo, json_extract(d.cliente, '$.nombre') AS cliente_nombre,
@@ -259,5 +276,5 @@ router.get('/avisos', envolver((_req, res) => {
   // Pagos a proveedores que vencen pronto o ya han vencido
   const pagos = db.prepare(`${base} AND d.tipo IN ('factura_compra', 'gasto') AND r.vencimiento <= ? ORDER BY r.vencimiento`)
     .all(sumarDias(h, Math.max(0, o.aviso_dias_antes)));
-  res.json({ activos: true, en_inicio: o.avisos_en_inicio, proximos, impagados, pagos });
+  res.json({ activos: true, en_inicio: o.avisos_en_inicio, proximos, impagados, pagos, plugins });
 }));

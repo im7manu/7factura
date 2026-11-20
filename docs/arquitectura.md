@@ -77,7 +77,7 @@ Tablas principales:
 | `lineas` | Líneas de cada documento (impuesto, operación, recargo, suplido, vehículo) |
 | `documentos_origen` | De qué documentos procede cada uno (conversiones y agrupaciones) |
 | `recibos`, `cobros` | Vencimientos y cobros o pagos |
-| `clientes`, `proveedores`, `vehiculos`, `conductores` | Datos maestros (con `uid` y `actualizado` para compartir con Gestor DeCA) |
+| `clientes`, `proveedores`, `vehiculos`, `conductores` | Datos maestros (con `uid` y `actualizado` para compartir con 7DeCA) |
 | `productos`, `series`, `formas_pago` | Catálogo y configuración |
 | `usuarios`, `sesiones`, `auditoria` | Accesos y registro de actividad |
 | `cuentas_correo`, `correos_enviados` | Correo por usuario y registro de envíos |

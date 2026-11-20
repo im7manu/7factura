@@ -131,6 +131,16 @@ privado.use(requiereSesion);
 
 privado.get('/utilidades/nif', (req, res) => res.json(validarNif(req.query.v)));
 
+// Sugerencias de direcciones mientras se escribe, si algún plugin las ofrece (p. ej. «7Ruta»)
+const proveedorDirecciones = () => extensionesDe('direcciones')[0]?.fn || null;
+privado.get('/direcciones/disponible', (_req, res) => res.json({ disponible: !!proveedorDirecciones() }));
+privado.get('/direcciones', async (req, res) => {
+  const p = proveedorDirecciones(), q = String(req.query.q || '').trim().slice(0, 200);
+  if (!p || q.length < 3) return res.json({ resultados: [] });
+  try { res.json({ resultados: (await p.sugerir(q)).slice(0, 8) }); }
+  catch (e) { res.status(502).json({ error: e.message || 'No se pudieron buscar direcciones' }); }
+});
+
 // Ajustes generales
 privado.get('/ajustes', (_req, res) => {
   res.json({

@@ -22,8 +22,8 @@ const CAPITULOS = [
     titulo: 'Tus datos están en tu servidor',
     destacado: true,
     bloques: [
-      { p: 'Facturador se instala y se ejecuta en el servidor de tu empresa o en el ordenador que la aloje (por ejemplo, un pequeño servidor en la oficina o un NAS). No es un servicio en la nube: no hay ninguna cuenta en internet ni ninguna empresa externa que guarde tu información.' },
-      { nota: 'Nada de tu información se sube a la nube. Las facturas, los clientes, los cobros, los adjuntos, las copias de seguridad y las contraseñas se guardan únicamente en la carpeta «data» del equipo donde está instalado Facturador.', titulo: 'En resumen', color: VERDE },
+      { p: '7Factura se instala y se ejecuta en el servidor de tu empresa o en el ordenador que la aloje (por ejemplo, un pequeño servidor en la oficina o un NAS). No es un servicio en la nube: no hay ninguna cuenta en internet ni ninguna empresa externa que guarde tu información.' },
+      { nota: 'Nada de tu información se sube a la nube. Las facturas, los clientes, los cobros, los adjuntos, las copias de seguridad y las contraseñas se guardan únicamente en la carpeta «data» del equipo donde está instalado 7Factura.', titulo: 'En resumen', color: VERDE },
       { h: 'Qué se guarda y dónde' },
       { lista: [
         'Base de datos (facturas, presupuestos, clientes, proveedores, cobros, usuarios…): data/facturador.db.',
@@ -33,9 +33,9 @@ const CAPITULOS = [
         'Clave de cifrado de las credenciales: data/secreto.key.',
       ] },
       { h: 'Cuándo se conecta a internet (y qué envía)' },
-      { p: 'Facturador funciona sin conexión. Solo usa internet en estos casos, y nunca envía tus datos de negocio a terceros:' },
+      { p: '7Factura funciona sin conexión. Solo usa internet en estos casos, y nunca envía tus datos de negocio a terceros:' },
       { lista: [
-        'Buscar actualizaciones: una vez por hora pregunta a GitHub (github.com/im7manu/facturador) si hay una versión nueva. No envía ningún dato de tu empresa; solo descarga la versión nueva si la instalas.',
+        'Buscar actualizaciones: una vez por hora pregunta a GitHub (github.com/im7manu/7factura) si hay una versión nueva. No envía ningún dato de tu empresa; solo descarga la versión nueva si la instalas.',
         'Plugins: al abrir la página Plugins consulta la lista de plugins disponibles en GitHub, y descarga el que instales.',
         'Correo: cuando tú envías un documento por correo, el mensaje sale por tu propia cuenta (Gmail, Outlook o tu proveedor por SMTP), igual que cualquier correo que envíes desde tu buzón.',
       ] },
@@ -55,11 +55,11 @@ const CAPITULOS = [
       ] },
       { h: 'Instalación' },
       { pasos: [
-        'Descarga la última versión desde github.com/im7manu/facturador (apartado Releases) y descomprímela.',
+        'Descarga la última versión desde github.com/im7manu/7factura (apartado Releases) y descomprímela.',
         'En una terminal, dentro de la carpeta, ejecuta «npm start» (el paquete ya incluye todo lo necesario). Con Docker: «docker compose up -d --build».',
         'Abre en el navegador http://localhost:9100 (o la dirección del servidor desde otros equipos de la red).',
       ] },
-      { p: '«npm start» arranca Facturador con su supervisor, que la vuelve a arrancar si se para y aplica las actualizaciones de forma segura.' },
+      { p: '«npm start» arranca 7Factura con su supervisor, que la vuelve a arrancar si se para y aplica las actualizaciones de forma segura.' },
       { h: 'Primera configuración' },
       { p: 'La primera vez se abre un asistente de dos pasos: crea la cuenta de administrador (contraseña de al menos 10 caracteres con mayúsculas, minúsculas, números y un símbolo) e introduce los datos de tu empresa (razón social, NIF, dirección, IBAN y el texto legal del pie de las facturas). Todo se puede cambiar después en Ajustes.' },
       { img: '01-acceso', pie: 'Pantalla de inicio de sesión (con las fotos de la empresa del plugin Temas).' },
@@ -94,7 +94,7 @@ const CAPITULOS = [
       { h: 'Productos y servicios' },
       { p: 'Conceptos habituales con su precio e IVA para rellenar las líneas más rápido (por ejemplo «Porte Madrid - Valencia» u «Hora de espera»).' },
       { h: 'Vehículos y conductores' },
-      { p: 'Flota con matrícula, tipo, modelo, estado y fecha de la ITV (avisa si está caducada), y el gasto del año de cada vehículo. Usa los mismos datos que Gestor DeCA y eCMR para que en el futuro las dos aplicaciones compartan la lista.' },
+      { p: 'Flota con matrícula, tipo, modelo, estado y fecha de la ITV (avisa si está caducada), y el gasto del año de cada vehículo. Usa los mismos datos que 7DeCA para que en el futuro las dos aplicaciones compartan la lista.' },
       { img: '12-vehiculos', pie: 'Vehículos con su ITV y su gasto anual.' },
     ],
   },
@@ -223,7 +223,7 @@ const CAPITULOS = [
       { h: 'Copias de seguridad' },
       { p: 'Copia automática semanal y bajo demanda de todos los datos, descargable en ZIP, y restauración. Ver el capítulo siguiente.' },
       { h: 'Temas' },
-      { p: 'El administrador elige el aspecto de toda la aplicación: Metro, Gestor DeCA, Frutiger Aero, Windows clásico, Alto contraste o Nórdico, o temas propios importados en JSON. Cambia colores (claro y oscuro), tipografía, forma, transparencias, menú lateral o superior e iconos. También permite subir fotos de la empresa para la pantalla de inicio de sesión, que van rotando.' },
+      { p: 'El administrador elige el aspecto de toda la aplicación: Metro, 7DeCA, Frutiger Aero, Windows clásico, Alto contraste o Nórdico, o temas propios importados en JSON. Cambia colores (claro y oscuro), tipografía, forma, transparencias, menú lateral o superior e iconos. También permite subir fotos de la empresa para la pantalla de inicio de sesión, que van rotando.' },
       { img: '21-temas', pie: 'Plugin Temas.' },
       { h: 'Diseño de PDF' },
       { lista: [
@@ -250,12 +250,12 @@ const CAPITULOS = [
   {
     titulo: 'Actualizaciones',
     bloques: [
-      { p: 'Facturador comprueba cada hora si hay una versión nueva publicada en github.com/im7manu/facturador. El administrador la ve en Ajustes > Actualizaciones y con un aviso en la barra superior, y puede instalarla con un clic o dejar activada la actualización automática de madrugada.' },
+      { p: '7Factura comprueba cada hora si hay una versión nueva publicada en github.com/im7manu/7factura. El administrador la ve en Ajustes > Actualizaciones y con un aviso en la barra superior, y puede instalarla con un clic o dejar activada la actualización automática de madrugada.' },
       { img: '18-actualizaciones', pie: 'Ajustes > Actualizaciones.' },
       { h: 'Por qué es segura' },
       { pasos: [
         'Solo se aceptan paquetes con la firma digital del autor: aunque alguien manipulara la descarga, la aplicación la rechazaría.',
-        'Se comprueba que el paquete es Facturador, que la versión es más nueva, que el código no tiene errores y que la versión de Node del servidor es suficiente.',
+        'Se comprueba que el paquete es 7Factura, que la versión es más nueva, que el código no tiene errores y que la versión de Node del servidor es suficiente.',
         'Se hace una copia de la base de datos antes de cambiar nada. La carpeta «data» nunca se borra.',
         'La versión nueva se vigila durante un minuto. Si se cae o no responde, se vuelve sola a la versión anterior y se restaura la copia de la base de datos.',
       ] },
@@ -280,25 +280,25 @@ const CAPITULOS = [
   {
     titulo: 'Preguntas frecuentes',
     bloques: [
-      { h: '¿Necesito internet para usar Facturador?' },
+      { h: '¿Necesito internet para usar 7Factura?' },
       { p: 'No. Solo para enviar correos, buscar actualizaciones e instalar plugins.' },
       { h: '¿Puedo usarlo desde el móvil?' },
       { p: 'Sí, desde el navegador de cualquier dispositivo con acceso al servidor. La pantalla se adapta.' },
       { h: 'Me he equivocado en una factura emitida. ¿Cómo la corrijo?' },
       { p: 'Con «Rectificar»: se crea una factura rectificativa con el motivo. Las facturas emitidas no se pueden modificar ni borrar.' },
       { h: '¿Cumple con VERI*FACTU?' },
-      { p: 'Facturador ya guarda una huella de integridad encadenada en cada factura y clasifica el IVA con los mismos códigos que VERI*FACTU, pero todavía no genera ni envía los registros a la Agencia Tributaria. Se añadirá antes de que sea obligatorio.' },
+      { p: '7Factura ya guarda una huella de integridad encadenada en cada factura y clasifica el IVA con los mismos códigos que VERI*FACTU, pero todavía no genera ni envía los registros a la Agencia Tributaria. Se añadirá antes de que sea obligatorio.' },
       { h: 'He perdido el servidor. ¿Qué hago?' },
-      { p: 'Instala Facturador en otro equipo, instala el plugin de copias y restaura el último ZIP que descargaste.' },
+      { p: 'Instala 7Factura en otro equipo, instala el plugin de copias y restaura el último ZIP que descargaste.' },
       { h: '¿De quién es el programa?' },
-      { p: 'Facturador es software libre con licencia MIT, escrito desde cero. Puedes usarlo, copiarlo y modificarlo libremente. El código está en github.com/im7manu/facturador.' },
+      { p: '7Factura es software libre con licencia MIT, escrito desde cero. Puedes usarlo, copiarlo y modificarlo libremente. El código está en github.com/im7manu/7factura.' },
     ],
   },
 ];
 
 // ---------------- Maquetación ----------------
 const pdf = new PDFDocument({ size: 'A4', margins: { top: 64, bottom: 64, left: 60, right: 60 }, bufferPages: true,
-  info: { Title: 'Facturador - Manual de uso', Author: 'Facturador', Subject: `Manual de uso de Facturador ${version}` } });
+  info: { Title: '7Factura - Manual de uso', Author: '7Factura', Subject: `Manual de uso de 7Factura ${version}` } });
 fs.mkdirSync(path.dirname(salida), { recursive: true });
 pdf.pipe(fs.createWriteStream(salida));
 const W = pdf.page.width;
@@ -314,12 +314,12 @@ pdf.page.margins.bottom = 0;
 pdf.rect(0, 0, W, H).fill(AZUL);
 const grid = [[60, 300, 190, 120, 0.18], [260, 300, 120, 120, 0.28], [60, 430, 120, 120, 0.12], [190, 430, 190, 120, 0.22], [60, 560, 320, 90, 0.14]];
 for (const [x, y, w, h, o] of grid) pdf.save().fillOpacity(o).rect(x, y, w, h).fill('#FFFFFF').restore();
-pdf.fillColor('#FFFFFF').font('Helvetica-Bold').fontSize(40).text('Facturador', 60, 120);
+pdf.fillColor('#FFFFFF').font('Helvetica-Bold').fontSize(40).text('7Factura', 60, 120);
 pdf.font('Helvetica').fontSize(20).text('Manual de uso', 60, 172);
 pdf.fontSize(11).fillOpacity(0.9).text(`Versión ${version}`, 60, 204).fillOpacity(1);
 pdf.font('Helvetica-Bold').fontSize(12).text('Facturación para autónomos y pymes.', 60, 690);
 pdf.font('Helvetica').fontSize(11).text('Se ejecuta en el servidor de tu empresa. Tus datos no salen de él.', 60, 708, { width: ANCHO });
-pdf.fontSize(9).fillOpacity(0.8).text('Software libre (licencia MIT) · github.com/im7manu/facturador', 60, 770).fillOpacity(1);
+pdf.fontSize(9).fillOpacity(0.8).text('Software libre (licencia MIT) · github.com/im7manu/7factura', 60, 770).fillOpacity(1);
 
 // Página del índice (se rellena al final)
 pdf.addPage();
@@ -415,7 +415,7 @@ indice.forEach((e, i) => {
 pdf.save().fillOpacity(0.08).rect(X, yi + 20, ANCHO, 74).fill(VERDE).restore();
 pdf.rect(X, yi + 20, 4, 74).fill(VERDE);
 pdf.font('Helvetica-Bold').fontSize(11).fillColor(VERDE).text('Tus datos no salen de tu servidor', X + 18, yi + 32, { width: ANCHO - 36 });
-pdf.font('Helvetica').fontSize(10).fillColor(OSCURO).text('Facturador se ejecuta en el servidor o el ordenador de tu empresa y guarda toda la información allí. No se sube nada a la nube. Lee el capítulo 1 antes de empezar.', X + 18, pdf.y + 3, { width: ANCHO - 36, lineGap: 2 });
+pdf.font('Helvetica').fontSize(10).fillColor(OSCURO).text('7Factura se ejecuta en el servidor o el ordenador de tu empresa y guarda toda la información allí. No se sube nada a la nube. Lee el capítulo 1 antes de empezar.', X + 18, pdf.y + 3, { width: ANCHO - 36, lineGap: 2 });
 
 // Pie de página (salvo la portada)
 const total = pdf.bufferedPageRange().count;
@@ -423,7 +423,7 @@ for (let i = 1; i < total; i++) {
   pdf.switchToPage(i);
   pdf.page.margins.bottom = 0;
   pdf.font('Helvetica').fontSize(8).fillColor(GRIS)
-    .text(`Facturador ${version} · Manual de uso`, X, H - 40, { width: ANCHO / 2 })
+    .text(`7Factura ${version} · Manual de uso`, X, H - 40, { width: ANCHO / 2 })
     .text(`${i + 1} / ${total}`, X + ANCHO / 2, H - 40, { width: ANCHO / 2, align: 'right' });
 }
 pdf.end();
